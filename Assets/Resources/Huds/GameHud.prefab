@@ -236,7 +236,7 @@ RectTransform:
   - {fileID: 5900182609607105171}
   m_Father: {fileID: 8417925011556741163}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.851}
+  m_AnchorMin: {x: 0, y: 0.64745945}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -790,10 +790,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4c5c78a99af80438521d3b1f26fd99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _typeLevelDisplayer: {fileID: 0}
-  _levelDisplayer: {fileID: 0}
-  _scoreDisplayer: {fileID: 0}
-  _timeDisplayer: {fileID: 0}
   _inputZona: {fileID: 1845956120257999870}
   _debugObjects:
   - {fileID: 990411711326399318}
@@ -830,7 +826,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.64745945}
   m_AnchorMax: {x: 1, y: 0.851}
-  m_AnchoredPosition: {x: 0, y: 0.30700684}
+  m_AnchoredPosition: {x: 0, y: -114}
   m_SizeDelta: {x: 0, y: -0.6100006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7641063571659361851
