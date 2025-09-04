@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 2dab9cb0940e8754eb3fb728d8adb643
+timeCreated: 1534420262
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 126869
+  packageName: 3D Cartoon Village
+  packageVersion: 1.0
+  assetPath: Assets/3D Cartoon Village/Materials/Color_C13.mat
+  uploadId: 727206
