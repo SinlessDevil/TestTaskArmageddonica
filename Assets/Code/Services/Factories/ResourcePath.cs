@@ -12,5 +12,7 @@ namespace Code.Services.Factories
         public const string GameBalancePath = "StaticData/Balance/Balance";
         public const string WindowsStaticDataPath = "StaticData/WindowsStaticData";
         public const string ChaptersStaticDataPath = "StaticData/Chapters";
+        
+        public const string CellPath = "Grid/Сell";
     }
 }

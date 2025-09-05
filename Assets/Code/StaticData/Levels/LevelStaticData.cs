@@ -9,6 +9,7 @@ namespace Code.StaticData.Levels
         public string LevelName;
         public int LevelId;
         public LevelTypeId LevelTypeId;
+        public GridData GridData;
     }
 
     [Serializable]
@@ -18,5 +19,11 @@ namespace Code.StaticData.Levels
         Special = 1,
         Bonus = 2,
     }
-    
+
+    [Serializable]
+    public struct GridData
+    {
+        public int Columns;
+        public int Rows;
+    }
 }

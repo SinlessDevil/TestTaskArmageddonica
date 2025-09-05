@@ -1,4 +1,5 @@
 using Code.Services.Input;
+using Code.Services.LevelConductor;
 using Code.Services.Levels;
 using Code.Services.LocalProgress;
 using Code.Services.Providers.Widgets;
@@ -14,6 +15,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
         private readonly ILevelService _levelService;
         private readonly ILevelLocalProgressService _levelLocalProgressService;
         private readonly ITimeService _timeService;
+        private readonly ILevelConductor _levelConductor;
 
         public GameLoopState(
             IStateMachine<IGameState> gameStateMachine, 
@@ -21,7 +23,8 @@ namespace Code.Infrastructure.StateMachine.Game.States
             IWidgetProvider widgetProvider,
             ILevelService levelService,
             ILevelLocalProgressService levelLocalProgressService,
-            ITimeService timeService)
+            ITimeService timeService,
+            ILevelConductor levelConductor)
         {
             _gameStateMachine = gameStateMachine;
             _inputService = inputService;
@@ -29,11 +32,13 @@ namespace Code.Infrastructure.StateMachine.Game.States
             _levelService = levelService;
             _levelLocalProgressService = levelLocalProgressService;
             _timeService = timeService;
+            _levelConductor = levelConductor;
         }
         
         public void Enter()
         {
-            
+            _levelConductor.Setup();
+            _levelConductor.Run();
         }
 
         public void Update()
@@ -43,6 +48,8 @@ namespace Code.Infrastructure.StateMachine.Game.States
 
         public void Exit()
         {
+            _levelConductor.Dispose();
+            
             _inputService.Cleanup();
             _widgetProvider.CleanupPool();
             _levelService.Cleanup();

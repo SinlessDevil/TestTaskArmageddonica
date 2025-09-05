@@ -6,11 +6,13 @@ using Code.Services.AudioVibrationFX.Sound;
 using Code.Services.AudioVibrationFX.StaticData;
 using Code.Services.AudioVibrationFX.Vibration;
 using Code.Services.Factories.Game;
+using Code.Services.Factories.Grid;
 using Code.Services.Factories.UIFactory;
 using Code.Services.Finish;
 using Code.Services.Finish.Lose;
 using Code.Services.Finish.Win;
 using Code.Services.Input;
+using Code.Services.LevelConductor;
 using Code.Services.Levels;
 using Code.Services.LocalProgress;
 using Code.Services.PersistenceProgress;
@@ -58,20 +60,30 @@ namespace Code.Infrastructure.Installers
         {
             BindStaticDataService();
             
-            Container.BindInterfacesTo<UIFactory>().AsSingle();
-            Container.BindInterfacesTo<GameFactory>().AsSingle();
-            Container.BindInterfacesTo<WindowService>().AsSingle();
+            BindFactories();
+
             Container.BindInterfacesTo<InputService>().AsSingle();
+            
+            Container.BindInterfacesTo<WindowService>().AsSingle();
             Container.BindInterfacesTo<RandomService>().AsSingle();
             Container.BindInterfacesTo<UnifiedSaveLoadFacade>().AsSingle();
             Container.BindInterfacesTo<WidgetProvider>().AsSingle();
-            Container.BindInterfacesTo<LevelService>().AsSingle();
             Container.BindInterfacesTo<StorageService>().AsSingle();
             Container.BindInterfacesTo<TimeService>().AsSingle();
 
+            Container.BindInterfacesTo<LevelService>().AsSingle();
+            Container.BindInterfacesTo<LevelConductor>().AsSingle();
+            
             BindDataServices();
             BindAudioVibrationService();
             BindFinishService();
+        }
+
+        private void BindFactories()
+        {
+            Container.BindInterfacesTo<UIFactory>().AsSingle();
+            Container.BindInterfacesTo<GameFactory>().AsSingle();
+            Container.BindInterfacesTo<GridFactory>().AsSingle();
         }
 
         private void BindAudioVibrationService()
