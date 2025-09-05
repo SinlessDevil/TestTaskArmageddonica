@@ -9,7 +9,7 @@ namespace Code.Services.AudioVibrationFX.Music
 {
     public class MusicService : IMusicService
     {
-        private readonly IAudioVibrationStaticDataService _audioVibrationStaticDataService;
+        private readonly IAudioStaticDataService _audioStaticDataService;
         private readonly IPersistenceProgressService _persistenceProgressService;
         private readonly ISaveLoadFacade _saveLoadFacade;
         private readonly Dictionary<MusicType, SoundData> _cachedMusic = new();
@@ -17,11 +17,11 @@ namespace Code.Services.AudioVibrationFX.Music
         private AudioSource _musicSource;
 
         public MusicService(
-            IAudioVibrationStaticDataService staticDataService, 
+            IAudioStaticDataService staticDataService, 
             IPersistenceProgressService persistenceProgressService, 
             ISaveLoadFacade saveLoadFacade)
         {
-            _audioVibrationStaticDataService = staticDataService;
+            _audioStaticDataService = staticDataService;
             _persistenceProgressService = persistenceProgressService;
             _saveLoadFacade = saveLoadFacade;
         }
@@ -35,7 +35,7 @@ namespace Code.Services.AudioVibrationFX.Music
 
         public void CacheMusic()
         {
-            foreach (var music in _audioVibrationStaticDataService.SoundsData.MusicData)
+            foreach (var music in _audioStaticDataService.SoundsData.MusicData)
             {
                 if (!_cachedMusic.ContainsKey(music.MusicType))
                     _cachedMusic.Add(music.MusicType, music);

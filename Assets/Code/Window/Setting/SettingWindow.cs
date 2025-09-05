@@ -1,9 +1,7 @@
-using System;
 using Code.Infrastructure.StateMachine;
 using Code.Infrastructure.StateMachine.Game.States;
 using Code.Services.AudioVibrationFX.Music;
 using Code.Services.AudioVibrationFX.Sound;
-using Code.Services.AudioVibrationFX.Vibration;
 using Code.Services.PersistenceProgress;
 using Code.Services.PersistenceProgress.Player;
 using Code.Services.StaticData;
@@ -21,7 +19,6 @@ namespace Code.Window.Setting
         
         [SerializeField] private ToggleContainer _toggleMusic;
         [SerializeField] private ToggleContainer _toggleSound;
-        [SerializeField] private ToggleContainer _toggleVibrations;
         [Space(10)] 
         [SerializeField] private Button[] _buttons;
         [SerializeField] private Button _continueButton;
@@ -39,8 +36,7 @@ namespace Code.Window.Setting
         
         private IMusicService _musicService;
         private ISoundService _soundService;
-        private IVibrationService _vibrationService;
-
+        
         [Inject]
         public void Constructor(
             IPersistenceProgressService progressService, 
@@ -48,15 +44,13 @@ namespace Code.Window.Setting
             IStaticDataService staticDataService,
             IStateMachine<IGameState> gameStateMachine,
             ISoundService soundService, 
-            IMusicService musicService,
-            IVibrationService vibrationService)
+            IMusicService musicService)
         {
             _timeService = timeService;
             _staticDataService = staticDataService;
             _gameStateMachine = gameStateMachine;
             _soundService = soundService;
             _musicService = musicService;
-            _vibrationService = vibrationService;
             
             _playerSettings = progressService.PlayerData.PlayerSettings;
         }
@@ -65,7 +59,6 @@ namespace Code.Window.Setting
         {
             _toggleMusic.Button.onClick.AddListener(() => UpdateSetting(TypeSFX.Music, _playerSettings.Music));
             _toggleSound.Button.onClick.AddListener(() => UpdateSetting(TypeSFX.Sound, _playerSettings.Sound));
-            _toggleVibrations.Button.onClick.AddListener(() => UpdateSetting(TypeSFX.Vibration, _playerSettings.Vibration));
             
             _continueButton.onClick.AddListener(OnHideWindow);
             _quitToMenuButton.onClick.AddListener(OnQuitToMenu);
@@ -75,7 +68,6 @@ namespace Code.Window.Setting
         {
             _toggleMusic.Button.onClick.RemoveListener(() => UpdateSetting(TypeSFX.Music, _playerSettings.Music));
             _toggleSound.Button.onClick.RemoveListener(() => UpdateSetting(TypeSFX.Sound, _playerSettings.Sound));
-            _toggleVibrations.Button.onClick.RemoveListener(() => UpdateSetting(TypeSFX.Vibration, _playerSettings.Vibration));
             
             _continueButton.onClick.RemoveListener(OnHideWindow);
             _quitToMenuButton.onClick.RemoveListener(OnQuitToMenu);
@@ -118,9 +110,6 @@ namespace Code.Window.Setting
                 case TypeSFX.Music:
                     _musicService.SetStateMusic(setting);
                     break;
-                case TypeSFX.Vibration:
-                    _vibrationService.SetStateVibration(setting);
-                    break;
             }
             
             _soundService.PlaySound(Sound2DType.Click);
@@ -139,16 +128,12 @@ namespace Code.Window.Setting
                 .SetUpdate(true);
             _toggleSound.Image.DOColor(SelectColor(_playerSettings.Sound), AnimationDuration)
                 .SetUpdate(true);
-            _toggleVibrations.Image.DOColor(SelectColor(_playerSettings.Vibration), AnimationDuration)
-                .SetUpdate(true);
         }
         private void UpdateRectTransform()
         {
             _toggleMusic.Image.rectTransform.DOAnchorPosX(SelectPositionX(_playerSettings.Music), AnimationDuration)
                 .SetUpdate(true);
             _toggleSound.Image.rectTransform.DOAnchorPosX(SelectPositionX(_playerSettings.Sound), AnimationDuration)
-                .SetUpdate(true);
-            _toggleVibrations.Image.rectTransform.DOAnchorPosX(SelectPositionX(_playerSettings.Vibration), AnimationDuration)
                 .SetUpdate(true);
         }
         
@@ -162,20 +147,5 @@ namespace Code.Window.Setting
                 button.transform.localScale = Vector3.one;
             }
         }
-    }
-
-    [Serializable]
-    public class ToggleContainer
-    {
-        public Button Button;
-        public Image Image;
-    }
-
-    [Serializable]
-    public enum TypeSFX
-    {
-        Sound,
-        Music,
-        Vibration
     }
 }

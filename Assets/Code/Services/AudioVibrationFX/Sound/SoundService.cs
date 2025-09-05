@@ -9,7 +9,7 @@ namespace Code.Services.AudioVibrationFX.Sound
 {
     public class SoundService : ISoundService
     {
-        private readonly IAudioVibrationStaticDataService _audioVibrationStaticDataService;
+        private readonly IAudioStaticDataService _audioStaticDataService;
         private readonly IPersistenceProgressService _persistenceProgressService;
         private readonly ISaveLoadFacade _saveLoadFacade;
         
@@ -26,18 +26,18 @@ namespace Code.Services.AudioVibrationFX.Sound
         private float _globalVolume = 1f;
 
         public SoundService(
-            IAudioVibrationStaticDataService audioVibrationStaticDataService, 
+            IAudioStaticDataService audioStaticDataService, 
             IPersistenceProgressService persistenceProgressService, 
             ISaveLoadFacade saveLoadFacade)
         {
-            _audioVibrationStaticDataService = audioVibrationStaticDataService;
+            _audioStaticDataService = audioStaticDataService;
             _persistenceProgressService = persistenceProgressService;
             _saveLoadFacade = saveLoadFacade;
         }
 
         public void Cache2DSounds()
         {
-            foreach (var sound in _audioVibrationStaticDataService.SoundsData.Sounds2DData)
+            foreach (var sound in _audioStaticDataService.SoundsData.Sounds2DData)
             {
                 if (!_cached2DSounds.ContainsKey(sound.Sound2DType))
                     _cached2DSounds.Add(sound.Sound2DType, sound);
@@ -82,7 +82,7 @@ namespace Code.Services.AudioVibrationFX.Sound
         
         public void PlaySound(Sound3DType type, Vector3 position)
         {
-            var soundDataList = _audioVibrationStaticDataService.SoundsData.Sounds3DData;
+            var soundDataList = _audioStaticDataService.SoundsData.Sounds3DData;
             var data = soundDataList.Find(s => s.Sound3DType == type);
 
             if (data == null)

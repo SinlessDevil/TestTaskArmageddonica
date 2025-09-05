@@ -4,7 +4,6 @@ using Code.Infrastructure.StateMachine.Game.States;
 using Code.Services.AudioVibrationFX.Music;
 using Code.Services.AudioVibrationFX.Sound;
 using Code.Services.AudioVibrationFX.StaticData;
-using Code.Services.AudioVibrationFX.Vibration;
 using Code.Services.Factories.Game;
 using Code.Services.Factories.Grid;
 using Code.Services.Factories.UIFactory;
@@ -90,7 +89,6 @@ namespace Code.Infrastructure.Installers
         {
             Container.BindInterfacesTo<SoundService>().AsSingle();
             Container.BindInterfacesTo<MusicService>().AsSingle();
-            Container.BindInterfacesTo<VibrationService>().AsSingle();
             
             Container.Resolve<ISoundService>().Cache2DSounds();
             Container.Resolve<ISoundService>().CreateSoundsPool();
@@ -134,9 +132,9 @@ namespace Code.Infrastructure.Installers
             staticDataService.LoadData();
             Container.Bind<IStaticDataService>().FromInstance(staticDataService).AsSingle();
             
-            IAudioVibrationStaticDataService audioVibrationStaticDataService = new AudioVibrationStaticDataService();
-            audioVibrationStaticDataService.LoadData();
-            Container.Bind<IAudioVibrationStaticDataService>().FromInstance(audioVibrationStaticDataService).AsSingle();
+            IAudioStaticDataService audioStaticDataService = new AudioStaticDataService();
+            audioStaticDataService.LoadData();
+            Container.Bind<IAudioStaticDataService>().FromInstance(audioStaticDataService).AsSingle();
         }
         
         private void BindGameStates()

@@ -66,6 +66,8 @@ namespace Code.Services.LevelConductor
                     transform.localPosition = localPosition;
                     transform.localRotation = _rotationLocal;
 
+                    cell.Initialize();
+                    
                     cells[row, col] = cell;
                 }
             }
