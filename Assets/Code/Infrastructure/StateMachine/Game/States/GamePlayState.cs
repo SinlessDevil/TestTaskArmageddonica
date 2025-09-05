@@ -7,7 +7,7 @@ using Code.Services.Timer;
 
 namespace Code.Infrastructure.StateMachine.Game.States
 {
-    public class GameLoopState : IState, IGameState, IUpdatable
+    public class GamePlayState : IState, IGameState, IUpdatable
     {
         private readonly IStateMachine<IGameState> _gameStateMachine;
         private readonly IInputService _inputService;
@@ -17,7 +17,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
         private readonly ITimeService _timeService;
         private readonly ILevelConductor _levelConductor;
 
-        public GameLoopState(
+        public GamePlayState(
             IStateMachine<IGameState> gameStateMachine, 
             IInputService inputService,
             IWidgetProvider widgetProvider,

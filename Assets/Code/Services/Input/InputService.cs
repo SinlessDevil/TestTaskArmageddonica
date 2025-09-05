@@ -38,10 +38,9 @@ namespace Code.Services.Input
 
             _inputDevice.UpdateInput();
             
-            if (Direction.magnitude > 0)
-            {
-                InputUpdateEvent?.Invoke();
-            }
+            InputUpdateEvent?.Invoke();
+            
+            Debug.Log("InputService Tick");
         }
 
         public void Cleanup()

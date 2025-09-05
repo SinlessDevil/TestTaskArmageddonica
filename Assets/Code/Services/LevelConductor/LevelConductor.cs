@@ -1,5 +1,6 @@
 using Code.Logic.Grid;
 using Code.Services.Factories.Grid;
+using Code.Services.Input.Grid;
 using Code.Services.Levels;
 using Code.StaticData.Levels;
 using UnityEngine;
@@ -17,16 +18,21 @@ namespace Code.Services.LevelConductor
         
         private readonly IGridFactory _gridFactory;
         private readonly ILevelService _levelService;
+        private readonly IGridInputService _gridInputService;
 
-        public LevelConductor(IGridFactory gridFactory, ILevelService levelService)
+        public LevelConductor(
+            IGridFactory gridFactory, 
+            ILevelService levelService,
+            IGridInputService gridInputService)
         {
             _gridFactory = gridFactory;
             _levelService = levelService;
+            _gridInputService = gridInputService;
         }
         
         public void Run()
         {
-            
+            _gridInputService.Enable();
         }
 
         public void Setup()
@@ -43,13 +49,9 @@ namespace Code.Services.LevelConductor
         
         public void Dispose()
         {
+            _gridInputService.Disable();
+            
             _grid = null;
-        }
-
-        private Cell[,] GetCells(Transform root)
-        {
-            var levelData = GetCurrentLevelStaticData();
-            return GetCells(root, levelData.GridData.Rows, levelData.GridData.Columns);
         }
 
         private Cell[,] GetCells(Transform root, int rows, int columns)

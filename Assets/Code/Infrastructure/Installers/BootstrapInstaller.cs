@@ -11,6 +11,7 @@ using Code.Services.Finish;
 using Code.Services.Finish.Lose;
 using Code.Services.Finish.Win;
 using Code.Services.Input;
+using Code.Services.Input.Grid;
 using Code.Services.LevelConductor;
 using Code.Services.Levels;
 using Code.Services.LocalProgress;
@@ -61,8 +62,8 @@ namespace Code.Infrastructure.Installers
             
             BindFactories();
 
-            Container.BindInterfacesTo<InputService>().AsSingle();
-            
+            BindInputServices();
+
             Container.BindInterfacesTo<WindowService>().AsSingle();
             Container.BindInterfacesTo<RandomService>().AsSingle();
             Container.BindInterfacesTo<UnifiedSaveLoadFacade>().AsSingle();
@@ -76,6 +77,12 @@ namespace Code.Infrastructure.Installers
             BindDataServices();
             BindAudioVibrationService();
             BindFinishService();
+        }
+
+        private void BindInputServices()
+        {
+            Container.BindInterfacesTo<InputService>().AsSingle();
+            Container.BindInterfacesTo<GridInputService>().AsSingle();
         }
 
         private void BindFactories()
@@ -145,7 +152,7 @@ namespace Code.Infrastructure.Installers
             Container.Bind<PreLoadGameState>().AsSingle();
             Container.Bind<LoadMenuState>().AsSingle();
             Container.Bind<LoadLevelState>().AsSingle();
-            Container.Bind<GameLoopState>().AsSingle();
+            Container.Bind<GamePlayState>().AsSingle();
         }
 
         private void BootstrapGame() => Container.Resolve<IStateMachine<IGameState>>().Enter<BootstrapState>();

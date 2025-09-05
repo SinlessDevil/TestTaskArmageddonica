@@ -21,7 +21,7 @@ namespace Code.Infrastructure.StateMachine.Game
                 [typeof(PreLoadGameState)] = container.Resolve<PreLoadGameState>,
                 [typeof(LoadMenuState)] = container.Resolve<LoadMenuState>,
                 [typeof(LoadLevelState)] = container.Resolve<LoadLevelState>,
-                [typeof(GameLoopState)] = container.Resolve<GameLoopState>
+                [typeof(GamePlayState)] = container.Resolve<GamePlayState>
             };
         }
     }

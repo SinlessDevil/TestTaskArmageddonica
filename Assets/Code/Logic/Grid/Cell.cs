@@ -16,6 +16,8 @@ namespace Code.Logic.Grid
         {
             SetEmptyState();
         }
+
+        public TypeStateCell StateCell => _stateCell;
         
         public void SetEmptyState()
         {
@@ -34,12 +36,5 @@ namespace Code.Logic.Grid
             _spriteRenderer.color = _selectedColor;
             _stateCell = TypeStateCell.Selected;
         }
-    }
-    
-    public enum TypeStateCell
-    {
-        Empty,
-        Fulled,
-        Selected
     }
 }

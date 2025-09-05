@@ -1,5 +1,11 @@
-﻿using Code.Services.Factories.UIFactory;
+﻿using System;
+using Code.Services.Factories.UIFactory;
+using Code.Services.Input;
+using Code.Services.Input.Device;
 using Code.Services.Providers.Widgets;
+using Code.Services.StaticData;
+using Code.StaticData;
+using UnityEngine.XR;
 
 namespace Code.Infrastructure.StateMachine.Game.States
 {
@@ -10,19 +16,25 @@ namespace Code.Infrastructure.StateMachine.Game.States
         private readonly IUIFactory _uiFactory;
         private readonly IStateMachine<IGameState> _gameStateMachine;
         private readonly IWidgetProvider _widgetProvider;
+        private readonly IInputService _inputService;
+        private readonly IStaticDataService _staticDataService;
 
         public LoadLevelState(
             IStateMachine<IGameState> gameStateMachine, 
             ISceneLoader sceneLoader,
             ILoadingCurtain loadingCurtain, 
             IUIFactory uiFactory,
-            IWidgetProvider widgetProvider)
+            IWidgetProvider widgetProvider,
+            IInputService inputService,
+            IStaticDataService staticDataService)
         {
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
             _loadingCurtain = loadingCurtain;
             _uiFactory = uiFactory;
             _widgetProvider = widgetProvider;
+            _inputService = inputService;
+            _staticDataService = staticDataService;
         }
 
         public void Enter(string payload)
@@ -40,11 +52,13 @@ namespace Code.Infrastructure.StateMachine.Game.States
         {
             InitGameWorld();
 
-            _gameStateMachine.Enter<GameLoopState>();
+            _gameStateMachine.Enter<GamePlayState>();
         }
 
         private void InitGameWorld()
         {
+            _inputService.SetInputDevice(GetInputDevice());
+            
             _uiFactory.CreateUiRoot();
             
             InitHud();
@@ -61,6 +75,16 @@ namespace Code.Infrastructure.StateMachine.Game.States
         {
             var gameHud = _uiFactory.CreateGameHud();
             gameHud.Initialize();
+        }
+
+        private IInputDevice GetInputDevice()
+        {
+            return _staticDataService.GameConfig.TypeInput switch
+            {
+                TypeInput.PC => new MouseInputDevice(),
+                TypeInput.Mobile => new TouchInputDevice(),
+                _ => new NullableInputDevice()
+            };
         }
     }
 }
