@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7514697312710856699}
   - component: {fileID: 3921670883530151950}
+  - component: {fileID: 4155795755464497491}
   m_Layer: 5
   m_Name: CardView
   m_TagString: Untagged
@@ -63,6 +64,25 @@ MonoBehaviour:
     BodySprite: {fileID: 0}
     BgLevelSprite: {fileID: 0}
   _cardLevel: 1
+--- !u!114 &4155795755464497491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2430711725709250599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef7545c0870083941886a0bfbb8fef56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hoverScale: 1.07
+  _tweenDuration: 0.12
+  _endYOffset: 0
+  _startYOffset: -75
+  _tweenEase: 1
+  _root: {fileID: 7514697312710856699}
+  _bgImage: {fileID: 8874169259796754342}
 --- !u!1 &2673054442237709230
 GameObject:
   m_ObjectHideFlags: 0

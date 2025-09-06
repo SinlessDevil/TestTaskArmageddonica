@@ -124,7 +124,7 @@ Material:
     - _ShineIntensity: 1
     - _ShineOffset: -1
     - _ShineSoftness: 0.15
-    - _ShineSpeed: 1
+    - _ShineSpeed: 3
     - _ShineWidth: 0.25
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0

@@ -161,7 +161,7 @@ namespace Code.UI.Game.Cards
             float startX = -totalWidth * 0.5f + _cardWidth * 0.5f;
 
             for (int i = 0; i < cardCount; i++)
-                positions[i] = new Vector2(startX + i * spacing, _verticalOffset); // << тут Y
+                positions[i] = new Vector2(startX + i * spacing, _verticalOffset);
 
             return positions;
         }
