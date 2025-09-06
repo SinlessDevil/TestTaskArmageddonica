@@ -13,6 +13,7 @@ Shader "UI/ShineSwipe"
         _ShineOffset  ("Shine Offset", Range(-1,1)) = -1
         _ShineSpeed   ("Shine Speed (auto)", Range(-5, 5)) = 1.0
         _ShineAlphaMul("Shine Alpha Mult", Range(0,2)) = 1.0
+        _AlphaClip ("Alpha Clip Threshold", Range(0,1)) = 0
 
         [HideInInspector]_StencilComp ("Stencil Comparison", Float) = 8
         [HideInInspector]_Stencil ("Stencil ID", Float) = 0
@@ -72,6 +73,7 @@ Shader "UI/ShineSwipe"
                 float  _ShineOffset;
                 float  _ShineSpeed;
                 float  _ShineAlphaMul;
+                float  _AlphaClip;
             CBUFFER_END
 
             struct appdata {
@@ -107,25 +109,31 @@ Shader "UI/ShineSwipe"
             float4 frag(v2f i) : SV_Target
             {
                 float4 baseCol = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv) * i.color;
-
+                
+                if (_AlphaClip > 0)
+                {
+                    clip(baseCol.a - _AlphaClip);
+                }
+                
                 float rad = radians(_ShineAngle);
                 float2 dir = float2(cos(rad), sin(rad));
-
                 float2 uvC = i.uv - 0.5;
-
+                
                 float autoT = _ShineSpeed * _Time.y * 0.25;
                 float slide = fmod(_ShineOffset + autoT + 1.0, 2.0) - 1.0;
 
                 float t = dot(uvC, dir) - slide;
                 float m = band(t, _ShineWidth, _ShineSoftness);
-
-                float4 shine = _ShineColor * (_ShineIntensity * m);
-                shine.a *= _ShineAlphaMul * m;
-
+                
+                float baseA = baseCol.a;
+                float4 shine = _ShineColor * (_ShineIntensity * m * baseA);
+                shine.a *= _ShineAlphaMul * m * baseA;
+                
                 float4 col = baseCol;
-                col.rgb += shine.rgb * col.a;
-                col.a = saturate(col.a + shine.a);
+                col.rgb += shine.rgb;
+                col.a = saturate(baseA + shine.a);
                 return col;
+
             }
             ENDHLSL
         }
