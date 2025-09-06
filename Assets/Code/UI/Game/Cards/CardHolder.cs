@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
-#if UNITY_EDITOR
 using Sirenix.OdinInspector;
-#endif
 
 namespace Code.UI.Game.Cards
 {
@@ -16,6 +14,7 @@ namespace Code.UI.Game.Cards
         [SerializeField] private List<CardView> _cardViews = new();
         [SerializeField] private RectTransform _root;
         [SerializeField] private float _cardSpacing = 200f;
+        [SerializeField] private float _verticalOffset = 0f;  
         [SerializeField] private float _animationDuration = 0.3f;
         [SerializeField] private Ease _animationEase = Ease.Linear;
         [Header("Card Settings")]
@@ -162,22 +161,9 @@ namespace Code.UI.Game.Cards
             float startX = -totalWidth * 0.5f + _cardWidth * 0.5f;
 
             for (int i = 0; i < cardCount; i++)
-                positions[i] = new Vector2(startX + i * spacing, 0f);
+                positions[i] = new Vector2(startX + i * spacing, _verticalOffset); // << тут Y
 
             return positions;
         }
-
-#if UNITY_EDITOR
-        [Button("Preview Layout (instant)")]
-        private void _Debug_PreviewImmediate()
-        {
-            if (_root == null) 
-                return;
-            
-            InitializeCardTransforms();
-            UpdateCardPositionsImmediate();
-            UnityEditor.SceneView.RepaintAll();
-        }
-#endif
     }
 }

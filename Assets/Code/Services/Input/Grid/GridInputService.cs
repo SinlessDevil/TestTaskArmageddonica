@@ -32,8 +32,6 @@ namespace Code.Services.Input.Grid
 			_camera = Camera.main;
 			_isEnabled = true;
 			Subscribe();
-			
-			Debug.Log("GridInputService Enabled");
 		}
 
 		public void Disable()
@@ -44,8 +42,6 @@ namespace Code.Services.Input.Grid
 			Unsubscribe();
 			ClearHover();
 			_isEnabled = false;
-			
-			Debug.Log("GridInputService Disabled");
 		}
 
 		private void Subscribe()
