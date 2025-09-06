@@ -116,13 +116,13 @@ Material:
     - _GlossyReflections: 0
     - _GlowEnabled: 1
     - _GlowIntensity: 2
-    - _GlowSize: 5
+    - _GlowSize: 8
     - _GlowSoftness: 5
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _PulseSpeed: 1
-    - _PulseStrength: 1
+    - _PulseSpeed: 1.75
+    - _PulseStrength: 1.5
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
