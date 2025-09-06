@@ -39,8 +39,6 @@ namespace Code.Services.Input
             _inputDevice.UpdateInput();
             
             InputUpdateEvent?.Invoke();
-            
-            Debug.Log("InputService Tick");
         }
 
         public void Cleanup()

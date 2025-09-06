@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Code.Services.StaticData;
+using Code.UI.Game.Cards;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Zenject;
@@ -8,6 +9,8 @@ namespace Code.UI.Game
 {
     public class GameHud : MonoBehaviour
     {
+        [Space(10)] [Header("Cards")]
+        [SerializeField] private CardHolder _cardHolder;
         [Space(10)] [Header("Other")]
         [SerializeField] private InputZona _inputZona;
         [SerializeField] private List<GameObject> _debugObjects;
@@ -27,6 +30,13 @@ namespace Code.UI.Game
             InitDebugObjects();
             
             TrySetUpEventSystem();
+            
+            InitCardHolder();
+        }
+
+        private void InitCardHolder()
+        {
+            _cardHolder.Initialize();
         }
 
         private void InitDebugObjects()

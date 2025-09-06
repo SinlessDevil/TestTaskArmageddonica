@@ -64,8 +64,6 @@ namespace Code.Services.Input.Grid
 
 		private void OnUpdate()
 		{
-			Debug.Log("Update GridInputService");
-			
 			if (!_isEnabled || _camera == null)
 				return;
 

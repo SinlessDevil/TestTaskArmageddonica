@@ -1,0 +1,519 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 581608d813aab8f408adaf4bccabcf44, type: 3}
+  m_Name: CardRankStaticData
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 21300000, guid: c1462da7a36674526a071ec6f22fab52, type: 3}
+    - {fileID: 21300000, guid: 972a7ac4ffe344cb6b704a35f2a6d631, type: 3}
+    - {fileID: 21300000, guid: b1286ed66b2d34d139981e82f1faa2b2, type: 3}
+    - {fileID: 21300000, guid: f7884d0b9b5314107ad7aef8dcc7e9ea, type: 3}
+    - {fileID: 21300000, guid: 8acfeb5a6583a438f96e712889558795, type: 3}
+    - {fileID: 21300000, guid: 325a48202e6e041f39127550bd056254, type: 3}
+    - {fileID: 21300000, guid: 86d0790b0869c473d9879d4408f43b13, type: 3}
+    - {fileID: 21300000, guid: 6e98f8cfb669547729ad62d17b9feac6, type: 3}
+    - {fileID: 21300000, guid: bb2001a8e9e3e4d0bbae5ce24bee1d42, type: 3}
+    - {fileID: 21300000, guid: 72c31e1c0f0fc41fe8faf9c7dd53a874, type: 3}
+    - {fileID: 21300000, guid: d40cda0d1575b44af81c6532bec4cebc, type: 3}
+    - {fileID: 21300000, guid: 5715e882016324a0dbd6f90c009e3550, type: 3}
+    - {fileID: 21300000, guid: 405cdb855ae684b89901d52ea43f59fe, type: 3}
+    - {fileID: 21300000, guid: faab2a7b64954475c846e64886f97afd, type: 3}
+    - {fileID: 21300000, guid: 44006e8ee633b4f7a8b0d415bf8dbf1c, type: 3}
+    - {fileID: 21300000, guid: 4d1dfd69b7755442697f28d60a980d8c, type: 3}
+    - {fileID: 21300000, guid: 538daf39402b84b659044ae43ee18af4, type: 3}
+    - {fileID: 21300000, guid: 1d45198fc4e854b62896651cefb17e61, type: 3}
+    - {fileID: 21300000, guid: 13b2b392666aa4e439f3d5d38e320a37, type: 3}
+    - {fileID: 21300000, guid: a86a2e35d278541428b160555e29bcae, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: CardDataRankCollection
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[Code.StaticData.Cards.CardRankType,
+        Game],[Code.StaticData.Cards.CardData, Game]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Code.StaticData.Cards.CardRankType,
+        Game]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 10
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 7
+      Data: 2|Code.StaticData.Cards.CardData, Game
+    - Name: RankText
+      Entry: 1
+      Data: E
+    - Name: Color
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0.745283
+    - Name: 
+      Entry: 4
+      Data: 0.745283
+    - Name: 
+      Entry: 4
+      Data: 0.745283
+    - Name: 
+      Entry: 4
+      Data: 0.5019608
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BgSprite
+      Entry: 10
+      Data: 0
+    - Name: BodySprite
+      Entry: 10
+      Data: 1
+    - Name: BgLevelSprite
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: 3|Code.StaticData.Cards.CardData, Game
+    - Name: RankText
+      Entry: 1
+      Data: D
+    - Name: Color
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0.3768207
+    - Name: 
+      Entry: 4
+      Data: 0.9716981
+    - Name: 
+      Entry: 4
+      Data: 0.33459416
+    - Name: 
+      Entry: 4
+      Data: 0.5019608
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BgSprite
+      Entry: 10
+      Data: 2
+    - Name: BodySprite
+      Entry: 10
+      Data: 3
+    - Name: BgLevelSprite
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 7
+      Data: 4|Code.StaticData.Cards.CardData, Game
+    - Name: RankText
+      Entry: 1
+      Data: C
+    - Name: Color
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0.193396211
+    - Name: 
+      Entry: 4
+      Data: 0.7387059
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 0.5019608
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BgSprite
+      Entry: 10
+      Data: 4
+    - Name: BodySprite
+      Entry: 10
+      Data: 5
+    - Name: BgLevelSprite
+      Entry: 10
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 7
+      Data: 5|Code.StaticData.Cards.CardData, Game
+    - Name: RankText
+      Entry: 1
+      Data: B
+    - Name: Color
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0.691742241
+    - Name: 
+      Entry: 4
+      Data: 0.371262
+    - Name: 
+      Entry: 4
+      Data: 0.9716981
+    - Name: 
+      Entry: 4
+      Data: 0.5019608
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BgSprite
+      Entry: 10
+      Data: 6
+    - Name: BodySprite
+      Entry: 10
+      Data: 7
+    - Name: BgLevelSprite
+      Entry: 10
+      Data: 7
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 7
+      Data: 6|Code.StaticData.Cards.CardData, Game
+    - Name: RankText
+      Entry: 1
+      Data: A
+    - Name: Color
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 0.4305535
+    - Name: 
+      Entry: 4
+      Data: 0.117924511
+    - Name: 
+      Entry: 4
+      Data: 0.5019608
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BgSprite
+      Entry: 10
+      Data: 8
+    - Name: BodySprite
+      Entry: 10
+      Data: 9
+    - Name: BgLevelSprite
+      Entry: 10
+      Data: 9
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 7
+      Data: 7|Code.StaticData.Cards.CardData, Game
+    - Name: RankText
+      Entry: 1
+      Data: S
+    - Name: Color
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 0.248229355
+    - Name: 
+      Entry: 4
+      Data: 0.21226418
+    - Name: 
+      Entry: 4
+      Data: 0.5019608
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BgSprite
+      Entry: 10
+      Data: 10
+    - Name: BodySprite
+      Entry: 10
+      Data: 11
+    - Name: BgLevelSprite
+      Entry: 10
+      Data: 11
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 6
+    - Name: $v
+      Entry: 7
+      Data: 8|Code.StaticData.Cards.CardData, Game
+    - Name: RankText
+      Entry: 1
+      Data: SS
+    - Name: Color
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0.160377383
+    - Name: 
+      Entry: 4
+      Data: 0.160377383
+    - Name: 
+      Entry: 4
+      Data: 0.160377383
+    - Name: 
+      Entry: 4
+      Data: 0.5019608
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BgSprite
+      Entry: 10
+      Data: 12
+    - Name: BodySprite
+      Entry: 10
+      Data: 13
+    - Name: BgLevelSprite
+      Entry: 10
+      Data: 13
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 7
+    - Name: $v
+      Entry: 7
+      Data: 9|Code.StaticData.Cards.CardData, Game
+    - Name: RankText
+      Entry: 1
+      Data: SSS
+    - Name: Color
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0.3915094
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 0.7011782
+    - Name: 
+      Entry: 4
+      Data: 0.5019608
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BgSprite
+      Entry: 10
+      Data: 14
+    - Name: BodySprite
+      Entry: 10
+      Data: 15
+    - Name: BgLevelSprite
+      Entry: 10
+      Data: 15
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 8
+    - Name: $v
+      Entry: 7
+      Data: 10|Code.StaticData.Cards.CardData, Game
+    - Name: RankText
+      Entry: 1
+      Data: EX
+    - Name: Color
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 0.28773582
+    - Name: 
+      Entry: 4
+      Data: 0.685743451
+    - Name: 
+      Entry: 4
+      Data: 0.5019608
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BgSprite
+      Entry: 10
+      Data: 16
+    - Name: BodySprite
+      Entry: 10
+      Data: 17
+    - Name: BgLevelSprite
+      Entry: 10
+      Data: 17
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 9
+    - Name: $v
+      Entry: 7
+      Data: 11|Code.StaticData.Cards.CardData, Game
+    - Name: RankText
+      Entry: 1
+      Data: "\u03A9"
+    - Name: Color
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 0.9878745
+    - Name: 
+      Entry: 4
+      Data: 0.334905684
+    - Name: 
+      Entry: 4
+      Data: 0.5019608
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BgSprite
+      Entry: 10
+      Data: 18
+    - Name: BodySprite
+      Entry: 10
+      Data: 19
+    - Name: BgLevelSprite
+      Entry: 10
+      Data: 19
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 

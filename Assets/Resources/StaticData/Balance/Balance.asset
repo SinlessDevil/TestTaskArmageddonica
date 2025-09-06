@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66a7db3f4c1743bf8e21c08518a441c2, type: 3}
   m_Name: Balance
   m_EditorClassIdentifier: 
+  CardRankStaticData: {fileID: 11400000, guid: e96369a673945724cbe510ba893a5b69, type: 2}
