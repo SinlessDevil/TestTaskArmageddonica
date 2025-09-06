@@ -19,6 +19,7 @@ namespace Code.UI.Game.Cards
         [SerializeField] private RectTransform _root;
         [SerializeField] private Image _bgImage;
         
+        private Material _bgMaterialInstance;
         private bool _isHovered, _isPressed;
 
         public void OnPointerEnter(PointerEventData e)
@@ -76,12 +77,14 @@ namespace Code.UI.Game.Cards
         
         private void SetGlowEnabled(bool on)
         {
-            if (!_bgImage) 
-                return;
-
-            Material material = _bgImage.material;
-            if (material && material.HasProperty(GlowEnabledProp))
-                material.SetFloat(GlowEnabledProp, on ? 0f : 1f); 
+            if (_bgMaterialInstance == null)
+            {
+                _bgMaterialInstance = new Material(_bgImage.material);
+                _bgImage.material = _bgMaterialInstance;
+            }
+            
+            if (_bgMaterialInstance.HasProperty(GlowEnabledProp))
+                _bgMaterialInstance.SetFloat(GlowEnabledProp, on ? 0f : 1f); 
         }
     }
 }
