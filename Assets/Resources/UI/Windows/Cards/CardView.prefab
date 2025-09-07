@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7514697312710856699}
   - component: {fileID: 3921670883530151950}
   - component: {fileID: 4155795755464497491}
+  - component: {fileID: 4343303811158232146}
   m_Layer: 5
   m_Name: CardView
   m_TagString: Untagged
@@ -57,13 +58,9 @@ MonoBehaviour:
   _bgImage: {fileID: 8874169259796754342}
   _BodyImage: {fileID: 243380115459897064}
   _bgLevelImage: {fileID: 4968561569320845025}
-  _cardData:
-    RankText: 
-    Color: {r: 0, g: 0, b: 0, a: 0}
-    BgSprite: {fileID: 0}
-    BodySprite: {fileID: 0}
-    BgLevelSprite: {fileID: 0}
-  _cardLevel: 1
+  _root: {fileID: 7514697312710856699}
+  _hoverComponent: {fileID: 4155795755464497491}
+  _pointerComponent: {fileID: 4343303811158232146}
 --- !u!114 &4155795755464497491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,6 +80,19 @@ MonoBehaviour:
   _tweenEase: 1
   _root: {fileID: 7514697312710856699}
   _bgImage: {fileID: 8874169259796754342}
+--- !u!114 &4343303811158232146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2430711725709250599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01f448f4c570bbb4d99fbe406ff9bc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _view: {fileID: 3921670883530151950}
 --- !u!1 &2673054442237709230
 GameObject:
   m_ObjectHideFlags: 0

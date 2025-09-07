@@ -38,8 +38,8 @@ namespace Code.UI.Game.Cards.Holder
             _root.gameObject.SetActive(true);
 
             _canvasGroup.alpha = Mathf.Clamp01(_canvasGroup.alpha);
-            _canvasGroup.interactable = false;
-            _canvasGroup.blocksRaycasts = false;
+            _canvasGroup.interactable = true;
+            _canvasGroup.blocksRaycasts = true;
 
             _moveTween = _root.DOAnchorPosY(_shownY, _duration)
                 .SetEase(_ease)

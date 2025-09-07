@@ -10,5 +10,3 @@ namespace Code.Services.Input.Grid
 		void Disable();
 	}
 }
-
-

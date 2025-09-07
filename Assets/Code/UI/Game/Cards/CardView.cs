@@ -1,6 +1,6 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Code.UI.Game.Cards
 {
@@ -20,5 +20,6 @@ namespace Code.UI.Game.Cards
         [SerializeField] private CardViewHover _hoverComponent;
         
         public RectTransform Root => _root;
+        public CardViewHover HoverComponent => _hoverComponent;
     }    
 }

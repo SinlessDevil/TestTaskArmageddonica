@@ -1,12 +1,10 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
 
 namespace Code.UI.Game.Cards
 {
-    public class CardViewHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, 
-        IPointerUpHandler
+    public class CardViewHover : MonoBehaviour
     {
         private const string GlowEnabledProp = "_AlphaClip";
         
@@ -23,7 +21,7 @@ namespace Code.UI.Game.Cards
         private Material _bgMaterialInstance;
         private bool _isHovered, _isPressed;
 
-        public void OnPointerEnter(PointerEventData e)
+        public void Enter()
         {
             _isHovered = true;
             ApplyStateTween();
@@ -32,23 +30,13 @@ namespace Code.UI.Game.Cards
             SetGlowEnabled(true);
         }
 
-        public void OnPointerExit(PointerEventData e)
+        public void Exit()
         {
             _isHovered = false;
             _isPressed = false;
             ApplyStateTween();
 
             SetGlowEnabled(false);
-        }
-
-        public void OnPointerDown(PointerEventData e)
-        {
-            _isPressed = true;
-        }
-
-        public void OnPointerUp(PointerEventData e)
-        {
-            _isPressed = false;
         }
 
         private void ApplyStateTween()

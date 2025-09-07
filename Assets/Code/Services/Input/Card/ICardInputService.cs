@@ -11,7 +11,9 @@ namespace Code.Services.Input.Card
         bool IsEnabled { get; }
         void Enable();
         void Disable();
-        void BeginDrag(CardView view);
-        void CancelDrag();
+        void PointerEnter(CardView view);
+        void PointerExit(CardView view);
+        void PointerDown(CardView view);
+        void PointerUp(CardView view);
     }
 }

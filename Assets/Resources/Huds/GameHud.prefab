@@ -751,6 +751,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cardHolder: {fileID: 8214042288172868107}
+  _canvas: {fileID: 5900182609182095410}
   _debugObjects:
   - {fileID: 990411711326399318}
 --- !u!114 &9194786982882785026
