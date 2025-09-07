@@ -1,9 +1,11 @@
+using Code.Services.CameraController;
 using Code.Services.Input;
 using Code.Services.LevelConductor;
 using Code.Services.Levels;
 using Code.Services.LocalProgress;
 using Code.Services.Providers.Widgets;
 using Code.Services.Timer;
+using UnityEngine;
 
 namespace Code.Infrastructure.StateMachine.Game.States
 {
@@ -16,6 +18,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
         private readonly ILevelLocalProgressService _levelLocalProgressService;
         private readonly ITimeService _timeService;
         private readonly ILevelConductor _levelConductor;
+        private readonly ICameraDirector _cameraDirector;
 
         public GamePlayState(
             IStateMachine<IGameState> gameStateMachine, 
@@ -24,7 +27,8 @@ namespace Code.Infrastructure.StateMachine.Game.States
             ILevelService levelService,
             ILevelLocalProgressService levelLocalProgressService,
             ITimeService timeService,
-            ILevelConductor levelConductor)
+            ILevelConductor levelConductor,
+            ICameraDirector cameraDirector)
         {
             _gameStateMachine = gameStateMachine;
             _inputService = inputService;
@@ -33,10 +37,13 @@ namespace Code.Infrastructure.StateMachine.Game.States
             _levelLocalProgressService = levelLocalProgressService;
             _timeService = timeService;
             _levelConductor = levelConductor;
+            _cameraDirector = cameraDirector;
         }
         
         public void Enter()
         {
+            _cameraDirector.Setup(Camera.main.transform, Camera.main);
+                
             _levelConductor.Setup();
             _levelConductor.Run();
         }
@@ -49,6 +56,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
         public void Exit()
         {
             _levelConductor.Dispose();
+            _cameraDirector.Dispose();
             
             _inputService.Cleanup();
             _widgetProvider.CleanupPool();

@@ -1,11 +1,14 @@
 using Code.StaticData.Cards;
+using Code.StaticData.СameraShots;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Code.StaticData
 {
     [CreateAssetMenu(menuName = "StaticData/Balance", fileName = "Balance", order = 0)]
-    public class BalanceStaticData : ScriptableObject
+    public class BalanceStaticData : SerializedScriptableObject
     {
-        public CardRankStaticData CardRankStaticData;
+        [InlineEditor(Expanded = true, DrawHeader = true)] public CardRankStaticData CardRankStaticData;
+        [InlineEditor(Expanded = true, DrawHeader = true)] public CameraShotStaticData CameraShotStaticData;
     }
 }

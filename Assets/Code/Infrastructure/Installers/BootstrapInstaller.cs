@@ -4,6 +4,7 @@ using Code.Infrastructure.StateMachine.Game.States;
 using Code.Services.AudioVibrationFX.Music;
 using Code.Services.AudioVibrationFX.Sound;
 using Code.Services.AudioVibrationFX.StaticData;
+using Code.Services.CameraController;
 using Code.Services.Factories.Game;
 using Code.Services.Factories.Grid;
 using Code.Services.Factories.UIFactory;
@@ -73,6 +74,8 @@ namespace Code.Infrastructure.Installers
 
             Container.BindInterfacesTo<LevelService>().AsSingle();
             Container.BindInterfacesTo<LevelConductor>().AsSingle();
+
+            Container.BindInterfacesTo<CameraDirector>().AsSingle();
             
             BindDataServices();
             BindAudioVibrationService();

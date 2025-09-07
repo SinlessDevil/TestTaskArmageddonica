@@ -12,4 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66a7db3f4c1743bf8e21c08518a441c2, type: 3}
   m_Name: Balance
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   CardRankStaticData: {fileID: 11400000, guid: e96369a673945724cbe510ba893a5b69, type: 2}
+  CameraShotStaticData: {fileID: 11400000, guid: 6d3eba6d2c9eb0f4fb538e0ea754ea8d, type: 2}

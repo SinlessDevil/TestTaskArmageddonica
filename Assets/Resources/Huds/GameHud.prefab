@@ -647,6 +647,7 @@ GameObject:
   - component: {fileID: 5900182609182095565}
   - component: {fileID: 5900182609182095564}
   - component: {fileID: 5458433530186804480}
+  - component: {fileID: 9194786982882785026}
   m_Layer: 5
   m_Name: GameHud
   m_TagString: Untagged
@@ -752,6 +753,18 @@ MonoBehaviour:
   _cardHolder: {fileID: 8214042288172868107}
   _debugObjects:
   - {fileID: 990411711326399318}
+--- !u!114 &9194786982882785026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5900182609182095567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256a880a19ad8cd4d9a9ae6d00eca87e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7641063571659361851
 GameObject:
   m_ObjectHideFlags: 0
