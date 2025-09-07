@@ -1,5 +1,6 @@
 using Code.Logic.Grid;
 using Code.Services.Factories.Grid;
+using Code.Services.Input.Card;
 using Code.Services.Input.Grid;
 using Code.Services.Levels;
 using Code.StaticData.Levels;
@@ -19,15 +20,18 @@ namespace Code.Services.LevelConductor
         private readonly IGridFactory _gridFactory;
         private readonly ILevelService _levelService;
         private readonly IGridInputService _gridInputService;
+        private readonly ICardInputService _cardInputService;
 
         public LevelConductor(
             IGridFactory gridFactory, 
             ILevelService levelService,
-            IGridInputService gridInputService)
+            IGridInputService gridInputService,
+            ICardInputService cardInputService)
         {
             _gridFactory = gridFactory;
             _levelService = levelService;
             _gridInputService = gridInputService;
+            _cardInputService = cardInputService;
         }
         
         public void Setup(Grid grid)
@@ -38,6 +42,7 @@ namespace Code.Services.LevelConductor
         public void Run()
         {
             _gridInputService.Enable();
+            _cardInputService.Enable();
         }
 
         public void Initialize()

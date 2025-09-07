@@ -12,6 +12,7 @@ using Code.Services.Finish;
 using Code.Services.Finish.Lose;
 using Code.Services.Finish.Win;
 using Code.Services.Input;
+using Code.Services.Input.Card;
 using Code.Services.Input.Grid;
 using Code.Services.LevelConductor;
 using Code.Services.Levels;
@@ -86,6 +87,7 @@ namespace Code.Infrastructure.Installers
         {
             Container.BindInterfacesTo<InputService>().AsSingle();
             Container.BindInterfacesTo<GridInputService>().AsSingle();
+            Container.BindInterfacesTo<CardInputService>().AsSingle();
         }
 
         private void BindFactories()

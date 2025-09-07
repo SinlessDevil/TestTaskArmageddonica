@@ -11,6 +11,7 @@ namespace Code.UI.Game
     {
         [Space(10)] [Header("Components")]
         [SerializeField] private CardHolder _cardHolder;
+        [SerializeField] private Canvas _canvas;
         [Space(10)] [Header("Other")]
         [SerializeField] private List<GameObject> _debugObjects;
         
@@ -32,6 +33,7 @@ namespace Code.UI.Game
         }
 
         public CardHolder CardHolder => _cardHolder;
+        public Canvas Canvas => _canvas;
         
         private void InitCardHolder()
         {

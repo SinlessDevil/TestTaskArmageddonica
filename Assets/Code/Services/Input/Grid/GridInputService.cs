@@ -23,6 +23,7 @@ namespace Code.Services.Input.Grid
 		}
 
 		public bool IsEnabled => _isEnabled;
+		public Cell HoverCell => _hoverCell; 
 
 		public void Enable()
 		{
@@ -88,9 +89,7 @@ namespace Code.Services.Input.Grid
 				return;
 
 			if (_hoverCell.StateCell != TypeStateCell.Fulled)
-			{
 				_hoverCell.SetFulledState();
-			}
 		}
 
 		private void OnPointerUp() { }
@@ -124,7 +123,7 @@ namespace Code.Services.Input.Grid
 		{
 			if (hit.HasValue)
 			{
-				var h = hit.Value;
+				RaycastHit h = hit.Value;
 				Debug.DrawLine(ray.origin, h.point, _rayColorHit, 0f, false);
 				Debug.DrawRay(h.point, h.normal * 0.25f, _hitNormalColor, 0f, false);
 			}
@@ -135,5 +134,3 @@ namespace Code.Services.Input.Grid
 		}
 	}
 }
-
-
