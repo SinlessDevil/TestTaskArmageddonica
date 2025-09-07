@@ -31,6 +31,8 @@ namespace Code.UI.Game
             InitCardHolder();
         }
 
+        public CardHolder CardHolder => _cardHolder;
+        
         private void InitCardHolder()
         {
             _cardHolder.Initialize();
@@ -38,24 +40,22 @@ namespace Code.UI.Game
 
         private void InitDebugObjects()
         {
-            if (_staticDataService.GameConfig.DebugMode)
-            {
-                foreach (var debugObject in _debugObjects)
-                {
-                    debugObject.SetActive(true);
-                }
-            }
+            if (!_staticDataService.GameConfig.DebugMode) 
+                return;
+            
+            foreach (var debugObject in _debugObjects)
+                debugObject.SetActive(true);
         }
 
-        private static void TrySetUpEventSystem()
+        private void TrySetUpEventSystem()
         {
-            var eventSystem = FindObjectOfType<EventSystem>();
-            if (eventSystem == null)
-            {
-                var gameObjectEventSystem = new GameObject("EventSystem");
-                gameObjectEventSystem.AddComponent<EventSystem>();
-                gameObjectEventSystem.AddComponent<StandaloneInputModule>();
-            }
+            EventSystem eventSystem = FindObjectOfType<EventSystem>();
+            if (eventSystem != null) 
+                return;
+            
+            GameObject gameObjectEventSystem = new GameObject("EventSystem");
+            gameObjectEventSystem.AddComponent<EventSystem>();
+            gameObjectEventSystem.AddComponent<StandaloneInputModule>();
         }
     }
 }

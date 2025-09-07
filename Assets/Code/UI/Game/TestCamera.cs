@@ -16,13 +16,13 @@ namespace Code.UI.Game
         }
         
         [Button]
-        public void ForceLootAtCameraSelected(Transform target)
+        public void ForceLootAtCameraSelected()
         {
             _cameraDirector.FocusSelectedShotAsync();
         }
         
         [Button]
-        public void ForceLootAtCameraBattle(Transform target)
+        public void ForceLootAtCameraBattle()
         {
             _cameraDirector.FocusBattleShotAsync();
         }
