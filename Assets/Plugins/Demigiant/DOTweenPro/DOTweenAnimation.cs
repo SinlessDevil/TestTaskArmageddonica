@@ -68,7 +68,7 @@ namespace DG.Tweening
 
             if (animationType != DOTweenAnimationType.Move || !useTargetAsV3) {
                 // Don't create tweens if we're using a RectTransform as a Move target,
-                // because that will work only inside Start
+                // because that will work only inside Initialize
                 CreateTween();
                 _tweenCreated = true;
             }

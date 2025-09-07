@@ -30,27 +30,27 @@ namespace Code.Services.LevelConductor
             _gridInputService = gridInputService;
         }
         
+        public void Setup(Grid grid)
+        {
+            _grid = grid;
+        }
+        
         public void Run()
         {
             _gridInputService.Enable();
         }
 
-        public void Setup()
+        public void Initialize()
         {
-            Grid grid = GetGrid();
-            _grid = grid;
-
             LevelStaticData levelData = GetCurrentLevelStaticData();
             GridData gridData = levelData.GridData;
 
-            Cell[,] cells = GetCells(grid.transform, gridData.Rows, gridData.Columns);
-            grid.Initialize(cells);
+            Cell[,] cells = GetCells(_grid.transform, gridData.Rows, gridData.Columns);
+            _grid.Initialize(cells);
         }
         
-        public void Dispose()
+        public void Cleanup()
         {
-            _gridInputService.Disable();
-            
             _grid = null;
         }
 
@@ -75,12 +75,6 @@ namespace Code.Services.LevelConductor
             }
 
             return cells;
-        }
-
-        private Grid GetGrid()
-        {
-            Grid grid = Object.FindAnyObjectByType<Grid>();
-            return grid;
         }
         
         private LevelStaticData GetCurrentLevelStaticData() => 

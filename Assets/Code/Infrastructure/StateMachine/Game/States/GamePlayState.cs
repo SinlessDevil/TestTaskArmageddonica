@@ -42,9 +42,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
         
         public void Enter()
         {
-            _cameraDirector.Setup(Camera.main.transform, Camera.main);
-                
-            _levelConductor.Setup();
+            _levelConductor.Initialize();
             _levelConductor.Run();
         }
 
@@ -55,9 +53,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
 
         public void Exit()
         {
-            _levelConductor.Dispose();
-            _cameraDirector.Dispose();
-            
+            _levelConductor.Cleanup();
             _inputService.Cleanup();
             _widgetProvider.CleanupPool();
             _levelService.Cleanup();

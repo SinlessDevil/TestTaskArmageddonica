@@ -9550,12 +9550,12 @@
             Initializes a new instance of the <see cref="T:Sirenix.Utilities.MemberFinder"/> class.
             </summary>
         </member>
-        <member name="M:Sirenix.Utilities.MemberFinder.Start``1">
+        <member name="M:Sirenix.Utilities.MemberFinder.Initialize``1">
             <summary>
             <para>Find members of the given type, while providing good error messages based on the following search filters provided.</para>
             </summary>
         </member>
-        <member name="M:Sirenix.Utilities.MemberFinder.Start(System.Type)">
+        <member name="M:Sirenix.Utilities.MemberFinder.Initialize(System.Type)">
             <summary>
             <para>Find members of the given type, while providing good error messages based on the following search filters provided.</para>
             </summary>

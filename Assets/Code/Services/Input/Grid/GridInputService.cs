@@ -5,15 +5,15 @@ namespace Code.Services.Input.Grid
 {
 	public class GridInputService : IGridInputService
 	{
+		private const float MaxRayDistance = 100f;
+		
 		private Camera _camera;
 		private bool _isEnabled;
 		private Cell _hoverCell;
 		
-		// Debug visualization
 		private readonly Color _rayColorNoHit = Color.red;
 		private readonly Color _rayColorHit = Color.green;
 		private readonly Color _hitNormalColor = Color.yellow;
-		private const float _maxRayDistance = 100f;
 		
 		private readonly IInputService _inputService;
 
@@ -101,16 +101,12 @@ namespace Code.Services.Input.Grid
 				return;
 			
 			if (_hoverCell != null && _hoverCell.StateCell != TypeStateCell.Fulled)
-			{
 				_hoverCell.SetEmptyState();
-			}
 
 			_hoverCell = cell;
 
 			if (_hoverCell.StateCell != TypeStateCell.Fulled)
-			{
 				_hoverCell.SetSelectedState();
-			}
 		}
 
 		private void ClearHover()
@@ -119,9 +115,7 @@ namespace Code.Services.Input.Grid
 				return;
 
 			if (_hoverCell.StateCell != TypeStateCell.Fulled)
-			{
 				_hoverCell.SetEmptyState();
-			}
 
 			_hoverCell = null;
 		}
@@ -136,7 +130,7 @@ namespace Code.Services.Input.Grid
 			}
 			else
 			{
-				Debug.DrawRay(ray.origin, ray.direction * _maxRayDistance, _rayColorNoHit, 0f, false);
+				Debug.DrawRay(ray.origin, ray.direction * MaxRayDistance, _rayColorNoHit, 0f, false);
 			}
 		}
 	}

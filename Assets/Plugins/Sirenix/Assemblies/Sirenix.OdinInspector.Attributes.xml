@@ -3084,7 +3084,7 @@
             <code>
             public class MyComponent : MonoBehaviour
             {
-                [OnInspectorDispose(@"@UnityEngine.Debug.Log(""Dispose event invoked!"")")]
+                [OnInspectorDispose(@"@UnityEngine.Debug.Log(""Cleanup event invoked!"")")]
                 [ShowInInspector, InfoBox("When you change the type of this field, or set it to null, the former property setup is disposed. The property setup will also be disposed when you deselect this example."), DisplayAsString]
                 public BaseClass PolymorphicField;
                 

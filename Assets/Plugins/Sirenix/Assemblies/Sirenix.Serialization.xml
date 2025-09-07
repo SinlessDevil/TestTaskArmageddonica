@@ -333,7 +333,7 @@
             Skips the next entry value, unless it is an <see cref="F:Sirenix.Serialization.EntryType.EndOfNode"/> or an <see cref="F:Sirenix.Serialization.EntryType.EndOfArray"/>. If the next entry value is an <see cref="F:Sirenix.Serialization.EntryType.StartOfNode"/> or an <see cref="F:Sirenix.Serialization.EntryType.StartOfArray"/>, all of its contents will be processed, deserialized and registered in the deserialization context, so that internal reference values are not lost to entries further down the stream.
             </summary>
         </member>
-        <member name="M:Sirenix.Serialization.BaseDataReader.Dispose">
+        <member name="M:Sirenix.Serialization.BaseDataReader.Cleanup">
             <summary>
             Disposes all resources and streams kept by the data reader.
             </summary>
@@ -664,7 +664,7 @@
             <param name="name">The name of the value. If this is null, no name will be written.</param>
             <param name="value">The value to write.</param>
         </member>
-        <member name="M:Sirenix.Serialization.BaseDataWriter.Dispose">
+        <member name="M:Sirenix.Serialization.BaseDataWriter.Cleanup">
             <summary>
             Disposes all resources and streams kept by the data writer.
             </summary>
@@ -693,7 +693,7 @@
             <param name="stream">The base stream of the reader.</param>
             <param name="context">The deserialization context to use.</param>
         </member>
-        <member name="M:Sirenix.Serialization.BinaryDataReader.Dispose">
+        <member name="M:Sirenix.Serialization.BinaryDataReader.Cleanup">
             <summary>
             Disposes all resources kept by the data reader, except the stream, which can be reused later.
             </summary>
@@ -1067,7 +1067,7 @@
             <param name="name">The name of the struct node.</param>
             <param name="type">The type of the struct node. If null, no type metadata will be written.</param>
         </member>
-        <member name="M:Sirenix.Serialization.BinaryDataWriter.Dispose">
+        <member name="M:Sirenix.Serialization.BinaryDataWriter.Cleanup">
             <summary>
             Disposes all resources kept by the data writer, except the stream, which can be reused later.
             </summary>
@@ -2166,7 +2166,7 @@
             The base stream of the reader.
             </value>
         </member>
-        <member name="M:Sirenix.Serialization.JsonDataReader.Dispose">
+        <member name="M:Sirenix.Serialization.JsonDataReader.Cleanup">
             <summary>
             Disposes all resources kept by the data reader, except the stream, which can be reused later.
             </summary>
@@ -2723,7 +2723,7 @@
             <param name="name">The name of the value. If this is null, no name will be written.</param>
             <param name="value">The value to write.</param>
         </member>
-        <member name="M:Sirenix.Serialization.JsonDataWriter.Dispose">
+        <member name="M:Sirenix.Serialization.JsonDataWriter.Cleanup">
             <summary>
             Disposes all resources kept by the data writer, except the stream, which can be reused later.
             </summary>
@@ -2759,7 +2759,7 @@
             Resets the reader instance's currently peeked char and emergency playback queue.
             </summary>
         </member>
-        <member name="M:Sirenix.Serialization.JsonTextReader.Dispose">
+        <member name="M:Sirenix.Serialization.JsonTextReader.Cleanup">
             <summary>
             Disposes all resources kept by the text reader, except the stream, which can be reused later.
             </summary>
@@ -2812,7 +2812,7 @@
             Not yet documented.
             </summary>
         </member>
-        <member name="M:Sirenix.Serialization.SerializationNodeDataReader.Dispose">
+        <member name="M:Sirenix.Serialization.SerializationNodeDataReader.Cleanup">
             <summary>
             Not yet documented.
             </summary>
@@ -3026,7 +3026,7 @@
             Not yet documented.
             </summary>
         </member>
-        <member name="M:Sirenix.Serialization.SerializationNodeDataWriter.Dispose">
+        <member name="M:Sirenix.Serialization.SerializationNodeDataWriter.Cleanup">
             <summary>
             Not yet documented.
             </summary>
@@ -4583,7 +4583,7 @@
             Frees this buffer.
             </summary>
         </member>
-        <member name="M:Sirenix.Serialization.Buffer`1.Dispose">
+        <member name="M:Sirenix.Serialization.Buffer`1.Cleanup">
             <summary>
             Frees this buffer.
             </summary>
@@ -7631,7 +7631,7 @@
             Moves to the next value.
             </summary>
         </member>
-        <member name="M:Sirenix.Serialization.Utilities.GarbageFreeIterators.ListIterator`1.Dispose">
+        <member name="M:Sirenix.Serialization.Utilities.GarbageFreeIterators.ListIterator`1.Cleanup">
             <summary>
             Disposes the iterator.
             </summary>
@@ -7661,7 +7661,7 @@
             Moves to the next value.
             </summary>
         </member>
-        <member name="M:Sirenix.Serialization.Utilities.GarbageFreeIterators.HashsetIterator`1.Dispose">
+        <member name="M:Sirenix.Serialization.Utilities.GarbageFreeIterators.HashsetIterator`1.Cleanup">
             <summary>
             Disposes the iterator.
             </summary>
@@ -7691,7 +7691,7 @@
             Moves to the next value.
             </summary>
         </member>
-        <member name="M:Sirenix.Serialization.Utilities.GarbageFreeIterators.DictionaryIterator`2.Dispose">
+        <member name="M:Sirenix.Serialization.Utilities.GarbageFreeIterators.DictionaryIterator`2.Cleanup">
             <summary>
             Disposes the iterator.
             </summary>
@@ -7721,7 +7721,7 @@
             Moves to the next value.
             </summary>
         </member>
-        <member name="M:Sirenix.Serialization.Utilities.GarbageFreeIterators.DictionaryValueIterator`2.Dispose">
+        <member name="M:Sirenix.Serialization.Utilities.GarbageFreeIterators.DictionaryValueIterator`2.Cleanup">
             <summary>
             Disposes the iterator.
             </summary>
@@ -8594,7 +8594,7 @@
             Releases this cached value.
             </summary>
         </member>
-        <member name="M:Sirenix.Serialization.Utilities.Cache`1.System#IDisposable#Dispose">
+        <member name="M:Sirenix.Serialization.Utilities.Cache`1.System#IDisposable#Cleanup">
             <summary>
             Releases this cached value.
             </summary>

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CardSelectionWindow : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // Initialize is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         

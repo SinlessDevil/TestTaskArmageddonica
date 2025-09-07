@@ -10,7 +10,7 @@ namespace Code.UI
     public class ButtonScaler : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         [SerializeField] private Image _image;
-        [Header("Setup")]
+        [Header("Initialize")]
         [SerializeField] private float ScaleAmount = 0.8f;
         [SerializeField] private float ScaleDuration = 0.2f;
     

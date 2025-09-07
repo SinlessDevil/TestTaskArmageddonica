@@ -1,37 +1,30 @@
 using Code.Services.CameraController;
-using Code.Services.StaticData;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
+using Sirenix.OdinInspector;
 
 namespace Code.UI.Game
 {
     public class TestCamera : MonoBehaviour
     {
         private ICameraDirector _cameraDirector;
-        private IStaticDataService _staticDataService;
         
         [Inject]
-        public void Construct(
-            ICameraDirector cameraDirector,
-            IStaticDataService staticDataService)
+        public void Construct(ICameraDirector cameraDirector)
         {
             _cameraDirector = cameraDirector;
-            _staticDataService = staticDataService;
         }
         
         [Button]
         public void ForceLootAtCameraSelected(Transform target)
         {
-            var cameraShotStaticData = _staticDataService.Balance.CameraShotStaticData;
-            _cameraDirector.FocusAsync(target, cameraShotStaticData.SelectedShot);
+            _cameraDirector.FocusSelectedShotAsync();
         }
         
         [Button]
         public void ForceLootAtCameraBattle(Transform target)
         {
-            var cameraShotStaticData = _staticDataService.Balance.CameraShotStaticData;
-            _cameraDirector.FocusAsync(target, cameraShotStaticData.BattleShot);
+            _cameraDirector.FocusBattleShotAsync();
         }
         
         private void OnDrawGizmos()
