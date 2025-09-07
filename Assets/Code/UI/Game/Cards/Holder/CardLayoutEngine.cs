@@ -1,18 +1,17 @@
-using System.Threading;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 
-namespace Code.UI.Game.Cards
+namespace Code.UI.Game.Cards.Holder
 {
-    public class CardHolder : MonoBehaviour
+    public class CardLayoutEngine : MonoBehaviour
     {
         [Header("Card Positioning")]
         [SerializeField] private List<CardView> _cardViews = new();
-        [SerializeField] private RectTransform _root;
         [SerializeField] private float _cardSpacing = 200f;
         [SerializeField] private float _verticalOffset = 0f;  
         [SerializeField] private float _animationDuration = 0.3f;
@@ -20,7 +19,9 @@ namespace Code.UI.Game.Cards
         [Header("Card Settings")]
         [SerializeField] private float _cardWidth = 100f;
         [SerializeField] private int _maxCardsInRow = 7;
-
+        [Header("Components")]
+        [SerializeField] private RectTransform _root;
+        
         private readonly List<RectTransform> _cardTransforms = new();
         
         private CancellationTokenSource _layoutCts;
@@ -31,7 +32,7 @@ namespace Code.UI.Game.Cards
             InitializeCardTransforms();
             UpdateCardPositionsImmediate();
         }
-
+        
         [Button]
         public void AddCard(CardView cardView)
         {
@@ -39,13 +40,12 @@ namespace Code.UI.Game.Cards
                 return;
 
             cardView.transform.SetParent(_root, false);
-
-            var rt = cardView.GetComponent<RectTransform>();
-            rt.anchoredPosition = Vector2.zero;
-            rt.localScale = Vector3.one;
+            
+            cardView.Root.anchoredPosition = Vector2.zero;
+            cardView.Root.localScale = Vector3.one;
 
             _cardViews.Add(cardView);
-            _cardTransforms.Add(rt);
+            _cardTransforms.Add(cardView.Root);
 
             RestartLayoutAnimation();
         }
@@ -71,27 +71,50 @@ namespace Code.UI.Game.Cards
         }
 
         [Button]
-        public void UpdateCardPositionsImmediate()
+        private void UpdateCardPositionsImmediate()
         {
             InitializeCardTransforms();
 
-            var cardCount = _cardViews.Count;
-            if (cardCount == 0) return;
+            int cardCount = _cardViews.Count;
+            if (cardCount == 0) 
+                return;
 
-            var targetPositions = CalculateCardPositions(cardCount);
+            Vector2[] targetPositions = CalculateCardPositions(cardCount);
             for (int i = 0; i < cardCount; i++)
                 if (_cardTransforms[i])
                     _cardTransforms[i].anchoredPosition = targetPositions[i];
         }
-
+        
         private void InitializeCardTransforms()
         {
             _cardTransforms.Clear();
-            foreach (var cv in _cardViews)
-                if (cv) _cardTransforms.Add(cv.GetComponent<RectTransform>());
+            foreach (var cardView in _cardViews)
+                if (cardView) _cardTransforms.Add(cardView.GetComponent<RectTransform>());
         }
         
-        [Button]
+        private Vector2[] CalculateCardPositions(int cardCount)
+        {
+            Vector2[] positions = new Vector2[cardCount];
+            if (cardCount == 0) return positions;
+
+            float available = _root.rect.width;
+            float spacing = _cardSpacing;
+
+            if (cardCount > 1)
+            {
+                float maxSpacingByWidth = (available - _cardWidth) / (cardCount - 1);
+                spacing = Mathf.Min(spacing, maxSpacingByWidth);
+            }
+
+            float totalWidth = (cardCount - 1) * spacing + _cardWidth;
+            float startX = -totalWidth * 0.5f + _cardWidth * 0.5f;
+
+            for (int i = 0; i < cardCount; i++)
+                positions[i] = new Vector2(startX + i * spacing, _verticalOffset);
+
+            return positions;
+        }
+        
         private void RestartLayoutAnimation()
         {
             _layoutCts?.Cancel();
@@ -135,35 +158,11 @@ namespace Code.UI.Game.Cards
                 );
             }
             
-            await UniTask.WaitUntil(
-                () => sequence == null || !sequence.IsActive() || sequence.IsComplete(),
+            await UniTask.WaitUntil(() => sequence == null || !sequence.IsActive() || sequence.IsComplete(),
                 cancellationToken: token
             );
 
             token.ThrowIfCancellationRequested();
-        }
-
-        private Vector2[] CalculateCardPositions(int cardCount)
-        {
-            Vector2[] positions = new Vector2[cardCount];
-            if (cardCount == 0) return positions;
-
-            float available = _root.rect.width;
-            float spacing = _cardSpacing;
-
-            if (cardCount > 1)
-            {
-                float maxSpacingByWidth = (available - _cardWidth) / (cardCount - 1);
-                spacing = Mathf.Min(spacing, maxSpacingByWidth);
-            }
-
-            float totalWidth = (cardCount - 1) * spacing + _cardWidth;
-            float startX = -totalWidth * 0.5f + _cardWidth * 0.5f;
-
-            for (int i = 0; i < cardCount; i++)
-                positions[i] = new Vector2(startX + i * spacing, _verticalOffset);
-
-            return positions;
         }
     }
 }

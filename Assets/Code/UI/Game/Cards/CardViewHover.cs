@@ -5,9 +5,10 @@ using DG.Tweening;
 
 namespace Code.UI.Game.Cards
 {
-    public class CardViewHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+    public class CardViewHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, 
+        IPointerUpHandler
     {
-        private string GlowEnabledProp = "_AlphaClip";
+        private const string GlowEnabledProp = "_AlphaClip";
         
         [Header("Hover")]
         [SerializeField] private float _hoverScale = 1.07f;
@@ -43,13 +44,11 @@ namespace Code.UI.Game.Cards
         public void OnPointerDown(PointerEventData e)
         {
             _isPressed = true;
-            ApplyStateTween();
         }
 
         public void OnPointerUp(PointerEventData e)
         {
             _isPressed = false;
-            ApplyStateTween();
         }
 
         private void ApplyStateTween()
