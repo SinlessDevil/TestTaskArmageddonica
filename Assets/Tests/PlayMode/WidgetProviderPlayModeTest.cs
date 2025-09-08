@@ -1,7 +1,7 @@
 using System.Collections;
 using Code.Infrastructure.StateMachine;
 using Code.Infrastructure.StateMachine.Game.States;
-using Code.Services.Providers.Widgets;
+using Code.Services.Providers;
 using Code.UI;
 using NUnit.Framework;
 using UnityEngine;
@@ -13,66 +13,63 @@ namespace Tests.PlayMode
 {
     public class WidgetProviderPlayModeTest
     {
-        private IWidgetProvider _provider;
+        private IPoolProvider<Widget> _provider;
 
         [UnitySetUp]
         public IEnumerator SetUp()
         {
             yield return LoadInitialScene();
-            yield return new WaitForSeconds(1f);
+            yield return null;
             
-            DiContainer container = ProjectContext.Instance.Container;
-            var stateMachine = container.Resolve<IStateMachine<IGameState>>();
-            yield return stateMachine.Enter<LoadLevelState, string>("Game");
+            var container = ProjectContext.Instance.Container;
+            var sm = container.Resolve<IStateMachine<IGameState>>();
+            yield return sm.Enter<LoadLevelState, string>("Game");
             
-            _provider = container.Resolve<IWidgetProvider>();
+            _provider = container.Resolve<IPoolProvider<Widget>>();
             Assert.IsNotNull(_provider, "WidgetProvider should not be null");
+
+            _provider.CreatePool();
             yield return null;
         }
-        
+
         [UnityTearDown]
         public IEnumerator TearDown()
         {
             foreach (var obj in Object.FindObjectsOfType<GameObject>())
             {
-                if (obj.scene.name == null)
-                {
+                if (obj != null && !obj.scene.IsValid())
                     Object.Destroy(obj);
-                }
             }
-
             yield return null;
         }
-        
+
         [UnityTest]
         public IEnumerator Should_Reuse_Play_Animation_Widget()
         {
-            yield return new WaitForSeconds(5f);
-            
-            Widget first = _provider.GetWidget(Vector3.zero, Quaternion.identity);
+            Widget first = _provider.Get(Vector3.zero, Quaternion.identity);
+            Assert.IsNotNull(first, "First widget is null. Possibly the factory returned null.");
+
             first.SetText("Test");
             first.SetColor(Color.red);
             first.PlayAnimation();
-            _provider.ReturnWidget(first);
+            
+            _provider.Return(first);
+            yield return new WaitForSeconds(0.5f);
+            
+            Widget reused = _provider.Get(Vector3.right, Quaternion.identity);
+            Assert.IsNotNull(reused, "Reused widget is null.");
 
-            yield return new WaitForSeconds(1f);
-
-            Widget reused = _provider.GetWidget(Vector3.right, Quaternion.identity);
             reused.SetText("Test_1");
             reused.SetColor(Color.gray);
             reused.PlayAnimation();
-
-            yield return new WaitForSeconds(1f);
-
-            Assert.IsNotNull(first, "First widget is null. Possibly CreateWidget returned null.");
-            Assert.IsNotNull(reused, "Reused widget is null. It might have been destroyed or not created properly.");
+            
             Assert.AreSame(first, reused, "Expected the widget to be reused, but a different instance was returned.");
             yield return null;
         }
-        
-        private IEnumerator LoadInitialScene()
+
+        private static IEnumerator LoadInitialScene()
         {
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Initial");
+            var asyncLoad = SceneManager.LoadSceneAsync("Initial");
             yield return new WaitUntil(() => asyncLoad.isDone);
             yield return null;
         }
