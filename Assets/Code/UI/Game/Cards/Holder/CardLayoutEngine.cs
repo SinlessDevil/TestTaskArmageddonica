@@ -37,9 +37,9 @@ namespace Code.UI.Game.Cards.Holder
         [Button]
         public void AddCard(CardView cardView)
         {
-            if (!cardView) 
+            if (cardView == null) 
                 return;
-
+            
             cardView.transform.SetParent(_root, false);
             
             cardView.Root.anchoredPosition = Vector2.zero;

@@ -11,7 +11,6 @@ namespace Code.UI.Game.CardSelection
         event Action<CardView> SellectedCardViewEvent;
         void Subscribe();
         void Unsubscribe();
-        CardHolder GetCardHolder();
         List<CardView> GetCards();
         void OnRollCards();
         void OnAddCardToHolder(CardView selected);

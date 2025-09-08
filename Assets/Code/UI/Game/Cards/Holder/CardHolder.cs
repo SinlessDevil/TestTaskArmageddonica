@@ -15,6 +15,7 @@ namespace Code.UI.Game.Cards.Holder
         
         public void AddCard(CardView view)
         {
+            Debug.Log("CardHolder " + view);
             _layout.AddCard(view);
         }
 

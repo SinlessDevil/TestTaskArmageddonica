@@ -98,15 +98,18 @@ namespace Code.Services.Input.Card
             if (!IsEnabled || view == null)
                 return;
 
-            if (_inputType == TypeInput.Drag)
+            switch (_inputType)
             {
-                if (!IsDragging)
-                    BeginDrag(view);
-            }
-            else if (_inputType == TypeInput.Click)
-            {
-                view.HoverComponent.HighlightShrink();
-                ClickPressed?.Invoke(view);
+                case TypeInput.Drag:
+                {
+                    if (!IsDragging)
+                        BeginDrag(view);
+                    break;
+                }
+                case TypeInput.Click:
+                    view.HoverComponent.HighlightShrink();
+                    ClickPressed?.Invoke(view);
+                    break;
             }
         }
 
@@ -116,15 +119,18 @@ namespace Code.Services.Input.Card
                 return;
 
             view.HoverComponent.ResetState();
-            
-            if (_inputType == TypeInput.Drag)
+
+            switch (_inputType)
             {
-                if (IsDragging && ReferenceEquals(view, _dragCard))
-                    OnGlobalPointerUp();
-            }
-            else if (_inputType == TypeInput.Click)
-            {
-                ClickReleased?.Invoke(view);
+                case TypeInput.Drag:
+                {
+                    if (IsDragging && ReferenceEquals(view, _dragCard))
+                        OnGlobalPointerUp();
+                    break;
+                }
+                case TypeInput.Click:
+                    ClickReleased?.Invoke(view);
+                    break;
             }
         }
 

@@ -32,12 +32,12 @@ namespace Code.UI.Game.CardSelection
 
         public void Subscribe()
         {
-            _cardInputService.ClickPressed += OnSellectCardView;
+            _cardInputService.ClickReleased += OnSelectCardView;
         }
 
         public void Unsubscribe()
         {
-            _cardInputService.ClickPressed -= OnSellectCardView;
+            _cardInputService.ClickReleased -= OnSelectCardView;
         }
 
         public CardHolder GetCardHolder()
@@ -60,10 +60,11 @@ namespace Code.UI.Game.CardSelection
 
         public void OnAddCardToHolder(CardView selected)
         {
+            Debug.Log("CardSelectionPM " + selected);
             _uiFactory.GameHud.CardHolder.AddCard(selected);
         }
         
-        private void OnSellectCardView(CardView view)
+        private void OnSelectCardView(CardView view)
         {
             SellectedCardViewEvent?.Invoke(view);
         }

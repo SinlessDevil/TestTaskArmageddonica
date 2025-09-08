@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using Code.UI.Game.Cards;
-using Code.UI.Game.Cards.Holder;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +17,7 @@ namespace Code.UI.Game.CardSelection
         [SerializeField] private float _verticalOffset = 0f;
         [SerializeField] private float _cardWidth = 100f;
         
+        private List<CardView> _cardViews = new();
         private bool _visible = true;
         
         private ICardSelectionPM _cardSelectionPM;
@@ -25,17 +25,18 @@ namespace Code.UI.Game.CardSelection
         public void Initialize(ICardSelectionPM cardSelectionPm)
         {
             _cardSelectionPM = cardSelectionPm;
-            
             Subscribe();
-            
             SetCards(_cardSelectionPM.GetCards());
+            
+            _animator.Initialize();
+            _animator.Show();
         }
 
         public void Dispose()
         {
-            ClearCardsRoot();
-            
             Unsubscribe();
+            
+            Destroy(this.gameObject);
         }
 
         private void Subscribe()
@@ -65,6 +66,7 @@ namespace Code.UI.Game.CardSelection
                 
                 cardView.transform.SetParent(_cardsRoot, false);
             }
+            _cardViews = cards.ToList();
             LayoutCards(cards);
         }
 
@@ -96,7 +98,9 @@ namespace Code.UI.Game.CardSelection
 
         private void StartCloseSequence(CardView selected)
         {
-            _animator.Close(() => OnClosed(selected));
+            OnClosed(selected);
+            
+            _animator.Close(null);
         }
 
         private void OnClosed(CardView selected)
@@ -140,8 +144,10 @@ namespace Code.UI.Game.CardSelection
 
         private void ClearCardsRoot()
         {
-            for (int i = _cardsRoot.childCount - 1; i >= 0; i--)
-                Destroy(_cardsRoot.GetChild(i).gameObject);
+            foreach (CardView cardView in _cardViews)
+                Destroy(cardView.gameObject);
+            
+            _cardViews.Clear();
         }
     }
 }

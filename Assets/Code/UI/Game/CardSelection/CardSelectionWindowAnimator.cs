@@ -1,34 +1,80 @@
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 namespace Code.UI.Game.CardSelection
 {
     public class CardSelectionWindowAnimator : MonoBehaviour
     {
-        [SerializeField] private CanvasGroup _group;
+        [SerializeField] private List<CanvasGroup> _canvasGroups;
+        [SerializeField] private float _duration = 0.2f;
+        [SerializeField] private Ease _ease = Ease.OutQuad;
 
-        public void Show()
+        private Sequence _sequence;
+
+        public void Initialize()
         {
-            SetVisible(true);
+            foreach (CanvasGroup canvasGroup in _canvasGroups)
+            {
+                canvasGroup.alpha = 0f;
+                canvasGroup.blocksRaycasts = false;
+                canvasGroup.interactable = false;
+            }
         }
+        
+        public void Show() => Play(true, null);
 
-        public void Hide()
-        {
-            SetVisible(false);
-        }
+        public void Hide() => Play(false, null);
 
-        public void Close(Action onCompleted)
-        {
-            SetVisible(false);
-            onCompleted?.Invoke();
-        }
+        public void Close(Action onCompleted) => Play(false, onCompleted);
 
-        private void SetVisible(bool visible)
+        private void Play(bool visible, Action onCompleted)
         {
-            if (_group == null) return;
-            _group.alpha = visible ? 1f : 0f;
-            _group.blocksRaycasts = visible;
-            _group.interactable = visible;
+            if (_canvasGroups == null || _canvasGroups.Count == 0)
+            {
+                onCompleted?.Invoke();
+                return;
+            }
+
+            if (_sequence != null && _sequence.IsActive())
+            {
+                _sequence.Kill();
+                _sequence = null;
+            }
+
+            foreach (CanvasGroup canvasGroup in _canvasGroups)
+            {
+                if (!canvasGroup) 
+                    continue;
+                
+                canvasGroup.blocksRaycasts = false;
+                canvasGroup.interactable = false;
+            }
+
+            Sequence sequence = DOTween.Sequence().SetUpdate(true);
+            _sequence = sequence;
+
+            foreach (CanvasGroup canvasGroup in _canvasGroups)
+            {
+                if (!canvasGroup) 
+                    continue;
+                sequence.Join(canvasGroup
+                    .DOFade(visible ? 1f : 0f, _duration)
+                    .SetEase(_ease));
+            }
+
+            sequence.OnComplete(() =>
+            {
+                foreach (var canvasGroup in _canvasGroups.Where(canvasGroup => canvasGroup))
+                {
+                    canvasGroup.blocksRaycasts = visible;
+                    canvasGroup.interactable = visible;
+                }
+                onCompleted?.Invoke();
+                _sequence = null;
+            });
         }
     }
 }
