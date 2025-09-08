@@ -6,6 +6,7 @@ namespace Code.Services.Factories
         public const string MenuHudPath = "Huds/MenuHud";
         public const string UiRootPath = "UI/UiRoot";
         public const string WidgetPath = "UI/Widget";
+        public const string CardViewPath = "UI/CardView";
         public const string ItemLevelPath = "UI/Menu/ItemLevel";
         
         public const string GameConfigPath = "StaticData/Balance/GameConfig";

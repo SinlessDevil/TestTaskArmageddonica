@@ -4,9 +4,11 @@ using Code.Services.Factories.UIFactory;
 using Code.Services.Input;
 using Code.Services.Input.Device;
 using Code.Services.LevelConductor;
+using Code.Services.Providers;
 using Code.Services.Providers.Widgets;
 using Code.Services.StaticData;
 using Code.StaticData;
+using Code.UI;
 using UnityEngine;
 using Grid = Code.Logic.Grid.Grid;
 using Object = UnityEngine.Object;
@@ -19,7 +21,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
         private readonly ILoadingCurtain _loadingCurtain;
         private readonly IUIFactory _uiFactory;
         private readonly IStateMachine<IGameState> _gameStateMachine;
-        private readonly IWidgetProvider _widgetProvider;
+        private readonly IPoolProvider<Widget> _widgetProvider;
         private readonly IInputService _inputService;
         private readonly IStaticDataService _staticDataService;
         private readonly ICameraDirector _cameraDirector;
@@ -30,7 +32,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
             ISceneLoader sceneLoader,
             ILoadingCurtain loadingCurtain, 
             IUIFactory uiFactory,
-            IWidgetProvider widgetProvider,
+            IPoolProvider<Widget> widgetProvider,
             IInputService inputService,
             IStaticDataService staticDataService,
             ICameraDirector cameraDirector,
@@ -96,7 +98,6 @@ namespace Code.Infrastructure.StateMachine.Game.States
         
         private void InitProviders()
         {
-            _widgetProvider.CreatePoolWidgets();
         }
         
         private void InitHud()

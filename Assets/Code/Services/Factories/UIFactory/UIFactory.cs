@@ -2,6 +2,7 @@
 using Code.StaticData;
 using Code.UI;
 using Code.UI.Game;
+using Code.UI.Game.Cards;
 using Code.UI.Menu;
 using Code.UI.Menu.Windows.Map;
 using Code.Window;
@@ -52,7 +53,7 @@ namespace Code.Services.Factories.UIFactory
         
         public Widget CreateWidget(Vector3 position, Quaternion rotation)
         {
-            var widget = Instantiate(ResourcePath.WidgetPath, position, rotation, null)
+            Widget widget = Instantiate(ResourcePath.WidgetPath, position, rotation, null)
                 .GetComponent<Widget>();
             return widget;
         }
@@ -61,6 +62,13 @@ namespace Code.Services.Factories.UIFactory
         {
             GameObject itemLevel = Instantiate(ResourcePath.ItemLevelPath, parent, true);
             return itemLevel.GetComponent<ItemLevel>();
+        }
+
+        public CardView CreateCardView(Vector3 position, Quaternion rotation)
+        {
+            CardView cardView = Instantiate(ResourcePath.CardViewPath, position, rotation, null)
+                .GetComponent<CardView>();
+            return cardView;
         }
     }
 }

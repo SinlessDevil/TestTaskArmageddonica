@@ -18,6 +18,8 @@ using Code.Services.LevelConductor;
 using Code.Services.Levels;
 using Code.Services.LocalProgress;
 using Code.Services.PersistenceProgress;
+using Code.Services.Providers;
+using Code.Services.Providers.Cards;
 using Code.Services.Providers.Widgets;
 using Code.Services.Random;
 using Code.Services.SaveLoad;
@@ -25,6 +27,8 @@ using Code.Services.StaticData;
 using Code.Services.Storage;
 using Code.Services.Timer;
 using Code.Services.Window;
+using Code.UI;
+using Code.UI.Game.Cards;
 using UnityEngine;
 using Zenject;
 using Application = UnityEngine.Application;
@@ -69,7 +73,7 @@ namespace Code.Infrastructure.Installers
             Container.BindInterfacesTo<WindowService>().AsSingle();
             Container.BindInterfacesTo<RandomService>().AsSingle();
             Container.BindInterfacesTo<UnifiedSaveLoadFacade>().AsSingle();
-            Container.BindInterfacesTo<WidgetProvider>().AsSingle();
+            BindProviders();
             Container.BindInterfacesTo<StorageService>().AsSingle();
             Container.BindInterfacesTo<TimeService>().AsSingle();
 
@@ -81,6 +85,15 @@ namespace Code.Infrastructure.Installers
             BindDataServices();
             BindAudioVibrationService();
             BindFinishService();
+        }
+
+        private void BindProviders()
+        {
+            Container.Bind<IPoolFactory<CardView>>().To<CardViewFactory>().AsSingle();
+            Container.Bind<IPoolProvider<CardView>>().To<CardViewProvider>().AsSingle();
+
+            Container.Bind<IPoolFactory<Widget>>().To<WidgetFactory>().AsSingle();
+            Container.Bind<IPoolProvider<Widget>>().To<WidgetProvider>().AsSingle();
         }
 
         private void BindInputServices()

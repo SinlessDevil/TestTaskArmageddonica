@@ -3,8 +3,10 @@ using Code.Services.Input;
 using Code.Services.LevelConductor;
 using Code.Services.Levels;
 using Code.Services.LocalProgress;
+using Code.Services.Providers;
 using Code.Services.Providers.Widgets;
 using Code.Services.Timer;
+using Code.UI;
 using UnityEngine;
 
 namespace Code.Infrastructure.StateMachine.Game.States
@@ -13,7 +15,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
     {
         private readonly IStateMachine<IGameState> _gameStateMachine;
         private readonly IInputService _inputService;
-        private readonly IWidgetProvider _widgetProvider;
+        private readonly IPoolProvider<Widget> _widgetProvider;
         private readonly ILevelService _levelService;
         private readonly ILevelLocalProgressService _levelLocalProgressService;
         private readonly ITimeService _timeService;
@@ -23,7 +25,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
         public GamePlayState(
             IStateMachine<IGameState> gameStateMachine, 
             IInputService inputService,
-            IWidgetProvider widgetProvider,
+            IPoolProvider<Widget> widgetProvider,
             ILevelService levelService,
             ILevelLocalProgressService levelLocalProgressService,
             ITimeService timeService,
