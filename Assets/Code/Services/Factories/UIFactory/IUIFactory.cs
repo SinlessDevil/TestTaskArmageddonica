@@ -12,7 +12,8 @@ namespace Code.Services.Factories.UIFactory
     {
         public GameHud GameHud { get; }
         public MenuHud MenuHud { get; }
-
+        public Transform UIRoot { get; }
+        
         public void CreateUiRoot();
         public RectTransform CrateWindow(WindowTypeId windowTypeId);
         public GameHud CreateGameHud();

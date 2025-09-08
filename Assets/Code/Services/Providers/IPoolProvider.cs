@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using UnityEngine;
 
 namespace Code.Services.Providers
@@ -9,5 +10,6 @@ namespace Code.Services.Providers
         public T Get(Vector3 position, Quaternion rotation, Transform parent = null);
         public void Return(T item);
         void CreatePool();
+        ReadOnlyCollection<T> GetPoolSnapshot();
     }   
 }

@@ -9,6 +9,7 @@ using Code.Services.Providers.Widgets;
 using Code.Services.StaticData;
 using Code.StaticData;
 using Code.UI;
+using Code.UI.Game.Cards;
 using UnityEngine;
 using Grid = Code.Logic.Grid.Grid;
 using Object = UnityEngine.Object;
@@ -22,6 +23,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
         private readonly IUIFactory _uiFactory;
         private readonly IStateMachine<IGameState> _gameStateMachine;
         private readonly IPoolProvider<Widget> _widgetProvider;
+        private readonly IPoolProvider<CardView> _cardviewProvider;
         private readonly IInputService _inputService;
         private readonly IStaticDataService _staticDataService;
         private readonly ICameraDirector _cameraDirector;
@@ -33,6 +35,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
             ILoadingCurtain loadingCurtain, 
             IUIFactory uiFactory,
             IPoolProvider<Widget> widgetProvider,
+            IPoolProvider<CardView> cardviewProvider,
             IInputService inputService,
             IStaticDataService staticDataService,
             ICameraDirector cameraDirector,
@@ -43,6 +46,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
             _loadingCurtain = loadingCurtain;
             _uiFactory = uiFactory;
             _widgetProvider = widgetProvider;
+            _cardviewProvider = cardviewProvider;
             _inputService = inputService;
             _staticDataService = staticDataService;
             _cameraDirector = cameraDirector;
@@ -99,6 +103,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
         private void InitProviders()
         {
             _widgetProvider.CreatePool();
+            _cardviewProvider.CreatePool();
         }
         
         private void InitHud()

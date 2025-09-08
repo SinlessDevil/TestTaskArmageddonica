@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 
@@ -61,6 +62,9 @@ namespace Code.Services.Providers
             if (_defaultParent) 
                 item.transform.SetParent(_defaultParent, false);
         }
+        
+        public ReadOnlyCollection<T> GetPoolSnapshot()
+            => _pool.Where(i => i != null).ToList().AsReadOnly();
         
         protected virtual bool IsAvailable(T item)
         {

@@ -18,8 +18,23 @@ namespace Code.UI.Game.Cards
         [Header("Components")] 
         [SerializeField] private RectTransform _root;
         [SerializeField] private CardViewHover _hoverComponent;
+        [SerializeField] private CanvasGroup _canvasGroup;
         
         public RectTransform Root => _root;
         public CardViewHover HoverComponent => _hoverComponent;
+
+        public void Show()
+        {
+            _canvasGroup.alpha = 1;
+            _canvasGroup.blocksRaycasts = true;
+            _canvasGroup.interactable = true;
+        }
+        
+        public void Hide()
+        {
+            _canvasGroup.alpha = 0;
+            _canvasGroup.blocksRaycasts = false;
+            _canvasGroup.interactable = false;
+        }
     }    
 }

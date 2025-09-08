@@ -7,6 +7,7 @@ using Code.Services.Providers;
 using Code.Services.Providers.Widgets;
 using Code.Services.Timer;
 using Code.UI;
+using Code.UI.Game.Cards;
 using UnityEngine;
 
 namespace Code.Infrastructure.StateMachine.Game.States
@@ -16,6 +17,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
         private readonly IStateMachine<IGameState> _gameStateMachine;
         private readonly IInputService _inputService;
         private readonly IPoolProvider<Widget> _widgetProvider;
+        private readonly IPoolProvider<CardView> _cardViewProvider;
         private readonly ILevelService _levelService;
         private readonly ILevelLocalProgressService _levelLocalProgressService;
         private readonly ITimeService _timeService;
@@ -26,6 +28,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
             IStateMachine<IGameState> gameStateMachine, 
             IInputService inputService,
             IPoolProvider<Widget> widgetProvider,
+            IPoolProvider<CardView> cardViewProvider,
             ILevelService levelService,
             ILevelLocalProgressService levelLocalProgressService,
             ITimeService timeService,
@@ -35,6 +38,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
             _gameStateMachine = gameStateMachine;
             _inputService = inputService;
             _widgetProvider = widgetProvider;
+            _cardViewProvider = cardViewProvider;
             _levelService = levelService;
             _levelLocalProgressService = levelLocalProgressService;
             _timeService = timeService;
@@ -58,6 +62,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
             _levelConductor.Cleanup();
             _inputService.Cleanup();
             _widgetProvider.CleanupPool();
+            _cardViewProvider.CleanupPool();
             _levelService.Cleanup();
             _levelLocalProgressService.Cleanup();
             

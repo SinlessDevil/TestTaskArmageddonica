@@ -66,23 +66,17 @@ namespace Code.Infrastructure.Installers
         private void BindServices()
         {
             BindStaticDataService();
-            
             BindProviders();
             BindFactories();
-
             BindInputServices();
-
-            Container.BindInterfacesTo<WindowService>().AsSingle();
-            Container.BindInterfacesTo<CardSelectionWindowService>().AsSingle();
+            BindWindowServices();
             
-            Container.BindInterfacesTo<CardSelectionWindowService>().AsSingle();
             Container.BindInterfacesTo<RandomService>().AsSingle();
             Container.BindInterfacesTo<UnifiedSaveLoadFacade>().AsSingle();
             Container.BindInterfacesTo<StorageService>().AsSingle();
             Container.BindInterfacesTo<TimeService>().AsSingle();
 
-            Container.BindInterfacesTo<LevelService>().AsSingle();
-            Container.BindInterfacesTo<LevelConductor>().AsSingle();
+            BindLevelServices();
 
             Container.BindInterfacesTo<CameraDirector>().AsSingle();
             
@@ -91,6 +85,17 @@ namespace Code.Infrastructure.Installers
             BindFinishService();
         }
 
+        private void BindStaticDataService()
+        {
+            IStaticDataService staticDataService = new StaticDataService();
+            staticDataService.LoadData();
+            Container.Bind<IStaticDataService>().FromInstance(staticDataService).AsSingle();
+            
+            IAudioStaticDataService audioStaticDataService = new AudioStaticDataService();
+            audioStaticDataService.LoadData();
+            Container.Bind<IAudioStaticDataService>().FromInstance(audioStaticDataService).AsSingle();
+        }
+        
         private void BindProviders()
         {
             Container.Bind<IPoolFactory<CardView>>().To<CardViewFactory>().AsSingle();
@@ -99,21 +104,39 @@ namespace Code.Infrastructure.Installers
             Container.Bind<IPoolFactory<Widget>>().To<WidgetFactory>().AsSingle();
             Container.Bind<IPoolProvider<Widget>>().To<WidgetProvider>().AsSingle();
         }
-
-        private void BindInputServices()
-        {
-            Container.BindInterfacesTo<InputService>().AsSingle();
-            Container.BindInterfacesTo<GridInputService>().AsSingle();
-            Container.BindInterfacesTo<CardInputService>().AsSingle();
-        }
-
+        
         private void BindFactories()
         {
             Container.BindInterfacesTo<UIFactory>().AsSingle();
             Container.BindInterfacesTo<GameFactory>().AsSingle();
             Container.BindInterfacesTo<GridFactory>().AsSingle();
         }
+        
+        private void BindInputServices()
+        {
+            Container.BindInterfacesTo<InputService>().AsSingle();
+            Container.BindInterfacesTo<GridInputService>().AsSingle();
+            Container.BindInterfacesTo<CardInputService>().AsSingle();
+        }
+        
+        private void BindWindowServices()
+        {
+            Container.BindInterfacesTo<WindowService>().AsSingle();
+            Container.BindInterfacesTo<CardSelectionWindowService>().AsSingle();
+        }
+        
+        private void BindLevelServices()
+        {
+            Container.BindInterfacesTo<LevelService>().AsSingle();
+            Container.BindInterfacesTo<LevelConductor>().AsSingle();
+        }
 
+        private void BindDataServices()
+        {
+            Container.BindInterfacesTo<PersistenceProgressService>().AsSingle();
+            Container.BindInterfacesTo<LevelLocalProgressService>().AsSingle();
+        }
+        
         private void BindAudioVibrationService()
         {
             Container.BindInterfacesTo<SoundService>().AsSingle();
@@ -124,12 +147,6 @@ namespace Code.Infrastructure.Installers
             
             Container.Resolve<IMusicService>().CacheMusic();
             Container.Resolve<IMusicService>().CreateMusicRoot();
-        }
-        
-        private void BindDataServices()
-        {
-            Container.BindInterfacesTo<PersistenceProgressService>().AsSingle();
-            Container.BindInterfacesTo<LevelLocalProgressService>().AsSingle();
         }
 
         private void BindFinishService()
@@ -153,17 +170,6 @@ namespace Code.Infrastructure.Installers
         {
             ISceneLoader sceneLoader = new SceneLoader(Container.Resolve<ICoroutineRunner>());
             Container.Bind<ISceneLoader>().FromInstance(sceneLoader).AsSingle();
-        }
-
-        private void BindStaticDataService()
-        {
-            IStaticDataService staticDataService = new StaticDataService();
-            staticDataService.LoadData();
-            Container.Bind<IStaticDataService>().FromInstance(staticDataService).AsSingle();
-            
-            IAudioStaticDataService audioStaticDataService = new AudioStaticDataService();
-            audioStaticDataService.LoadData();
-            Container.Bind<IAudioStaticDataService>().FromInstance(audioStaticDataService).AsSingle();
         }
         
         private void BindGameStates()

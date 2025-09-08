@@ -34,15 +34,20 @@ namespace Code.Services.Input.Card
         }
 
         public event Action<CardView, Cell> DroppedOnCell;
+        public event Action<CardView> ClickPressed;
+        public event Action<CardView> ClickReleased;
 
         public bool IsDragging { get; private set; }
         public bool IsEnabled { get; private set; }
+
+        private TypeInput _mode;
 
         public void Enable(TypeInput type)
         {
             if (IsEnabled) 
                 return;
             
+            _mode = type;
             _inputService.InputUpdateEvent += OnUpdate;
             _inputService.PointerUpEvent += OnGlobalPointerUp;
             
@@ -88,8 +93,15 @@ namespace Code.Services.Input.Card
 
             view.HoverComponent?.Enter();
 
-            if (!IsDragging)
-                BeginDrag(view);
+            if (_mode == TypeInput.Drag)
+            {
+                if (!IsDragging)
+                    BeginDrag(view);
+            }
+            else if (_mode == TypeInput.Click)
+            {
+                ClickPressed?.Invoke(view);
+            }
         }
 
         public void PointerUp(CardView view)
@@ -99,12 +111,22 @@ namespace Code.Services.Input.Card
 
             view.HoverComponent?.Exit();
 
-            if (IsDragging && ReferenceEquals(view, _dragCard))
-                OnGlobalPointerUp();
+            if (_mode == TypeInput.Drag)
+            {
+                if (IsDragging && ReferenceEquals(view, _dragCard))
+                    OnGlobalPointerUp();
+            }
+            else if (_mode == TypeInput.Click)
+            {
+                ClickReleased?.Invoke(view);
+            }
         }
 
         private void OnUpdate()
         {
+            if (_mode != TypeInput.Drag)
+                return;
+
             if (!IsDragging || _dragRT == null)
                 return;
 
@@ -113,6 +135,8 @@ namespace Code.Services.Input.Card
 
         private void OnGlobalPointerUp()
         {
+            if (_mode != TypeInput.Drag)
+                return;
             if (!IsDragging)
                 return;
 

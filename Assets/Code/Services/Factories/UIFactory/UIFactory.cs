@@ -16,8 +16,6 @@ namespace Code.Services.Factories.UIFactory
         private readonly IInstantiator _instantiator;
         private readonly IStaticDataService _staticData;
 
-        private Transform _uiRoot;
-
         public UIFactory(
             IInstantiator instantiator,
             IStaticDataService staticDataService) : base(instantiator)
@@ -28,16 +26,17 @@ namespace Code.Services.Factories.UIFactory
 
         public GameHud GameHud { get; private set; }
         public MenuHud MenuHud { get; private set; }
+        public Transform UIRoot { get; private set;  }
 
         public void CreateUiRoot()
         {
-            _uiRoot = Instantiate(ResourcePath.UiRootPath).transform;
+            UIRoot = Instantiate(ResourcePath.UiRootPath).transform;
         }
 
         public RectTransform CrateWindow(WindowTypeId windowTypeId)
         {
             WindowConfig config = _staticData.ForWindow(windowTypeId);
-            GameObject window = Instantiate(config.Prefab, _uiRoot);
+            GameObject window = Instantiate(config.Prefab, UIRoot);
             return window.GetComponent<RectTransform>();
         }
 

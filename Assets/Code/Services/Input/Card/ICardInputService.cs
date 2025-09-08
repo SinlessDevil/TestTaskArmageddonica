@@ -7,6 +7,8 @@ namespace Code.Services.Input.Card
     public interface ICardInputService
     {
         event Action<CardView, Cell> DroppedOnCell;
+        event Action<CardView> ClickPressed;
+        event Action<CardView> ClickReleased;
         bool IsDragging { get; }
         bool IsEnabled { get; }
         void Enable(TypeInput typeInput);
