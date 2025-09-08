@@ -3,7 +3,7 @@ using Services.Contex;
 using UnityEngine;
 using Grid = Code.Logic.Grid.Grid;
 
-namespace Code
+namespace Code.Services.Context
 {
     public class GameContext: IGameContext
     {

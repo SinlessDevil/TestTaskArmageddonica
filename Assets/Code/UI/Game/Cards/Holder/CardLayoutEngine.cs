@@ -11,7 +11,6 @@ namespace Code.UI.Game.Cards.Holder
     public class CardLayoutEngine : MonoBehaviour
     {
         [Header("Card Positioning")]
-        [SerializeField] private List<CardView> _cardViews = new();
         [SerializeField] private float _cardSpacing = 200f;
         [SerializeField] private float _verticalOffset = 0f;  
         [SerializeField] private float _animationDuration = 0.3f;
@@ -22,7 +21,8 @@ namespace Code.UI.Game.Cards.Holder
         [Header("Components")]
         [SerializeField] private RectTransform _root;
         
-        private readonly List<RectTransform> _cardTransforms = new();
+        private List<CardView> _cardViews = new();
+        private List<RectTransform> _cardTransforms = new();
         
         private CancellationTokenSource _layoutCts;
         private Sequence _activeSequence;

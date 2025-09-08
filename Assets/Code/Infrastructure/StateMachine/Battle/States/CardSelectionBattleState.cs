@@ -8,6 +8,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
     {
         private readonly ICardSelectionService _cardSelectionWindowService;
         private readonly IStateMachine<IBattleState> _stateMachine;
+        
         private CardSelectionWindow _window;
 
         public CardSelectionBattleState(

@@ -1,5 +1,6 @@
 using Code.Infrastructure.StateMachine.Game.States;
 using Code.Logic.Grid;
+using Code.Services.CameraController;
 using Code.Services.Factories.Grid;
 using Code.Services.Factories.UIFactory;
 using Code.Services.Input.Card;
@@ -23,35 +24,43 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         private readonly ILevelService _levelService;
         private readonly IGridInputService _gridInputService;
         private readonly ICardInputService _cardInputService;
+        private readonly ICameraDirector _cameraDirector;
         private readonly IGameContext _gameContext;
         private readonly IUIFactory _uiFactory;
+        private readonly IStateMachine<IBattleState> _battleStateMachine;
 
         public InitializeBattleState(
             IGridFactory gridFactory, 
             ILevelService levelService,
             IGridInputService gridInputService,
             ICardInputService cardInputService,
+            ICameraDirector cameraDirector,
             IGameContext gameContext,
-            IUIFactory uiFactory)
+            IUIFactory uiFactory,
+            IStateMachine<IBattleState> battleStateMachine)
         {
             _gridFactory = gridFactory;
             _levelService = levelService;
             _gridInputService = gridInputService;
             _cardInputService = cardInputService;
+            _cameraDirector = cameraDirector;
             _gameContext = gameContext;
             _uiFactory = uiFactory;
+            _battleStateMachine = battleStateMachine;
         }
         
         public void Enter()
         {
             _gridInputService.Disable();
             _cardInputService.Disable();
+
+            _cameraDirector.FocusBattleShotAsync();
             
             CardHolder.Hide();
             
             InitGrid();
-            
-            
+
+            _battleStateMachine.Enter<CardSelectionBattleState>();
         }
 
         public void Exit()

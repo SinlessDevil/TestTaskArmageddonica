@@ -46,21 +46,15 @@ namespace Code.Services.CardSelection
 
         public void Close(CardSelectionWindow window)
         {
-            if (_cardSelectionPM != null)
-            {
-                _cardSelectionPM.SellectedCardViewEvent -= OnSelected;
-                _cardSelectionPM.Unsubscribe();
-                _cardSelectionPM = null;
-            }
+            _cardSelectionPM.SellectedCardViewEvent -= OnSelected;
+            _cardSelectionPM.Unsubscribe();
+            _cardSelectionPM = null;
 
-            if (_cardSelectionWindow != null)
-            {
-                _cardSelectionWindow.Dispose();
-                _cardSelectionWindow = null;
-            }
+            _cardSelectionWindow.Dispose();
+            _cardSelectionWindow = null;
         }
 
-        private void OnSelected(Code.UI.Game.Cards.CardView _)
+        private void OnSelected(CardView _)
         {
             Selected?.Invoke();
         }
