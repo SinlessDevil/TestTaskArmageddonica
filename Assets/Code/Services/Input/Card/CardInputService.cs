@@ -40,14 +40,14 @@ namespace Code.Services.Input.Card
         public bool IsDragging { get; private set; }
         public bool IsEnabled { get; private set; }
 
-        private TypeInput _mode;
+        private TypeInput _inputType;
 
         public void Enable(TypeInput type)
         {
             if (IsEnabled) 
                 return;
             
-            _mode = type;
+            _inputType = type;
             _inputService.InputUpdateEvent += OnUpdate;
             _inputService.PointerUpEvent += OnGlobalPointerUp;
             
@@ -72,7 +72,10 @@ namespace Code.Services.Input.Card
             if (!IsEnabled || view == null)
                 return;
 
-            view.HoverComponent?.Enter();
+            if (_inputType == TypeInput.Drag)
+                view.HoverComponent.HoverEnter();
+            else
+                view.HoverComponent.HighlightOn();
         }
 
         public void PointerExit(CardView view)
@@ -83,7 +86,11 @@ namespace Code.Services.Input.Card
             if (IsDragging && ReferenceEquals(view, _dragCard))
                 return;
 
-            view.HoverComponent?.Exit();
+            if(_inputType == TypeInput.Drag) 
+                view.HoverComponent.HoverExit();
+            else
+                view.HoverComponent.HighlightOff();
+                
         }
 
         public void PointerDown(CardView view)
@@ -91,15 +98,14 @@ namespace Code.Services.Input.Card
             if (!IsEnabled || view == null)
                 return;
 
-            view.HoverComponent?.Enter();
-
-            if (_mode == TypeInput.Drag)
+            if (_inputType == TypeInput.Drag)
             {
                 if (!IsDragging)
                     BeginDrag(view);
             }
-            else if (_mode == TypeInput.Click)
+            else if (_inputType == TypeInput.Click)
             {
+                view.HoverComponent.HighlightShrink();
                 ClickPressed?.Invoke(view);
             }
         }
@@ -109,14 +115,14 @@ namespace Code.Services.Input.Card
             if (!IsEnabled || view == null) 
                 return;
 
-            view.HoverComponent?.Exit();
-
-            if (_mode == TypeInput.Drag)
+            view.HoverComponent.ResetState();
+            
+            if (_inputType == TypeInput.Drag)
             {
                 if (IsDragging && ReferenceEquals(view, _dragCard))
                     OnGlobalPointerUp();
             }
-            else if (_mode == TypeInput.Click)
+            else if (_inputType == TypeInput.Click)
             {
                 ClickReleased?.Invoke(view);
             }
@@ -124,7 +130,7 @@ namespace Code.Services.Input.Card
 
         private void OnUpdate()
         {
-            if (_mode != TypeInput.Drag)
+            if (_inputType != TypeInput.Drag)
                 return;
 
             if (!IsDragging || _dragRT == null)
@@ -135,7 +141,7 @@ namespace Code.Services.Input.Card
 
         private void OnGlobalPointerUp()
         {
-            if (_mode != TypeInput.Drag)
+            if (_inputType != TypeInput.Drag)
                 return;
             if (!IsDragging)
                 return;
@@ -169,8 +175,6 @@ namespace Code.Services.Input.Card
                 .SetUpdate(true);
 
             _dragRT.anchoredPosition = ScreenToCanvasLocal(_inputService.TouchPosition);
-
-            view.HoverComponent?.Enter();
         }
         
         private void CancelDrag()
@@ -208,8 +212,6 @@ namespace Code.Services.Input.Card
                 _dragRT.DOScale(_origScale, 0.12f).SetUpdate(true);
 
                 GameHud.CardHolder.AddCard(_dragCard);
-
-                _dragCard.HoverComponent?.Exit();
             }
 
             _dragCard = null;

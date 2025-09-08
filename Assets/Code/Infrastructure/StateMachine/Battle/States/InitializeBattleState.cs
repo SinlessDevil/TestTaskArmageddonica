@@ -28,6 +28,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         private readonly IGameContext _gameContext;
         private readonly IUIFactory _uiFactory;
         private readonly IStateMachine<IBattleState> _battleStateMachine;
+        private readonly ILoadingCurtain _loadingCurtain;
 
         public InitializeBattleState(
             IGridFactory gridFactory, 
@@ -37,7 +38,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             ICameraDirector cameraDirector,
             IGameContext gameContext,
             IUIFactory uiFactory,
-            IStateMachine<IBattleState> battleStateMachine)
+            IStateMachine<IBattleState> battleStateMachine,
+            ILoadingCurtain loadingCurtain)
         {
             _gridFactory = gridFactory;
             _levelService = levelService;
@@ -47,6 +49,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             _gameContext = gameContext;
             _uiFactory = uiFactory;
             _battleStateMachine = battleStateMachine;
+            _loadingCurtain = loadingCurtain;
         }
         
         public void Enter()
@@ -60,12 +63,12 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             
             InitGrid();
 
-            _battleStateMachine.Enter<CardSelectionBattleState>();
+            SubscribeLoadingCurtain();
         }
 
         public void Exit()
         {
-            
+            UnsubscribeLoadingCurtain();
         }
 
         public void Update()
@@ -73,6 +76,21 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             
         }
 
+        private void SubscribeLoadingCurtain()
+        {
+            _loadingCurtain.FinishedShowLoadingEvent += OnFinishedShowLoading;
+        }
+
+        private void UnsubscribeLoadingCurtain()
+        {
+            _loadingCurtain.FinishedShowLoadingEvent -= OnFinishedShowLoading;
+        }
+
+        private void OnFinishedShowLoading()
+        {
+            _battleStateMachine.Enter<CardSelectionBattleState>();
+        }
+        
         private void InitGrid()
         {
             LevelStaticData levelData = GetCurrentLevelStaticData();

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using Code.UI.Game.Cards.Extensions;
 
 namespace Code.UI.Game.Cards.Holder
 {
@@ -79,7 +80,12 @@ namespace Code.UI.Game.Cards.Holder
             if (cardCount == 0) 
                 return;
 
-            Vector2[] targetPositions = CalculateCardPositions(cardCount);
+            Vector2[] targetPositions = CardLayoutExtensions.CalculateCenteredRowPositions(
+                _root,
+                cardCount,
+                _cardWidth,
+                _cardSpacing,
+                _verticalOffset);
             for (int i = 0; i < cardCount; i++)
                 if (_cardTransforms[i])
                     _cardTransforms[i].anchoredPosition = targetPositions[i];
@@ -92,28 +98,13 @@ namespace Code.UI.Game.Cards.Holder
                 if (cardView) _cardTransforms.Add(cardView.GetComponent<RectTransform>());
         }
         
-        private Vector2[] CalculateCardPositions(int cardCount)
-        {
-            Vector2[] positions = new Vector2[cardCount];
-            if (cardCount == 0) return positions;
-
-            float available = _root.rect.width;
-            float spacing = _cardSpacing;
-
-            if (cardCount > 1)
-            {
-                float maxSpacingByWidth = (available - _cardWidth) / (cardCount - 1);
-                spacing = Mathf.Min(spacing, maxSpacingByWidth);
-            }
-
-            float totalWidth = (cardCount - 1) * spacing + _cardWidth;
-            float startX = -totalWidth * 0.5f + _cardWidth * 0.5f;
-
-            for (int i = 0; i < cardCount; i++)
-                positions[i] = new Vector2(startX + i * spacing, _verticalOffset);
-
-            return positions;
-        }
+        private Vector2[] CalculateCardPositions(int cardCount) =>
+            CardLayoutExtensions.CalculateCenteredRowPositions(
+                _root,
+                cardCount,
+                _cardWidth,
+                _cardSpacing,
+                _verticalOffset);
         
         private void RestartLayoutAnimation()
         {
@@ -139,7 +130,12 @@ namespace Code.UI.Game.Cards.Holder
             if (cardCount == 0) 
                 return;
 
-            Vector2[] targetPositions = CalculateCardPositions(cardCount);
+            Vector2[] targetPositions = CardLayoutExtensions.CalculateCenteredRowPositions(
+                _root,
+                cardCount,
+                _cardWidth,
+                _cardSpacing,
+                _verticalOffset);
             Sequence sequence = DOTween.Sequence().SetUpdate(true);
             _activeSequence = sequence;
 

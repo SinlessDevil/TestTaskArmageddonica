@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,14 +21,20 @@ namespace Code.Infrastructure
             DontDestroyOnLoad(this);
         }
 
+        public event Action StartedShowLoadingEvent;
+        public event Action FinishedShowLoadingEvent;
+        
         public bool IsActive { get; private set; }
 
         public void Show()
         {
             IsActive = true;
             gameObject.SetActive(true);
+            
             _left.anchoredPosition = Vector2.zero;
             _right.anchoredPosition = Vector2.zero;
+            
+            StartedShowLoadingEvent?.Invoke();
         }
 
         public void Hide()
@@ -58,6 +65,8 @@ namespace Code.Infrastructure
                 yield return null;
             }
 
+            FinishedShowLoadingEvent?.Invoke();
+            
             _left.anchoredPosition = leftTarget;
             _right.anchoredPosition = rightTarget;
             

@@ -4,74 +4,128 @@ using DG.Tweening;
 
 namespace Code.UI.Game.Cards
 {
-    public class CardViewHover : MonoBehaviour
+    public sealed class CardViewHover : MonoBehaviour
     {
         private const string GlowEnabledProp = "_AlphaClip";
-        
-        [Header("Hover")]
-        [SerializeField] private float _hoverScale = 1.07f;
+
+        [Header("Tween")]
         [SerializeField] private float _tweenDuration = 0.12f;
+        [SerializeField] private Ease _tweenEase = Ease.OutQuad;
+        [SerializeField] private bool _useUnscaledTime = true;
+        [Header("Lift")]
+        [SerializeField] private float _startYOffset = -75f;
         [SerializeField] private float _endYOffset = 0f;
-        [SerializeField] private float _startYOffset = -75f;  
-        [SerializeField] private Ease _tweenEase = Ease.Linear;
-        [Header("Refs (assign in Inspector)")]
+        [Header("Scale")]
+        [SerializeField] private float _hoverScale = 1.07f;
+        [SerializeField] private float _shrinkScale = 0.95f;
+        [Header("Refs")]
         [SerializeField] private RectTransform _root;
         [SerializeField] private Image _bgImage;
-        
-        private Material _bgMaterialInstance;
-        private bool _isHovered, _isPressed;
 
-        public void Enter()
+        private Material _bgMaterial;
+        private float _baseScale = 1f;
+
+        private void Awake()
         {
-            _isHovered = true;
-            ApplyStateTween();
+            if (_root) 
+                _baseScale = _root.localScale.x;
+
+            if (!_bgImage || !_bgImage.material) 
+                return;
+            
+            _bgMaterial = new Material(_bgImage.material);
+            _bgImage.material = _bgMaterial;
+        }
+
+        private void OnDisable()
+        {
+            KillTweens();
+        }
+        
+        public void HighlightOn()
+        {
+            SetGlow(true);
+            AnimateScale(_hoverScale);
+        }
+
+        public void HighlightOff()
+        {
+            SetGlow(false);
+            AnimateScale(_baseScale);
+        }
+
+        public void HoverEnter()
+        {
+            AnimateLift(_endYOffset);
             transform.SetAsLastSibling();
-
-            SetGlowEnabled(true);
+            SetGlow(true);
+            AnimateScale(_hoverScale);
         }
 
-        public void Exit()
+        public void HoverExit()
         {
-            _isHovered = false;
-            _isPressed = false;
-            ApplyStateTween();
-
-            SetGlowEnabled(false);
+            AnimateLift(_startYOffset);
+            SetGlow(false);
+            AnimateScale(_baseScale);
         }
 
-        private void ApplyStateTween()
+        public void ResetState()
         {
-            _root.DOKill();
-            
-            _root.DOAnchorPos(GetAnimatedTarget(), _tweenDuration)
+            AnimateLift(_startYOffset);
+            SetGlow(false);
+            AnimateScale(_baseScale);
+        }
+
+        public void HighlightShrink()
+        {
+            SetGlow(true);
+            AnimateScale(_shrinkScale);
+        }
+
+        private void AnimateLift(float targetY)
+        {
+            if (!_root) 
+                return;
+
+            _root.DOKill(true);
+            Tweener tweener = _root
+                .DOAnchorPos(new Vector2(_root.anchoredPosition.x, targetY), _tweenDuration)
                 .SetEase(_tweenEase);
-                
-            float s = _isHovered ? _hoverScale : 1f;
-            if (_isPressed) 
-                s *= 0.98f;
             
-            _root.DOScale(s, _tweenDuration)
-                     .SetEase(_tweenEase)
-                     .SetUpdate(true);
+            if (_useUnscaledTime) 
+                tweener.SetUpdate(true);
         }
 
-        private Vector2 GetAnimatedTarget()
+        private void AnimateScale(float targetScale)
         {
-            float x = _root.anchoredPosition.x;
-            float y = _isHovered ? _endYOffset : _startYOffset;
-            return new Vector2(x, y);
-        }
-        
-        private void SetGlowEnabled(bool on)
-        {
-            if (_bgMaterialInstance == null)
-            {
-                _bgMaterialInstance = new Material(_bgImage.material);
-                _bgImage.material = _bgMaterialInstance;
-            }
+            if (!_root) 
+                return;
+
+            _root.DOKill(true);
+            Tweener tweener = _root
+                .DOScale(targetScale, _tweenDuration)
+                .SetEase(_tweenEase);
             
-            if (_bgMaterialInstance.HasProperty(GlowEnabledProp))
-                _bgMaterialInstance.SetFloat(GlowEnabledProp, on ? 0f : 1f); 
+            if (_useUnscaledTime) 
+                tweener.SetUpdate(true);
+        }
+
+        private void SetGlow(bool on)
+        {
+            if (_bgMaterial == null) 
+                return;
+
+            if (_bgMaterial.HasProperty(GlowEnabledProp))
+                _bgMaterial.SetFloat(GlowEnabledProp, on ? 0f : 1f);
+        }
+
+        private void KillTweens()
+        {
+            if (!_root) 
+                return;
+            
+            _root.DOKill(true);
+            transform.DOKill(true);
         }
     }
 }

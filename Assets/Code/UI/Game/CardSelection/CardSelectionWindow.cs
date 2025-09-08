@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Code.UI.Game.Cards;
 using Code.UI.Game.Cards.Holder;
 using UnityEngine;
@@ -12,8 +13,10 @@ namespace Code.UI.Game.CardSelection
         [SerializeField] private Button _rerollButton;
         [SerializeField] private Button _toggleVisibilityButton;
         [SerializeField] private CardSelectionWindowAnimator _animator;
-        
-        private CardHolder _cardHolder; 
+        [Header("Layout Settings")]
+        [SerializeField] private float _cardSpacing = 200f;
+        [SerializeField] private float _verticalOffset = 0f;
+        [SerializeField] private float _cardWidth = 100f;
         
         private bool _visible = true;
         
@@ -25,7 +28,6 @@ namespace Code.UI.Game.CardSelection
             
             Subscribe();
             
-            SetCardHolder(_cardSelectionPM.GetCardHolder());
             SetCards(_cardSelectionPM.GetCards());
         }
 
@@ -53,11 +55,6 @@ namespace Code.UI.Game.CardSelection
             _rerollButton.onClick.RemoveListener(OnRerollButtonClick);
             _toggleVisibilityButton.onClick.RemoveListener(OnToggleVisibilityButtonClick);
         }
-
-        private void SetCardHolder(CardHolder cardHolder)
-        {
-            _cardHolder = cardHolder;
-        }
         
         private void SetCards(IReadOnlyList<CardView> cards)
         {
@@ -65,8 +62,10 @@ namespace Code.UI.Game.CardSelection
             {
                 if (cardView == null) 
                     continue;
+                
                 cardView.transform.SetParent(_cardsRoot, false);
             }
+            LayoutCards(cards);
         }
 
         private void OnChangedCards()
@@ -103,6 +102,40 @@ namespace Code.UI.Game.CardSelection
         private void OnClosed(CardView selected)
         {
             _cardSelectionPM.OnAddCardToHolder(selected);
+        }
+
+        private void LayoutCards(IReadOnlyList<CardView> cards)
+        {
+            var root = _cardsRoot as RectTransform;
+            if (root == null)
+                return;
+
+            int count = cards.Count(c => c != null);
+
+            if (count == 0)
+                return;
+
+            Vector2[] positions = Cards.Extensions.CardLayoutExtensions.CalculateCenteredRowPositions(
+                root,
+                count,
+                _cardWidth,
+                _cardSpacing,
+                _verticalOffset);
+
+            int i = 0;
+            foreach (CardView card in cards)
+            {
+                if (card == null) 
+                    continue;
+                
+                RectTransform cardRoot = card.Root;
+                if (!cardRoot) 
+                    continue;
+                
+                cardRoot.anchoredPosition = positions[i];
+                cardRoot.localScale = Vector3.one;
+                i++;
+            }
         }
 
         private void ClearCardsRoot()

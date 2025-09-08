@@ -60,7 +60,6 @@ namespace Code.Services.Providers.Cards
         {
             item.Show();
             base.Activate(item);
-            item.HoverComponent?.Exit();
         }
 
         protected override void Deactivate(CardView item)
