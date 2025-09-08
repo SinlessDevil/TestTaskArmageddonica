@@ -196,8 +196,9 @@ namespace Code.Infrastructure.Installers
 
         private void BindBattleStates()
         {
-            Container.Bind<CardSelectionState>().AsSingle();
-            Container.Bind<CardPlacementState>().AsSingle();
+            Container.Bind<InitializeBattleState>().AsSingle();
+            Container.Bind<CardSelectionBattleState>().AsSingle();
+            Container.Bind<CardPlacementBattleState>().AsSingle();
             Container.Bind<PlayBattleState>().AsSingle();
             Container.Bind<PauseBattleState>().AsSingle();
         }

@@ -16,8 +16,9 @@ namespace Code.Infrastructure.StateMachine.Battle
         {
             return new Dictionary<Type, Func<IExitable>>
             {
-                [typeof(CardSelectionState)] = container.Resolve<CardSelectionState>,
-                [typeof(CardSelectionState)] = container.Resolve<CardPlacementState>,
+                [typeof(InitializeBattleState)] = container.Resolve<InitializeBattleState>,
+                [typeof(CardSelectionBattleState)] = container.Resolve<CardSelectionBattleState>,
+                [typeof(CardPlacementBattleState)] = container.Resolve<CardPlacementBattleState>,
                 [typeof(PlayBattleState)] = container.Resolve<PlayBattleState>,
                 [typeof(PauseBattleState)] = container.Resolve<PauseBattleState>,
             };

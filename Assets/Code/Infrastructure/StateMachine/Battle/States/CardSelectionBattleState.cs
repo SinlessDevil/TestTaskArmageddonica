@@ -2,7 +2,7 @@
 
 namespace Code.Infrastructure.StateMachine.Battle.States
 {
-    public class CardSelectionState : IState, IBattleState
+    public class CardSelectionBattleState : IState, IBattleState
     {
         void IState.Enter()
         {
