@@ -1,4 +1,6 @@
 using Code.Infrastructure.StateMachine;
+using Code.Infrastructure.StateMachine.Battle;
+using Code.Infrastructure.StateMachine.Battle.States;
 using Code.Infrastructure.StateMachine.Game;
 using Code.Infrastructure.StateMachine.Game.States;
 using Code.Services.AudioVibrationFX.Music;
@@ -50,6 +52,7 @@ namespace Code.Infrastructure.Installers
             BindMonoServices();
             BindServices();
             BindGameStateMachine();
+            BindBattleStateMachine();
             MakeInitializable();
         }
         
@@ -164,6 +167,14 @@ namespace Code.Infrastructure.Installers
             BindGameStates();
         }
 
+        private void BindBattleStateMachine()
+        {
+            Container.Bind<BattleStateFactory>().AsSingle();
+            Container.BindInterfacesAndSelfTo<BattleStateMachine>().AsSingle();
+            
+            BindBattleStates();
+        }
+        
         private void MakeInitializable() => Container.Bind<IInitializable>().FromInstance(this);
 
         private void BindSceneLoader()
@@ -183,6 +194,14 @@ namespace Code.Infrastructure.Installers
             Container.Bind<GamePlayState>().AsSingle();
         }
 
+        private void BindBattleStates()
+        {
+            Container.Bind<CardSelectionState>().AsSingle();
+            Container.Bind<CardPlacementState>().AsSingle();
+            Container.Bind<PlayBattleState>().AsSingle();
+            Container.Bind<PauseBattleState>().AsSingle();
+        }
+        
         private void BootstrapGame() => Container.Resolve<IStateMachine<IGameState>>().Enter<BootstrapState>();
     }
 }
