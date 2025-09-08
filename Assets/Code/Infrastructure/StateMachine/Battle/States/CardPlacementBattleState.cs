@@ -29,6 +29,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         public void Enter()
         {
             _gridInputService.Enable();
+            
+            _cardInputService.Disable();
             _cardInputService.Enable(TypeInput.Drag);
 
             _cameraDirector.FocusSelectedShotAsync();

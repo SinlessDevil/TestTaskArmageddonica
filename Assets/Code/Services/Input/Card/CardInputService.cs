@@ -160,7 +160,7 @@ namespace Code.Services.Input.Card
         {
             if (IsDragging)
                 return;
-
+            
             IsDragging = true;
 
             _dragCard = view;
