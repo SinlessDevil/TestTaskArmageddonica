@@ -9261,16 +9261,16 @@
             <summary>
             Indicates whether or not a value can be converted between the given <c>a</c> and <c>b</c> units.
             </summary>
-            <param name="a">Unit a.</param>
-            <param name="b">Unit b.</param>
+            <param name="a">UnitDTO a.</param>
+            <param name="b">UnitDTO b.</param>
             <returns><c>true</c> if both units have the same category. Otherwise <c>false</c>.</returns>
         </member>
         <member name="M:Sirenix.Utilities.Editor.UnitNumberUtility.CanConvertBetween(Sirenix.Utilities.Editor.UnitInfo,Sirenix.Utilities.Editor.UnitInfo)">
             <summary>
             Indicates whether or not a value can be converted between the given <c>a</c> and <c>b</c> units.
             </summary>
-            <param name="a">Unit a.</param>
-            <param name="b">Unit b.</param>
+            <param name="a">UnitDTO a.</param>
+            <param name="b">UnitDTO b.</param>
             <returns><c>true</c> if both units have the same category. Otherwise <c>false</c>.</returns>
         </member>
         <member name="M:Sirenix.Utilities.Editor.UnitNumberUtility.AddCustomUnit(System.String,System.String[],System.String,System.Decimal)">

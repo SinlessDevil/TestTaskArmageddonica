@@ -9,6 +9,7 @@ namespace Code.StaticData
     public class BalanceStaticData : SerializedScriptableObject
     {
         [InlineEditor(Expanded = true, DrawHeader = true)] public CardRankStaticData CardRankStaticData;
+        [InlineEditor(Expanded = true, DrawHeader = true)] public CardDefinitionStaticData CardDefinitionStaticData;
         [InlineEditor(Expanded = true, DrawHeader = true)] public CameraShotStaticData CameraShotStaticData;
     }
 }
