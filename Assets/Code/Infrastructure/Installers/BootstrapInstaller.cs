@@ -5,6 +5,7 @@ using Code.Services.AudioVibrationFX.Music;
 using Code.Services.AudioVibrationFX.Sound;
 using Code.Services.AudioVibrationFX.StaticData;
 using Code.Services.CameraController;
+using Code.Services.CardSelection;
 using Code.Services.Factories.Game;
 using Code.Services.Factories.Grid;
 using Code.Services.Factories.UIFactory;
@@ -72,6 +73,9 @@ namespace Code.Infrastructure.Installers
             BindInputServices();
 
             Container.BindInterfacesTo<WindowService>().AsSingle();
+            Container.BindInterfacesTo<CardSelectionWindowService>().AsSingle();
+            
+            Container.BindInterfacesTo<CardSelectionWindowService>().AsSingle();
             Container.BindInterfacesTo<RandomService>().AsSingle();
             Container.BindInterfacesTo<UnifiedSaveLoadFacade>().AsSingle();
             Container.BindInterfacesTo<StorageService>().AsSingle();

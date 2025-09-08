@@ -38,7 +38,7 @@ namespace Code.Services.Input.Card
         public bool IsDragging { get; private set; }
         public bool IsEnabled { get; private set; }
 
-        public void Enable()
+        public void Enable(TypeInput type)
         {
             if (IsEnabled) 
                 return;
@@ -94,7 +94,8 @@ namespace Code.Services.Input.Card
 
         public void PointerUp(CardView view)
         {
-            if (!IsEnabled || view == null) return;
+            if (!IsEnabled || view == null) 
+                return;
 
             view.HoverComponent?.Exit();
 
@@ -193,18 +194,13 @@ namespace Code.Services.Input.Card
 
         private Vector2 ScreenToCanvasLocal(Vector2 screenPos)
         {
-            var canvas = GameHud.Canvas;
-            var canvasRT = (RectTransform)canvas.transform;
-
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvasRT,
-                screenPos,
-                canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera,
-                out var local);
-
+            RectTransform canvasRT = (RectTransform)Canvas.transform;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRT, screenPos, 
+                Canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : Canvas.worldCamera, out var local);
             return local;
         }
 
         private GameHud GameHud => _uiFactory.GameHud;
+        private Canvas Canvas => GameHud.Canvas;
     }
 }

@@ -9,7 +9,7 @@ namespace Code.Services.Input.Card
         event Action<CardView, Cell> DroppedOnCell;
         bool IsDragging { get; }
         bool IsEnabled { get; }
-        void Enable();
+        void Enable(TypeInput typeInput);
         void Disable();
         void PointerEnter(CardView view);
         void PointerExit(CardView view);

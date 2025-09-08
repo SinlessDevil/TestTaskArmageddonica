@@ -42,7 +42,7 @@ namespace Code.Services.LevelConductor
         public void Run()
         {
             _gridInputService.Enable();
-            _cardInputService.Enable();
+            _cardInputService.Enable(TypeInput.Drag);
         }
 
         public void Initialize()
