@@ -9,7 +9,7 @@ namespace Code.Services.Providers.Widgets
 
         private Transform _root;
         
-        public WidgetProvider(WidgetFactory factory) : base(factory) { }
+        public WidgetProvider(IPoolFactory<Widget> factory) : base(factory) { }
         
         public override void CreatePool()
         {

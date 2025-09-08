@@ -9,7 +9,7 @@ namespace Code.Services.Providers.Cards
 
         private Transform _root;
 
-        public CardViewProvider(CardViewFactory factory) : base(factory) { }
+        public CardViewProvider(IPoolFactory<CardView> factory) : base(factory) { }
 
         public override void CreatePool()
         {

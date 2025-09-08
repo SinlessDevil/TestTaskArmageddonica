@@ -98,6 +98,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
         
         private void InitProviders()
         {
+            _widgetProvider.CreatePool();
         }
         
         private void InitHud()

@@ -66,6 +66,7 @@ namespace Code.Infrastructure.Installers
         {
             BindStaticDataService();
             
+            BindProviders();
             BindFactories();
 
             BindInputServices();
@@ -73,7 +74,6 @@ namespace Code.Infrastructure.Installers
             Container.BindInterfacesTo<WindowService>().AsSingle();
             Container.BindInterfacesTo<RandomService>().AsSingle();
             Container.BindInterfacesTo<UnifiedSaveLoadFacade>().AsSingle();
-            BindProviders();
             Container.BindInterfacesTo<StorageService>().AsSingle();
             Container.BindInterfacesTo<TimeService>().AsSingle();
 
