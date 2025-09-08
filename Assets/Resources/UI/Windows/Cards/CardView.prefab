@@ -60,7 +60,6 @@ MonoBehaviour:
   _bgLevelImage: {fileID: 4968561569320845025}
   _root: {fileID: 7514697312710856699}
   _hoverComponent: {fileID: 4155795755464497491}
-  _pointerComponent: {fileID: 4343303811158232146}
 --- !u!114 &4155795755464497491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,7 +77,7 @@ MonoBehaviour:
   _endYOffset: 0
   _startYOffset: -75
   _tweenEase: 1
-  _root: {fileID: 7514697312710856699}
+  _root: {fileID: 8796931620791899240}
   _bgImage: {fileID: 8874169259796754342}
 --- !u!114 &4343303811158232146
 MonoBehaviour:
@@ -681,7 +680,7 @@ GameObject:
   - component: {fileID: 1623812783111299065}
   - component: {fileID: 8874169259796754342}
   m_Layer: 5
-  m_Name: BGCardImage
+  m_Name: RootCardImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

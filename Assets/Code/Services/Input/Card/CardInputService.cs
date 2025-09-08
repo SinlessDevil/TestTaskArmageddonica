@@ -4,9 +4,8 @@ using Code.Services.Factories.UIFactory;
 using Code.Services.Input.Grid;
 using Code.UI.Game;
 using Code.UI.Game.Cards;
-using DG.Tweening;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using DG.Tweening;
 
 namespace Code.Services.Input.Card
 {
@@ -20,14 +19,17 @@ namespace Code.Services.Input.Card
         private Vector3 _origScale;
         private Tween _returnTw;
 
-        private readonly IInputService _input;
-        private readonly IGridInputService _grid;
+        private readonly IInputService _inputService;
+        private readonly IGridInputService _gridInputService;
         private readonly IUIFactory _uiFactory;
-
-        public CardInputService(IInputService input, IGridInputService grid, IUIFactory uiFactory)
+        
+        public CardInputService(
+            IInputService inputService, 
+            IGridInputService gridInputService, 
+            IUIFactory uiFactory)
         {
-            _input = input;
-            _grid = grid;
+            _inputService = inputService;
+            _gridInputService = gridInputService;
             _uiFactory = uiFactory;
         }
 
@@ -41,8 +43,8 @@ namespace Code.Services.Input.Card
             if (IsEnabled) 
                 return;
             
-            _input.InputUpdateEvent += OnUpdate;
-            _input.PointerUpEvent += OnGlobalPointerUp;
+            _inputService.InputUpdateEvent += OnUpdate;
+            _inputService.PointerUpEvent += OnGlobalPointerUp;
             
             IsEnabled = true;
         }
@@ -52,14 +54,13 @@ namespace Code.Services.Input.Card
             if (!IsEnabled)
                 return;
             
-            _input.InputUpdateEvent -= OnUpdate;
-            _input.PointerUpEvent -= OnGlobalPointerUp;
+            _inputService.InputUpdateEvent -= OnUpdate;
+            _inputService.PointerUpEvent -= OnGlobalPointerUp;
             
             CancelDrag();
             
             IsEnabled = false;
         }
-        
 
         public void PointerEnter(CardView view)
         {
@@ -101,6 +102,23 @@ namespace Code.Services.Input.Card
                 OnGlobalPointerUp();
         }
 
+        private void OnUpdate()
+        {
+            if (!IsDragging || _dragRT == null)
+                return;
+
+            _dragRT.anchoredPosition = ScreenToCanvasLocal(_inputService.TouchPosition);
+        }
+
+        private void OnGlobalPointerUp()
+        {
+            if (!IsDragging)
+                return;
+
+            Cell cell = _gridInputService?.HoverCell;
+            FinishDrag(cell);
+        }
+
         private void BeginDrag(CardView view)
         {
             if (IsDragging)
@@ -125,28 +143,11 @@ namespace Code.Services.Input.Card
                 .SetEase(Ease.OutQuad)
                 .SetUpdate(true);
 
-            _dragRT.anchoredPosition = ScreenToCanvasLocal(_input.TouchPosition);
+            _dragRT.anchoredPosition = ScreenToCanvasLocal(_inputService.TouchPosition);
 
             view.HoverComponent?.Enter();
         }
-
-        private void OnUpdate()
-        {
-            if (!IsDragging || _dragRT == null)
-                return;
-
-            _dragRT.anchoredPosition = ScreenToCanvasLocal(_input.TouchPosition);
-        }
-
-        private void OnGlobalPointerUp()
-        {
-            if (!IsDragging)
-                return;
-
-            var cell = _grid?.HoverCell;
-            FinishDrag(cell);
-        }
-
+        
         private void CancelDrag()
         {
             if (!IsDragging)
