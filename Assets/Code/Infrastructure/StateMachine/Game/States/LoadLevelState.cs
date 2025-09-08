@@ -10,6 +10,7 @@ using Code.Services.StaticData;
 using Code.StaticData;
 using Code.UI;
 using Code.UI.Game.Cards;
+using Services.Contex;
 using UnityEngine;
 using Grid = Code.Logic.Grid.Grid;
 using Object = UnityEngine.Object;
@@ -28,6 +29,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
         private readonly IStaticDataService _staticDataService;
         private readonly ICameraDirector _cameraDirector;
         private readonly ILevelConductor _levelConductor;
+        private readonly IGameContext _gameContext;
 
         public LoadLevelState(
             IStateMachine<IGameState> gameStateMachine, 
@@ -39,7 +41,8 @@ namespace Code.Infrastructure.StateMachine.Game.States
             IInputService inputService,
             IStaticDataService staticDataService,
             ICameraDirector cameraDirector,
-            ILevelConductor levelConductor)
+            ILevelConductor levelConductor,
+            IGameContext gameContext)
         {
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
@@ -51,6 +54,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
             _staticDataService = staticDataService;
             _cameraDirector = cameraDirector;
             _levelConductor = levelConductor;
+            _gameContext = gameContext;
         }
 
         public void Enter(string payload)
@@ -73,9 +77,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
 
         private void InitGameWorld()
         {
-            SetupCameraDirector();
-            
-            SetupLevelConductor();
+            SetupGameContext();
             
             _inputService.SetInputDevice(GetInputDevice());
             
@@ -86,18 +88,19 @@ namespace Code.Infrastructure.StateMachine.Game.States
             InitProviders();
         }
 
-        private void SetupLevelConductor()
+        private void SetupGameContext()
         {
             Grid grid = Object.FindAnyObjectByType<Grid>();
-            _levelConductor.Setup(grid);
-        }
-        
-        private void SetupCameraDirector()
-        {
+            _gameContext.SetGrid(grid);
+            
             SelectionLookAtPoint selectionLookAt = Object.FindAnyObjectByType<SelectionLookAtPoint>();
+            _gameContext.SetLookAtPoint(selectionLookAt);
+            
             BattleLookAtPoint battleLookAt = Object.FindAnyObjectByType<BattleLookAtPoint>();
-            _cameraDirector.Setup(Camera.main.transform, Camera.main, 
-                selectionLookAt.transform, battleLookAt.transform);
+            _gameContext.SetBattleLookAtPoint(battleLookAt);
+            
+            Camera camera = Camera.main;
+            _gameContext.SetCamera(camera);
         }
         
         private void InitProviders()

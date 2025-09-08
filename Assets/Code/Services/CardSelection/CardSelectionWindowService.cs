@@ -17,6 +17,7 @@ namespace Code.Services.CardSelection
 
         private ICardSelectionPM _cardSelectionPM;
         private CardSelectionWindow _cardSelectionWindow;
+        public System.Action Selected { get; set; }
         
         public CardSelectionWindowService(
             IWindowService windowService,
@@ -34,6 +35,7 @@ namespace Code.Services.CardSelection
         {
             _cardSelectionPM = new CardSelectionPM(_poolProvider, _uiFactory, _cardInputService);
             _cardSelectionPM.Subscribe();
+            _cardSelectionPM.SellectedCardViewEvent += OnSelected;
             
             _cardSelectionWindow = _windowService
                 .Open(WindowTypeId.CardSelection)
@@ -44,10 +46,23 @@ namespace Code.Services.CardSelection
 
         public void Close(CardSelectionWindow window)
         {
-            _cardSelectionPM = null;
-            _cardSelectionPM.Unsubscribe();
-            
-            _cardSelectionWindow.Dispose();
+            if (_cardSelectionPM != null)
+            {
+                _cardSelectionPM.SellectedCardViewEvent -= OnSelected;
+                _cardSelectionPM.Unsubscribe();
+                _cardSelectionPM = null;
+            }
+
+            if (_cardSelectionWindow != null)
+            {
+                _cardSelectionWindow.Dispose();
+                _cardSelectionWindow = null;
+            }
+        }
+
+        private void OnSelected(Code.UI.Game.Cards.CardView _)
+        {
+            Selected?.Invoke();
         }
     }
 }

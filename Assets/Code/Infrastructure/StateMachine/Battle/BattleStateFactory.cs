@@ -21,6 +21,7 @@ namespace Code.Infrastructure.StateMachine.Battle
                 [typeof(CardPlacementBattleState)] = container.Resolve<CardPlacementBattleState>,
                 [typeof(PlayBattleState)] = container.Resolve<PlayBattleState>,
                 [typeof(PauseBattleState)] = container.Resolve<PauseBattleState>,
+                [typeof(CleanupBattleState)] = container.Resolve<CleanupBattleState>,
             };
         }
     }

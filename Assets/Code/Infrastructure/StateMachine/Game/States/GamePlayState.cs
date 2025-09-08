@@ -8,6 +8,7 @@ using Code.Services.Providers.Widgets;
 using Code.Services.Timer;
 using Code.UI;
 using Code.UI.Game.Cards;
+using Services.Contex;
 using UnityEngine;
 
 namespace Code.Infrastructure.StateMachine.Game.States
@@ -22,7 +23,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
         private readonly ILevelLocalProgressService _levelLocalProgressService;
         private readonly ITimeService _timeService;
         private readonly ILevelConductor _levelConductor;
-        private readonly ICameraDirector _cameraDirector;
+        private readonly IGameContext _gameContext;
 
         public GamePlayState(
             IStateMachine<IGameState> gameStateMachine, 
@@ -33,7 +34,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
             ILevelLocalProgressService levelLocalProgressService,
             ITimeService timeService,
             ILevelConductor levelConductor,
-            ICameraDirector cameraDirector)
+            IGameContext gameContext)
         {
             _gameStateMachine = gameStateMachine;
             _inputService = inputService;
@@ -43,12 +44,11 @@ namespace Code.Infrastructure.StateMachine.Game.States
             _levelLocalProgressService = levelLocalProgressService;
             _timeService = timeService;
             _levelConductor = levelConductor;
-            _cameraDirector = cameraDirector;
+            _gameContext = gameContext;
         }
         
         public void Enter()
         {
-            _levelConductor.Initialize();
             _levelConductor.Run();
         }
 
@@ -60,11 +60,14 @@ namespace Code.Infrastructure.StateMachine.Game.States
         public void Exit()
         {
             _levelConductor.Cleanup();
+            
             _inputService.Cleanup();
             _widgetProvider.CleanupPool();
             _cardViewProvider.CleanupPool();
             _levelService.Cleanup();
             _levelLocalProgressService.Cleanup();
+            
+            _gameContext.Cleanup();
             
             _timeService.ResetTimer();
         }

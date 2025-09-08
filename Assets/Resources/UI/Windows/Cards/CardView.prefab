@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7514697312710856699}
+  - component: {fileID: 4354919340892952631}
   - component: {fileID: 3921670883530151950}
   - component: {fileID: 4155795755464497491}
   - component: {fileID: 4343303811158232146}
@@ -39,6 +40,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 8}
   m_SizeDelta: {x: 225, y: 325}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &4354919340892952631
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2430711725709250599}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &3921670883530151950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,6 +73,7 @@ MonoBehaviour:
   _bgLevelImage: {fileID: 4968561569320845025}
   _root: {fileID: 7514697312710856699}
   _hoverComponent: {fileID: 4155795755464497491}
+  _canvasGroup: {fileID: 4354919340892952631}
 --- !u!114 &4155795755464497491
 MonoBehaviour:
   m_ObjectHideFlags: 0

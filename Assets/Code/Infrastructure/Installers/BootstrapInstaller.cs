@@ -78,7 +78,8 @@ namespace Code.Infrastructure.Installers
             Container.BindInterfacesTo<UnifiedSaveLoadFacade>().AsSingle();
             Container.BindInterfacesTo<StorageService>().AsSingle();
             Container.BindInterfacesTo<TimeService>().AsSingle();
-
+            Container.BindInterfacesTo<GameContext>().AsSingle();
+            
             BindLevelServices();
 
             Container.BindInterfacesTo<CameraDirector>().AsSingle();
@@ -201,6 +202,7 @@ namespace Code.Infrastructure.Installers
             Container.Bind<CardPlacementBattleState>().AsSingle();
             Container.Bind<PlayBattleState>().AsSingle();
             Container.Bind<PauseBattleState>().AsSingle();
+            Container.Bind<CleanupBattleState>().AsSingle();
         }
         
         private void BootstrapGame() => Container.Resolve<IStateMachine<IGameState>>().Enter<BootstrapState>();

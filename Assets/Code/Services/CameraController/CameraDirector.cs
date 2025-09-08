@@ -4,16 +4,12 @@ using Code.StaticData.СameraShots;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Services.Contex;
 
 namespace Code.Services.CameraController
 {
     public class CameraDirector : ICameraDirector
     {
-        private Transform _rootTransform;
-        private Camera _camera;
-        
-        private Transform _selectionLookAt;
-        private Transform _battleLookAt;
         
         private Vector3 _defaultPosition;
         private Quaternion _defaultRotation;
@@ -24,44 +20,24 @@ namespace Code.Services.CameraController
         private Tween _moveTw, _rotTw, _fovTw, _orthoTw;
 
         private readonly IStaticDataService _staticDataService;
-        
-        public CameraDirector(IStaticDataService staticDataService)
+        private readonly IGameContext _gameContext;
+
+        public CameraDirector(
+            IStaticDataService staticDataService,
+            IGameContext gameContext)
         {
             _staticDataService = staticDataService;
-        }
-        
-        public void Setup(Transform rootTransform, Camera camera, Transform selectionLookAt, Transform battleLookAt)
-        {
-            _rootTransform = rootTransform;
-            _camera = camera;
-            
-            _selectionLookAt = selectionLookAt;
-            _battleLookAt = battleLookAt;
-            
-            _defaultPosition   = _rootTransform.position;
-            _defaultRotation   = _rootTransform.rotation;
-            
-            _defaultFov   = _camera.fieldOfView;
-            _defaultOrthographic = _camera.orthographicSize;
-        }
-
-        public void Dispose()
-        {
-            _rootTransform = null;
-            _camera = null;
-            
-            _selectionLookAt = null;
-            _battleLookAt = null;
+            _gameContext = gameContext;
         }
 
         public async UniTask FocusSelectedShotAsync()
         {
-            await FocusAsync(_selectionLookAt, CameraShotStaticData.SelectedShot);
+            await FocusAsync(SelectionLookAt, CameraShotStaticData.SelectedShot);
         }
 
         public async UniTask FocusBattleShotAsync()
         {
-            await FocusAsync(_battleLookAt, CameraShotStaticData.BattleShot);
+            await FocusAsync(BattleLookAt, CameraShotStaticData.BattleShot);
         }
 
         private async UniTask FocusAsync(Transform target, CameraShot shot, CancellationToken ct = default)
@@ -72,7 +48,7 @@ namespace Code.Services.CameraController
             Vector3 worldPos = shot.PositionOffset;
             Quaternion worldRot = shot.LookAtTarget
                 ? Quaternion.LookRotation((target.position - worldPos).normalized, Vector3.up)
-                : _rootTransform.rotation;
+                : RootTransform.rotation;
 
             await FocusAsync(worldPos, worldRot, shot, ct);
         }
@@ -81,21 +57,21 @@ namespace Code.Services.CameraController
         {
             Kill();
             
-            _moveTw = _rootTransform.DOMove(worldPos, shot.Duration)
+            _moveTw = RootTransform.DOMove(worldPos, shot.Duration)
                          .SetEase(shot.Ease)
                          .SetUpdate(true);
             
-            _rotTw = _rootTransform.DORotateQuaternion(worldRot, shot.Duration)
+            _rotTw = RootTransform.DORotateQuaternion(worldRot, shot.Duration)
                         .SetEase(shot.Ease)
                         .SetUpdate(true);
             
-            if (shot.FieldOfView.HasValue && !_camera.orthographic)
-                _fovTw = _camera.DOFieldOfView(shot.FieldOfView.Value, shot.Duration)
+            if (shot.FieldOfView.HasValue && !Camera.orthographic)
+                _fovTw = Camera.DOFieldOfView(shot.FieldOfView.Value, shot.Duration)
                                 .SetEase(shot.Ease)
                                 .SetUpdate(true);
 
-            if (shot.OrthoSize.HasValue && _camera.orthographic)
-                _orthoTw = _camera.DOOrthoSize(shot.OrthoSize.Value, shot.Duration)
+            if (shot.OrthoSize.HasValue && Camera.orthographic)
+                _orthoTw = Camera.DOOrthoSize(shot.OrthoSize.Value, shot.Duration)
                                    .SetEase(shot.Ease)
                                    .SetUpdate(true);
 
@@ -109,23 +85,23 @@ namespace Code.Services.CameraController
         {
             Kill();
 
-            _moveTw = _rootTransform.DOMove(_defaultPosition, shot.Duration)
+            _moveTw = RootTransform.DOMove(_defaultPosition, shot.Duration)
                          .SetEase(shot.Ease)
                          .SetUpdate(true);
 
-            _rotTw = _rootTransform.DORotateQuaternion(_defaultRotation, shot.Duration)
+            _rotTw = RootTransform.DORotateQuaternion(_defaultRotation, shot.Duration)
                         .SetEase(shot.Ease)
                         .SetUpdate(true);
 
-            if (!_camera.orthographic)
+            if (!Camera.orthographic)
             {
-                _fovTw = _camera.DOFieldOfView(_defaultFov, shot.Duration)
+                _fovTw = Camera.DOFieldOfView(_defaultFov, shot.Duration)
                                 .SetEase(shot.Ease)
                                 .SetUpdate(true);
             }
             else
             {
-                _orthoTw = _camera.DOOrthoSize(_defaultOrthographic, shot.Duration)
+                _orthoTw = Camera.DOOrthoSize(_defaultOrthographic, shot.Duration)
                                    .SetEase(shot.Ease)
                                    .SetUpdate(true);
             }
@@ -154,5 +130,11 @@ namespace Code.Services.CameraController
         private static bool Completed(Tween t) => t == null || !t.IsActive() || t.IsComplete();
         
         private CameraShotStaticData CameraShotStaticData => _staticDataService.Balance.CameraShotStaticData;
+        
+        private Transform RootTransform => _gameContext.Camera.transform;
+        private Camera Camera => _gameContext.Camera;
+        
+        private Transform SelectionLookAt => _gameContext.SelectionLookAtPoint?.transform;
+        private Transform BattleLookAt => _gameContext.BattleLookAtPoint?.transform;
     }
 }

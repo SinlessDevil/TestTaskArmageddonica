@@ -1,88 +1,26 @@
-using Code.Logic.Grid;
-using Code.Services.Factories.Grid;
-using Code.Services.Input.Card;
-using Code.Services.Input.Grid;
-using Code.Services.Levels;
-using Code.StaticData.Levels;
-using UnityEngine;
-using Grid = Code.Logic.Grid.Grid;
+using Code.Infrastructure.StateMachine;
+using Code.Infrastructure.StateMachine.Battle;
+using Code.Infrastructure.StateMachine.Battle.States;
 
 namespace Code.Services.LevelConductor
 {
     public class LevelConductor : ILevelConductor
     {
-        private float _step = 0.35f;
-        private float _height = 0.01f;
-        private Quaternion _rotationLocal = Quaternion.Euler(90f, 0f, 0f);
+        private readonly IStateMachine<IBattleState> _battleStateMachine;
         
-        private Grid _grid;
-        
-        private readonly IGridFactory _gridFactory;
-        private readonly ILevelService _levelService;
-        private readonly IGridInputService _gridInputService;
-        private readonly ICardInputService _cardInputService;
+        public LevelConductor(IStateMachine<IBattleState> battleStateMachine)
+        {
+            _battleStateMachine = battleStateMachine;
+        }
 
-        public LevelConductor(
-            IGridFactory gridFactory, 
-            ILevelService levelService,
-            IGridInputService gridInputService,
-            ICardInputService cardInputService)
-        {
-            _gridFactory = gridFactory;
-            _levelService = levelService;
-            _gridInputService = gridInputService;
-            _cardInputService = cardInputService;
-        }
-        
-        public void Setup(Grid grid)
-        {
-            _grid = grid;
-        }
-        
         public void Run()
         {
-            _gridInputService.Enable();
-            _cardInputService.Enable(TypeInput.Drag);
+            _battleStateMachine.Enter<InitializeBattleState>();
         }
 
-        public void Initialize()
-        {
-            LevelStaticData levelData = GetCurrentLevelStaticData();
-            GridData gridData = levelData.GridData;
-
-            Cell[,] cells = GetCells(_grid.transform, gridData.Rows, gridData.Columns);
-            _grid.Initialize(cells);
-        }
-        
         public void Cleanup()
         {
-            _grid = null;
+            _battleStateMachine.Enter<CleanupBattleState>();
         }
-
-        private Cell[,] GetCells(Transform root, int rows, int columns)
-        {
-            Cell[,] cells = new Cell[rows, columns];
-
-            for (int row = 0; row < rows; row++)
-            {
-                for (int col = 0; col < columns; col++)
-                {
-                    Vector3 localPosition = new Vector3(col * _step, _height, row * _step);
-                    Cell cell = _gridFactory.CreateCell(root.position, root.rotation, root);
-                    Transform transform = cell.transform;
-                    transform.localPosition = localPosition;
-                    transform.localRotation = _rotationLocal;
-
-                    cell.Initialize();
-                    
-                    cells[row, col] = cell;
-                }
-            }
-
-            return cells;
-        }
-        
-        private LevelStaticData GetCurrentLevelStaticData() => 
-            _levelService.GetCurrentLevelStaticData();
     }   
 }
