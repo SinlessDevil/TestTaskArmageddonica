@@ -1,11 +1,11 @@
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
+using System.Collections.Generic;
+using Code.UI.Game.Cards.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Sirenix.OdinInspector;
-using Code.UI.Game.Cards.Extensions;
 
 namespace Code.UI.Game.Cards.Holder
 {
@@ -34,14 +34,12 @@ namespace Code.UI.Game.Cards.Holder
             UpdateCardPositionsImmediate();
         }
         
-        [Button]
         public void AddCard(CardView cardView)
         {
             if (cardView == null) 
                 return;
             
             cardView.transform.SetParent(_root, false);
-            
             cardView.Root.anchoredPosition = Vector2.zero;
             cardView.Root.localScale = Vector3.one;
 
@@ -50,28 +48,26 @@ namespace Code.UI.Game.Cards.Holder
 
             RestartLayoutAnimation();
         }
-
-        [Button]
+        
         public void RemoveCard(CardView cardView)
         {
             if (!cardView) 
                 return;
 
             int index = _cardViews.IndexOf(cardView);
-            if (index >= 0)
-            {
-                var rt = _cardTransforms[index];
-                rt.DOKill();
+            if (index < 0) 
+                return;
+            
+            RectTransform root = _cardTransforms[index];
+            root.DOKill();
 
-                _cardViews.RemoveAt(index);
-                _cardTransforms.RemoveAt(index);
+            _cardViews.RemoveAt(index);
+            _cardTransforms.RemoveAt(index);
 
-                cardView.transform.SetParent(null);
-                RestartLayoutAnimation();
-            }
+            cardView.transform.SetParent(null);
+            RestartLayoutAnimation();
         }
-
-        [Button]
+        
         private void UpdateCardPositionsImmediate()
         {
             InitializeCardTransforms();
@@ -80,12 +76,9 @@ namespace Code.UI.Game.Cards.Holder
             if (cardCount == 0) 
                 return;
 
-            Vector2[] targetPositions = CardLayoutExtensions.CalculateCenteredRowPositions(
-                _root,
-                cardCount,
-                _cardWidth,
-                _cardSpacing,
-                _verticalOffset);
+            Vector2[] targetPositions = CardLayoutExtensions.CalculateCenteredRowPositions(_root, cardCount, _cardWidth,
+                _cardSpacing, _verticalOffset);
+            
             for (int i = 0; i < cardCount; i++)
                 if (_cardTransforms[i])
                     _cardTransforms[i].anchoredPosition = targetPositions[i];
@@ -94,17 +87,10 @@ namespace Code.UI.Game.Cards.Holder
         private void InitializeCardTransforms()
         {
             _cardTransforms.Clear();
-            foreach (var cardView in _cardViews)
-                if (cardView) _cardTransforms.Add(cardView.GetComponent<RectTransform>());
+            
+            foreach (var cardView in _cardViews.Where(cardView => cardView)) 
+                _cardTransforms.Add(cardView.Root);
         }
-        
-        private Vector2[] CalculateCardPositions(int cardCount) =>
-            CardLayoutExtensions.CalculateCenteredRowPositions(
-                _root,
-                cardCount,
-                _cardWidth,
-                _cardSpacing,
-                _verticalOffset);
         
         private void RestartLayoutAnimation()
         {
@@ -130,12 +116,8 @@ namespace Code.UI.Game.Cards.Holder
             if (cardCount == 0) 
                 return;
 
-            Vector2[] targetPositions = CardLayoutExtensions.CalculateCenteredRowPositions(
-                _root,
-                cardCount,
-                _cardWidth,
-                _cardSpacing,
-                _verticalOffset);
+            Vector2[] targetPositions = CardLayoutExtensions.CalculateCenteredRowPositions(_root, cardCount, _cardWidth,
+                _cardSpacing, _verticalOffset);
             Sequence sequence = DOTween.Sequence().SetUpdate(true);
             _activeSequence = sequence;
 
@@ -148,9 +130,9 @@ namespace Code.UI.Game.Cards.Holder
                 cartRect.gameObject.SetActive(true);
                 cartRect.DOKill();
 
-                sequence.Join(
-                    cartRect.DOAnchorPos(targetPositions[i], _animationDuration)
-                      .SetEase(_animationEase)
+                sequence.Join(cartRect
+                    .DOAnchorPos(targetPositions[i], _animationDuration)
+                    .SetEase(_animationEase)
                 );
             }
             

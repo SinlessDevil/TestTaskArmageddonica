@@ -44,11 +44,8 @@ namespace Code.UI.Game.CardSelection
                 _sequence = null;
             }
 
-            foreach (CanvasGroup canvasGroup in _canvasGroups)
+            foreach (var canvasGroup in _canvasGroups.Where(canvasGroup => canvasGroup))
             {
-                if (!canvasGroup) 
-                    continue;
-                
                 canvasGroup.blocksRaycasts = false;
                 canvasGroup.interactable = false;
             }
@@ -56,10 +53,8 @@ namespace Code.UI.Game.CardSelection
             Sequence sequence = DOTween.Sequence().SetUpdate(true);
             _sequence = sequence;
 
-            foreach (CanvasGroup canvasGroup in _canvasGroups)
+            foreach (var canvasGroup in _canvasGroups.Where(canvasGroup => canvasGroup))
             {
-                if (!canvasGroup) 
-                    continue;
                 sequence.Join(canvasGroup
                     .DOFade(visible ? 1f : 0f, _duration)
                     .SetEase(_ease));

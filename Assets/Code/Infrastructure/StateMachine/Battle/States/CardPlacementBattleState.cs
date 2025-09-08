@@ -42,7 +42,6 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             _cardInputService.Disable();
         }
 
-
         public void Update()
         {
             

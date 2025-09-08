@@ -1,3 +1,4 @@
+using System;
 using Code.Services.Factories.UIFactory;
 using Code.Services.Input.Card;
 using Code.Services.Providers;
@@ -17,7 +18,7 @@ namespace Code.Services.CardSelection
 
         private ICardSelectionPM _cardSelectionPM;
         private CardSelectionWindow _cardSelectionWindow;
-        public System.Action Selected { get; set; }
+        public Action Selected { get; set; }
         
         public CardSelectionWindowService(
             IWindowService windowService,
@@ -41,6 +42,7 @@ namespace Code.Services.CardSelection
                 .Open(WindowTypeId.CardSelection)
                 .GetComponent<CardSelectionWindow>();
             _cardSelectionWindow.Initialize(_cardSelectionPM);
+            
             return _cardSelectionWindow;
         }
 
