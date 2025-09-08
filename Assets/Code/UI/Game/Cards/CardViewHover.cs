@@ -1,3 +1,4 @@
+using Code.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -6,8 +7,6 @@ namespace Code.UI.Game.Cards
 {
     public sealed class CardViewHover : MonoBehaviour
     {
-        private const string GlowEnabledProp = "_AlphaClip";
-
         [Header("Tween")]
         [SerializeField] private float _tweenDuration = 0.12f;
         [SerializeField] private Ease _tweenEase = Ease.OutQuad;
@@ -115,8 +114,7 @@ namespace Code.UI.Game.Cards
             if (_bgMaterial == null) 
                 return;
 
-            if (_bgMaterial.HasProperty(GlowEnabledProp))
-                _bgMaterial.SetFloat(GlowEnabledProp, on ? 0f : 1f);
+            _bgMaterial.SetGlowEnabled(on, resetPhase: true);
         }
 
         private void KillTweens()
