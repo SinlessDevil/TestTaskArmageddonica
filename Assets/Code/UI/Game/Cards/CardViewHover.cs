@@ -16,7 +16,7 @@ namespace Code.UI.Game.Cards
         [SerializeField] private float _endYOffset = 0f;
         [Header("Scale")]
         [SerializeField] private float _hoverScale = 1.07f;
-        [SerializeField] private float _shrinkScale = 0.95f;
+        [SerializeField] private float _shrinkScale = 0.55f;
         [Header("Refs")]
         [SerializeField] private RectTransform _root;
         [SerializeField] private Image _bgImage;

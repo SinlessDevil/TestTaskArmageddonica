@@ -60,7 +60,6 @@ namespace Code.UI.Game.CardSelection
 
         public void OnAddCardToHolder(CardView selected)
         {
-            Debug.Log("CardSelectionPM " + selected);
             _uiFactory.GameHud.CardHolder.AddCard(selected);
         }
         

@@ -96,7 +96,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
-    - _AlphaClip: 1
+    - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
@@ -114,13 +114,14 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _GlowEnabled: 1
+    - _GlowEnabled: 0
     - _GlowIntensity: 2
     - _GlowSize: 8
     - _GlowSoftness: 5
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _PulseKey: 0
     - _PulseSpeed: 1.75
     - _PulseStrength: 1.5
     - _QueueOffset: 0

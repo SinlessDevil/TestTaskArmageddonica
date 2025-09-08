@@ -104,10 +104,11 @@ namespace Code.Services.Input.Card
                 {
                     if (!IsDragging)
                         BeginDrag(view);
+                    
+                    view.HoverComponent.HighlightShrink();
                     break;
                 }
                 case TypeInput.Click:
-                    view.HoverComponent.HighlightShrink();
                     ClickPressed?.Invoke(view);
                     break;
             }

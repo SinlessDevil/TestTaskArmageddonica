@@ -86,11 +86,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef7545c0870083941886a0bfbb8fef56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hoverScale: 1.07
   _tweenDuration: 0.12
-  _endYOffset: 0
-  _startYOffset: -75
   _tweenEase: 1
+  _useUnscaledTime: 1
+  _startYOffset: -75
+  _endYOffset: 0
+  _hoverScale: 1.07
+  _shrinkScale: 0.5
   _root: {fileID: 8796931620791899240}
   _bgImage: {fileID: 8874169259796754342}
 --- !u!114 &4343303811158232146
