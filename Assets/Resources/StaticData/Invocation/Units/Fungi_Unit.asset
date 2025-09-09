@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fungi_Unit
   m_EditorClassIdentifier: 
   Id: Fungi
-  Prefab: {fileID: 4558253575625511845, guid: 91b5d5ead6cb5f045bb0139cedb0e524, type: 3}
+  Prefab: {fileID: 7839633962325119934, guid: 1d1d2ae288a5fdc47af9121276f9b155, type: 3}
   Rank: 3
   CardDefinition: 10
   InvocationType: 1

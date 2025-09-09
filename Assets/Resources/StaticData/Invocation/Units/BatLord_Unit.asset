@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BatLord_Unit
   m_EditorClassIdentifier: 
   Id: BatLord
-  Prefab: {fileID: 2156180079196364993, guid: 925d3151938a8f94fb61678f556ba81e, type: 3}
+  Prefab: {fileID: 7839633962325119934, guid: 6e7b871e19d42f9439a7ba00a4c8395e, type: 3}
   Rank: 6
   CardDefinition: 0
   InvocationType: 1

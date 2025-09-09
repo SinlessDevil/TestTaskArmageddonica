@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Mushroom_Unit
   m_EditorClassIdentifier: 
   Id: Mushroom
-  Prefab: {fileID: 49664409928230331, guid: 82dd4b3e48ff1974f92d0019f58a4f24, type: 3}
+  Prefab: {fileID: 7839633962325119934, guid: e2b3f2eb49a4a97489f3f59323def814, type: 3}
   Rank: 5
   CardDefinition: 9
   InvocationType: 1

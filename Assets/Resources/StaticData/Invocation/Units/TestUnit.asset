@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TestUnit
   m_EditorClassIdentifier: 
   Id: TestUnit
-  Prefab: {fileID: 0}
+  Prefab: {fileID: 1879423425736570296, guid: ff5e4dca40a2fcf41911ecef6877331b, type: 3}
   Rank: 0
   CardDefinition: 0
   InvocationType: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Chicken_Unit
   m_EditorClassIdentifier: 
   Id: Chicken
-  Prefab: {fileID: 6817621319531895399, guid: 5e40f61adf84057419bac8a31f745829, type: 3}
+  Prefab: {fileID: 7839633962325119934, guid: 5a488a80ef50a924cb715dac8d49f3fa, type: 3}
   Rank: 0
   CardDefinition: 1
   InvocationType: 1

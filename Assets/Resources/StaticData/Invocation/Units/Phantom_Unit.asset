@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Phantom_Unit
   m_EditorClassIdentifier: 
   Id: Phantom
-  Prefab: {fileID: 2611149553095981223, guid: add7e67fb68b0d54a9d9893bd0356223, type: 3}
+  Prefab: {fileID: 7839633962325119934, guid: 4e4a79c318a7fc343b78d703c5869d4d, type: 3}
   Rank: 7
   CardDefinition: 11
   InvocationType: 1

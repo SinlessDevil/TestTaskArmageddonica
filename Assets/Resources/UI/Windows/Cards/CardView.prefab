@@ -74,6 +74,7 @@ MonoBehaviour:
   _root: {fileID: 7514697312710856699}
   _hoverComponent: {fileID: 4155795755464497491}
   _canvasGroup: {fileID: 4354919340892952631}
+  _pointerComponent: {fileID: 4343303811158232146}
 --- !u!114 &4155795755464497491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,7 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01f448f4c570bbb4d99fbe406ff9bc14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _view: {fileID: 3921670883530151950}
 --- !u!1 &2673054442237709230
 GameObject:
   m_ObjectHideFlags: 0

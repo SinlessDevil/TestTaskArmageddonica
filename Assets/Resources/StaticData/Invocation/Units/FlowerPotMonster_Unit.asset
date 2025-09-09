@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FlowerPotMonster_Unit
   m_EditorClassIdentifier: 
   Id: FlowerPotMonster
-  Prefab: {fileID: 3491765107648122082, guid: da80564eb12e49148ad00f2d218dd90e, type: 3}
+  Prefab: {fileID: 7839633962325119934, guid: 7534f495d00e52b4787f3f35859b9ece, type: 3}
   Rank: 4
   CardDefinition: 8
   InvocationType: 1

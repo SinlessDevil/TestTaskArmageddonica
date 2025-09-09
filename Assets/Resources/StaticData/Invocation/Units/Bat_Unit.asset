@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bat_Unit
   m_EditorClassIdentifier: 
   Id: Bat
-  Prefab: {fileID: 1162074717683033587, guid: c60aa9f7bac665448b358145d95a6db4, type: 3}
+  Prefab: {fileID: 7839633962325119934, guid: d55b2f087cac408439acd49a697bff50, type: 3}
   Rank: 2
   CardDefinition: 3
   InvocationType: 1

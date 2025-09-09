@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Egg_Unit
   m_EditorClassIdentifier: 
   Id: Egg
-  Prefab: {fileID: 3295690693072712635, guid: 2a7aadcbb75c8e9499da81394f641c9f, type: 3}
+  Prefab: {fileID: 7839633962325119934, guid: 0f488496984010c4caa274825303374c, type: 3}
   Rank: 0
   CardDefinition: 5
   InvocationType: 1

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bee_Unit
   m_EditorClassIdentifier: 
   Id: Bee
-  Prefab: {fileID: 3198499350609119052, guid: 9992beb367802434fbe4638bb61476bb, type: 3}
+  Prefab: {fileID: 7839633962325119934, guid: 5c87b4e3543f15e40b56eaa6273e46cf, type: 3}
   Rank: 1
   CardDefinition: 2
   InvocationType: 1
