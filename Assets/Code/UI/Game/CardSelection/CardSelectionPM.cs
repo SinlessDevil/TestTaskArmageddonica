@@ -5,6 +5,7 @@ using Code.Services.Input.Card;
 using Code.Services.Providers;
 using Code.UI.Game.Cards;
 using Code.UI.Game.Cards.Holder;
+using Code.UI.Game.Cards.View;
 using UnityEngine;
 
 namespace Code.UI.Game.CardSelection

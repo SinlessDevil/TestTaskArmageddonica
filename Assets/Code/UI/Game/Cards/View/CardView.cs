@@ -1,8 +1,8 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
-namespace Code.UI.Game.Cards
+namespace Code.UI.Game.Cards.View
 {
     public class CardView : MonoBehaviour
     {

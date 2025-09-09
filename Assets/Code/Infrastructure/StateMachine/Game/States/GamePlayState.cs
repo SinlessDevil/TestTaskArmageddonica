@@ -8,6 +8,7 @@ using Code.Services.Providers.Widgets;
 using Code.Services.Timer;
 using Code.UI;
 using Code.UI.Game.Cards;
+using Code.UI.Game.Cards.View;
 using Services.Contex;
 using UnityEngine;
 

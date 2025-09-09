@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using Code.UI.Game.Cards;
+using Code.UI.Game.Cards.View;
 using UnityEngine;
 using UnityEngine.UI;
 

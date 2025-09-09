@@ -25,7 +25,7 @@ namespace Code.Services.Providers
 
             for (int i = 0; i < initialCount; i++)
             {
-                var item = CreateObject(Vector3.zero, Quaternion.identity, _defaultParent);
+                T item = CreateObject(Vector3.zero, Quaternion.identity, _defaultParent);
                 Deactivate(item);
             }
         }
@@ -88,10 +88,11 @@ namespace Code.Services.Providers
             return created;
         }
 
-        protected static void PrepareTransform(Transform tr, Vector3 pos, Quaternion rot, Transform parent)
+        protected static void PrepareTransform(Transform transform, Vector3 pos, Quaternion rot, Transform parent)
         {
-            if (parent) tr.SetParent(parent, worldPositionStays: false);
-            tr.SetPositionAndRotation(pos, rot);
+            if (parent) 
+                transform.SetParent(parent, worldPositionStays: false);
+            transform.SetPositionAndRotation(pos, rot);
         }
     }
 }

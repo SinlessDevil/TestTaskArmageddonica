@@ -37,6 +37,7 @@ using Code.Services.Timer;
 using Code.Services.Window;
 using Code.UI;
 using Code.UI.Game.Cards;
+using Code.UI.Game.Cards.View;
 using UnityEngine;
 using Zenject;
 using Application = UnityEngine.Application;

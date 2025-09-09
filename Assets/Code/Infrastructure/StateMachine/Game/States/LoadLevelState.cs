@@ -10,6 +10,7 @@ using Code.Services.StaticData;
 using Code.StaticData;
 using Code.UI;
 using Code.UI.Game.Cards;
+using Code.UI.Game.Cards.View;
 using Services.Contex;
 using UnityEngine;
 using Grid = Code.Logic.Grid.Grid;

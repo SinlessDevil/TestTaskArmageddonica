@@ -2,6 +2,7 @@ using Code.Logic.Grid;
 using Code.Services.Input.Card;
 using Code.Services.IInvocation.StaticData;
 using Code.UI.Game.Cards;
+using Code.UI.Game.Cards.View;
 using Services.Contex;
 using UnityEngine;
 using Zenject;

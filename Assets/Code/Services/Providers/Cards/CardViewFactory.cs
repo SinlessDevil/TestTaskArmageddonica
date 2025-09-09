@@ -1,5 +1,6 @@
 using Code.Services.Factories.UIFactory;
 using Code.UI.Game.Cards;
+using Code.UI.Game.Cards.View;
 using UnityEngine;
 
 namespace Code.Services.Providers.Cards

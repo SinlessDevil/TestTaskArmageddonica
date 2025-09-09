@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Zenject;
 
-namespace Code.UI.Game.Cards
+namespace Code.UI.Game.Cards.View
 {
     public class CardViewPointer : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, 
         IPointerUpHandler

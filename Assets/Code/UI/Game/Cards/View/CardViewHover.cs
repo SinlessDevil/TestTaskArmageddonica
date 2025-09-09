@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-namespace Code.UI.Game.Cards
+namespace Code.UI.Game.Cards.View
 {
     public sealed class CardViewHover : MonoBehaviour
     {

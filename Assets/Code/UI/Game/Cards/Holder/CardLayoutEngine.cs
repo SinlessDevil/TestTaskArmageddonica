@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading;
 using System.Collections.Generic;
 using Code.UI.Game.Cards.Extensions;
+using Code.UI.Game.Cards.View;
 using UnityEngine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;

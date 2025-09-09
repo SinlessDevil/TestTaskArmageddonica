@@ -4,6 +4,7 @@ using Code.Services.Factories.UIFactory;
 using Code.Services.Input.Grid;
 using Code.UI.Game;
 using Code.UI.Game.Cards;
+using Code.UI.Game.Cards.View;
 using UnityEngine;
 using DG.Tweening;
 

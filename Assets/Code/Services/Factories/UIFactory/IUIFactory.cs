@@ -1,6 +1,7 @@
 ﻿using Code.UI;
 using Code.UI.Game;
 using Code.UI.Game.Cards;
+using Code.UI.Game.Cards.View;
 using Code.UI.Menu;
 using Code.UI.Menu.Windows.Map;
 using Code.Window;
