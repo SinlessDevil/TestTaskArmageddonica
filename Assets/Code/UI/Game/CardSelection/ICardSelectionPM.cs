@@ -15,5 +15,6 @@ namespace Code.UI.Game.CardSelection
         List<CardView> GetCards();
         void OnRollCards();
         void OnAddCardToHolder(CardView selected);
+        void Dispose();
     }
 }

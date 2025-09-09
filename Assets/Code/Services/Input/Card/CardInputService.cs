@@ -3,7 +3,7 @@ using Code.Logic.Grid;
 using Code.Services.Factories.UIFactory;
 using Code.Services.Input.Grid;
 using Code.UI.Game;
-using Code.UI.Game.Cards;
+using Code.UI.Game.Cards.PM;
 using Code.UI.Game.Cards.View;
 using UnityEngine;
 using DG.Tweening;
@@ -34,7 +34,7 @@ namespace Code.Services.Input.Card
             _uiFactory = uiFactory;
         }
 
-        public event Action<CardView, Cell> DroppedOnCell;
+        public event Action<CardView, ICardPM, Cell> DroppedOnCell;
         public event Action<CardView> ClickPressed;
         public event Action<CardView> ClickReleased;
 
@@ -68,7 +68,7 @@ namespace Code.Services.Input.Card
             IsEnabled = false;
         }
 
-        public void PointerEnter(CardView view)
+        public void PointerEnter(CardView view, ICardPM cardPM)
         {
             if (!IsEnabled || view == null)
                 return;
@@ -79,7 +79,7 @@ namespace Code.Services.Input.Card
                 view.HoverComponent.HighlightOn();
         }
 
-        public void PointerExit(CardView view)
+        public void PointerExit(CardView view, ICardPM cardPM)
         {
             if (!IsEnabled || view == null)
                 return;
@@ -94,7 +94,7 @@ namespace Code.Services.Input.Card
                 
         }
 
-        public void PointerDown(CardView view)
+        public void PointerDown(CardView view, ICardPM cardPM)
         {
             if (!IsEnabled || view == null)
                 return;
@@ -115,7 +115,7 @@ namespace Code.Services.Input.Card
             }
         }
 
-        public void PointerUp(CardView view)
+        public void PointerUp(CardView view, ICardPM cardPM)
         {
             if (!IsEnabled || view == null) 
                 return;
@@ -199,7 +199,7 @@ namespace Code.Services.Input.Card
 
             if (cellOrNull != null)
             {
-                DroppedOnCell?.Invoke(_dragCard, cellOrNull);
+                DroppedOnCell?.Invoke(_dragCard, _dragCard.CardPM, cellOrNull);
 
                 _dragRT.DOKill();
                 _dragRT.DOScale(_origScale, 0.08f).SetUpdate(true);
@@ -214,7 +214,7 @@ namespace Code.Services.Input.Card
                 _returnTw?.Kill();
                 _returnTw = _dragRT.DOAnchorPos(_origAnchoredPos, 0.15f)
                     .SetEase(Ease.OutQuad)
-                    .OnComplete(() => { DroppedOnCell?.Invoke(_dragCard, null); })
+                    .OnComplete(() => { DroppedOnCell?.Invoke(_dragCard, _dragCard.CardPM, null); })
                     .SetUpdate(true);
 
                 _dragRT.DOScale(_origScale, 0.12f).SetUpdate(true);

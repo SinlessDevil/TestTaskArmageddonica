@@ -2,7 +2,7 @@ using Code.Logic.Points;
 using UnityEngine;
 using Grid = Code.Logic.Grid.Grid;
 
-namespace Services.Contex
+namespace Code.Services.Context
 {
     public interface IGameContext
     {

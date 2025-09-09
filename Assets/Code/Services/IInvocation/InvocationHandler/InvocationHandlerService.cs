@@ -1,11 +1,14 @@
+using System;
 using Code.Logic.Grid;
+using Code.Logic.Invocation;
+using Code.Services.Context;
+using Code.Services.IInvocation.InvocationHandler;
 using Code.Services.Input.Card;
 using Code.Services.IInvocation.StaticData;
-using Code.UI.Game.Cards;
+using Code.UI.Game.Cards.PM;
 using Code.UI.Game.Cards.View;
-using Services.Contex;
 using UnityEngine;
-using Zenject;
+using Object = UnityEngine.Object;
 
 namespace Code.Services.IInvocation.InvocationHandle
 {
@@ -25,32 +28,38 @@ namespace Code.Services.IInvocation.InvocationHandle
             _cardInputService = cardInputService;
         }
 
+        public event Action InvocationSpawnedEvent;
+
         public void Initialize()
         {
             _cardInputService.DroppedOnCell += OnCardDroppedOnCell;
         }
 
-        public void Cleanup()
+        public void Dispose()
         {
             _cardInputService.DroppedOnCell -= OnCardDroppedOnCell;
         }
 
-        private void OnCardDroppedOnCell(CardView cardView, Cell targetCell)
+        private Invocation GetInvocation(ICardPM cardPM, Cell targetCell)
         {
-            if (targetCell == null) return;
-            SpawnInvocation(cardView, targetCell);
+            Vector3 spawnPosition = GetSpawnPosition(targetCell);
+            GameObject invocationObject = Object.Instantiate(cardPM.DTO.Prefab, spawnPosition, Quaternion.identity);
+            Invocation invocation = invocationObject.GetComponent<Invocation>();
+            invocation.transform.position = spawnPosition;
+            return invocation;
         }
 
-        public void SpawnInvocation(CardView cardView, Cell targetCell)
+        private void OnCardDroppedOnCell(CardView cardView, ICardPM cardPM, Cell targetCell)
         {
-            var spawnPosition = GetSpawnPosition(targetCell);
-            var spawnedObject = new GameObject($"Invocation_{cardView.name}");
-            spawnedObject.transform.position = spawnPosition;
+            if (targetCell == null) 
+                return;
+            
+            Invocation invocation = GetInvocation(cardPM, targetCell);
+            targetCell.SetInvocation(invocation);
+            
+            InvocationSpawnedEvent?.Invoke();
         }
 
-        private Vector3 GetSpawnPosition(Cell targetCell)
-        {
-            return targetCell.transform.position + Vector3.up * 0.5f;
-        }
+        private Vector3 GetSpawnPosition(Cell targetCell) => targetCell.transform.position + Vector3.up * 0.5f;
     }
 }

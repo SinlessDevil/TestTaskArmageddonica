@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Code.Services.Factories.UIFactory;
 using Code.Services.Input.Card;
-using Code.Services.Providers;
-using Code.UI.Game.Cards;
-using Code.UI.Game.Cards.Holder;
+using Code.Services.Providers.CardComposites;
 using Code.UI.Game.Cards.View;
-using UnityEngine;
 
 namespace Code.UI.Game.CardSelection
 {
@@ -14,16 +12,18 @@ namespace Code.UI.Game.CardSelection
     {
         private const int CountCards = 3;
         
-        private readonly IPoolProvider<CardView> _cardProvider;
+        private List<CardComposite> _currentCards = new(3);
+        
+        private readonly ICardCompositeProvider _cardCompositeProvider;
         private readonly IUIFactory _uiFactory;
         private readonly ICardInputService _cardInputService;
 
         public CardSelectionPM(
-            IPoolProvider<CardView> cardProvider,
+            ICardCompositeProvider cardCompositeProvider,
             IUIFactory uiFactory,
             ICardInputService cardInputService)
         {
-            _cardProvider = cardProvider;
+            _cardCompositeProvider = cardCompositeProvider;
             _uiFactory = uiFactory;
             _cardInputService = cardInputService;
         }
@@ -31,42 +31,32 @@ namespace Code.UI.Game.CardSelection
         public event Action RolledCardsEvent;
         public event Action<CardView> SellectedCardViewEvent;
 
-        public void Subscribe()
-        {
-            _cardInputService.ClickReleased += OnSelectCardView;
-        }
+        public void Subscribe() => _cardInputService.ClickReleased += OnSelectCardView;
 
-        public void Unsubscribe()
-        {
-            _cardInputService.ClickReleased -= OnSelectCardView;
-        }
-
-        public CardHolder GetCardHolder()
-        {
-            return _uiFactory.GameHud.CardHolder;
-        }
+        public void Unsubscribe() => _cardInputService.ClickReleased -= OnSelectCardView;
 
         public List<CardView> GetCards()
         {
-            List<CardView> cards = new List<CardView>(CountCards);
-            for (int i = 0; i < CountCards; i++)
-                cards.Add(_cardProvider.Get(Vector3.zero, Quaternion.identity,null));
-            return cards;
+            ReturnCurrentCards();
+            _currentCards = _cardCompositeProvider.CreateRandomUnitCards(CountCards);
+            return _currentCards.Select(cardComposite => cardComposite.View).ToList();
         }
 
-        public void OnRollCards()
-        {
-            RolledCardsEvent?.Invoke();
-        }
+        public void OnRollCards() => RolledCardsEvent?.Invoke();
 
-        public void OnAddCardToHolder(CardView selected)
+        public void OnAddCardToHolder(CardView selected) => _uiFactory.GameHud.CardHolder.AddCard(selected);
+
+        private void OnSelectCardView(CardView view) => SellectedCardViewEvent?.Invoke(view);
+
+        private void ReturnCurrentCards()
         {
-            _uiFactory.GameHud.CardHolder.AddCard(selected);
+            if (_currentCards.Count <= 0) 
+                return;
+            
+            _cardCompositeProvider.ReturnCardComposites(_currentCards);
+            _currentCards.Clear();
         }
         
-        private void OnSelectCardView(CardView view)
-        {
-            SellectedCardViewEvent?.Invoke(view);
-        }
+        public void Dispose() => ReturnCurrentCards();
     }
 }

@@ -1,6 +1,7 @@
 using Code.Infrastructure.StateMachine.Game.States;
 using Code.Logic.Grid;
 using Code.Services.CameraController;
+using Code.Services.Context;
 using Code.Services.Factories.Grid;
 using Code.Services.Factories.UIFactory;
 using Code.Services.Input.Card;
@@ -8,7 +9,6 @@ using Code.Services.Input.Grid;
 using Code.Services.Levels;
 using Code.StaticData.Levels;
 using Code.UI.Game.Cards.Holder;
-using Services.Contex;
 using UnityEngine;
 using Grid = Code.Logic.Grid.Grid;
 

@@ -20,12 +20,15 @@ namespace Code.UI.Game.Cards.View
         [SerializeField] private RectTransform _root;
         [SerializeField] private CardViewHover _hoverComponent;
         [SerializeField] private CanvasGroup _canvasGroup;
+        [SerializeField] private CardViewPointer _pointerComponent;
         
         private ICardPM _cardPM;
 
         public void Initialize(ICardPM cardPM)
         {
             _cardPM = cardPM;
+            
+            _pointerComponent.Initialize(this, _cardPM);
             
             SetupCardComponents();
         }

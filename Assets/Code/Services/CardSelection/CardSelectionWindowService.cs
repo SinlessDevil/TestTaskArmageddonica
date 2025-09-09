@@ -1,7 +1,7 @@
 using System;
 using Code.Services.Factories.UIFactory;
 using Code.Services.Input.Card;
-using Code.Services.Providers;
+using Code.Services.Providers.CardComposites;
 using Code.Services.Window;
 using Code.UI.Game.Cards;
 using Code.UI.Game.Cards.View;
@@ -14,7 +14,7 @@ namespace Code.Services.CardSelection
     {
         private readonly IWindowService _windowService;
         private readonly IUIFactory _uiFactory;
-        private readonly IPoolProvider<CardView> _poolProvider;
+        private readonly ICardCompositeProvider _cardCompositeProvider;
         private readonly ICardInputService _cardInputService;
 
         private ICardSelectionPM _cardSelectionPM;
@@ -24,18 +24,18 @@ namespace Code.Services.CardSelection
         public CardSelectionWindowService(
             IWindowService windowService,
             IUIFactory uiFactory,
-            IPoolProvider<CardView> poolProvider,
+            ICardCompositeProvider cardCompositeProvider,
             ICardInputService cardInputService)
         {
             _windowService = windowService;
             _uiFactory = uiFactory;
-            _poolProvider = poolProvider;
+            _cardCompositeProvider = cardCompositeProvider;
             _cardInputService = cardInputService;
         }
 
         public CardSelectionWindow Open()
         {
-            _cardSelectionPM = new CardSelectionPM(_poolProvider, _uiFactory, _cardInputService);
+            _cardSelectionPM = new CardSelectionPM(_cardCompositeProvider, _uiFactory, _cardInputService);
             _cardSelectionPM.Subscribe();
             _cardSelectionPM.SellectedCardViewEvent += OnSelected;
             
@@ -51,6 +51,7 @@ namespace Code.Services.CardSelection
         {
             _cardSelectionPM.SellectedCardViewEvent -= OnSelected;
             _cardSelectionPM.Unsubscribe();
+            _cardSelectionPM.Dispose();
             _cardSelectionPM = null;
 
             _cardSelectionWindow.Dispose();

@@ -40,7 +40,6 @@ namespace Code.Services.Providers.CardComposites
                 CardPM cardPM = new CardPM(unitDTO, _staticDataService);
                 CardView cardView = _cardViewProvider.Get(Vector3.zero, Quaternion.identity);
                 cardView.Initialize(cardPM);
-                
                 CardComposite cardComposite = new CardComposite(cardView, cardPM);
                 cardComposites.Add(cardComposite);
             }
@@ -54,7 +53,6 @@ namespace Code.Services.Providers.CardComposites
                 return;
             
             cardComposite.View.Dispose();
-            
             _cardViewProvider.Return(cardComposite.View);
         }
         

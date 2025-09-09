@@ -1,6 +1,7 @@
 using Code.Infrastructure.StateMachine.Game.States;
 using Code.Services.CameraController;
 using Code.Services.Factories.UIFactory;
+using Code.Services.IInvocation.InvocationHandler;
 using Code.Services.Input.Card;
 using Code.Services.Input.Grid;
 using Code.UI.Game.Cards.Holder;
@@ -13,17 +14,23 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         private readonly ICardInputService _cardInputService;
         private readonly IUIFactory _uiFactory;
         private readonly ICameraDirector _cameraDirector;
+        private readonly IInvocationHandlerService _invocationHandlerService;
+        private readonly IStateMachine<IBattleState> _stateMachine;
 
         public CardPlacementBattleState(
             IGridInputService gridInputService,
             ICardInputService cardInputService,
             IUIFactory uiFactory,
-            ICameraDirector cameraDirector)
+            ICameraDirector cameraDirector,
+            IInvocationHandlerService invocationHandlerService,
+            IStateMachine<IBattleState> stateMachine)
         {
             _gridInputService = gridInputService;
             _cardInputService = cardInputService;
             _uiFactory = uiFactory;
             _cameraDirector = cameraDirector;
+            _invocationHandlerService = invocationHandlerService;
+            _stateMachine = stateMachine;
         }
         
         public void Enter()
@@ -36,10 +43,16 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             _cameraDirector.FocusSelectedShotAsync();
             
             CardHolder.Show();
+            
+            _invocationHandlerService.Initialize();
+            _invocationHandlerService.InvocationSpawnedEvent += OnPlayBattleState;
         }
 
         public void Exit()
         {
+            _invocationHandlerService.InvocationSpawnedEvent -= OnPlayBattleState;
+            _invocationHandlerService.Dispose();
+            
             _gridInputService.Disable();
             _cardInputService.Disable();
         }
@@ -47,6 +60,11 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         public void Update()
         {
             
+        }
+
+        private void OnPlayBattleState()
+        {
+            _stateMachine.Enter<CardPlacementBattleState>();
         }
         
         private CardHolder CardHolder => _uiFactory.GameHud.CardHolder;

@@ -26,6 +26,7 @@ namespace Code.UI.Game.CardSelection
         public void Initialize(ICardSelectionPM cardSelectionPm)
         {
             _cardSelectionPM = cardSelectionPm;
+            
             Subscribe();
             SetCards(_cardSelectionPM.GetCards());
             
@@ -121,11 +122,7 @@ namespace Code.UI.Game.CardSelection
                 return;
 
             Vector2[] positions = Cards.Extensions.CardLayoutExtensions.CalculateCenteredRowPositions(
-                root,
-                count,
-                _cardWidth,
-                _cardSpacing,
-                _verticalOffset);
+                root, count, _cardWidth, _cardSpacing, _verticalOffset);
 
             int i = 0;
             foreach (CardView card in cards)

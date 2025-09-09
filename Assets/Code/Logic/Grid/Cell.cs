@@ -5,12 +5,19 @@ namespace Code.Logic.Grid
     public class Cell : MonoBehaviour
     {
         [SerializeField] private CellStateController stateController;
-
+        
         public void Initialize()
         {
             stateController?.Initialize();
         }
 
+        public Invocation.Invocation Invocation { get; private set; }
+        
+        public void SetInvocation(Invocation.Invocation invocation)
+        {
+            Invocation = invocation;
+        }
+        
         public TypeStateCell StateCell => stateController?.CurrentState ?? TypeStateCell.Empty;
         
         public void SetEmptyState()
