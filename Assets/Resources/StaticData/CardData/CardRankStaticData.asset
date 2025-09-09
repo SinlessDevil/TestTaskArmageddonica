@@ -16,26 +16,26 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 21300000, guid: 386c94c26d6904e8fa68371eebbbaaf4, type: 3}
     - {fileID: 21300000, guid: c1462da7a36674526a071ec6f22fab52, type: 3}
-    - {fileID: 21300000, guid: 972a7ac4ffe344cb6b704a35f2a6d631, type: 3}
-    - {fileID: 21300000, guid: b1286ed66b2d34d139981e82f1faa2b2, type: 3}
     - {fileID: 21300000, guid: f7884d0b9b5314107ad7aef8dcc7e9ea, type: 3}
-    - {fileID: 21300000, guid: 8acfeb5a6583a438f96e712889558795, type: 3}
+    - {fileID: 21300000, guid: b1286ed66b2d34d139981e82f1faa2b2, type: 3}
     - {fileID: 21300000, guid: 325a48202e6e041f39127550bd056254, type: 3}
-    - {fileID: 21300000, guid: 86d0790b0869c473d9879d4408f43b13, type: 3}
+    - {fileID: 21300000, guid: 8acfeb5a6583a438f96e712889558795, type: 3}
     - {fileID: 21300000, guid: 6e98f8cfb669547729ad62d17b9feac6, type: 3}
-    - {fileID: 21300000, guid: bb2001a8e9e3e4d0bbae5ce24bee1d42, type: 3}
+    - {fileID: 21300000, guid: 86d0790b0869c473d9879d4408f43b13, type: 3}
     - {fileID: 21300000, guid: 72c31e1c0f0fc41fe8faf9c7dd53a874, type: 3}
-    - {fileID: 21300000, guid: d40cda0d1575b44af81c6532bec4cebc, type: 3}
-    - {fileID: 21300000, guid: 5715e882016324a0dbd6f90c009e3550, type: 3}
-    - {fileID: 21300000, guid: 405cdb855ae684b89901d52ea43f59fe, type: 3}
-    - {fileID: 21300000, guid: faab2a7b64954475c846e64886f97afd, type: 3}
-    - {fileID: 21300000, guid: 44006e8ee633b4f7a8b0d415bf8dbf1c, type: 3}
-    - {fileID: 21300000, guid: 4d1dfd69b7755442697f28d60a980d8c, type: 3}
-    - {fileID: 21300000, guid: 538daf39402b84b659044ae43ee18af4, type: 3}
+    - {fileID: 21300000, guid: bb2001a8e9e3e4d0bbae5ce24bee1d42, type: 3}
     - {fileID: 21300000, guid: 1d45198fc4e854b62896651cefb17e61, type: 3}
-    - {fileID: 21300000, guid: 13b2b392666aa4e439f3d5d38e320a37, type: 3}
+    - {fileID: 21300000, guid: 538daf39402b84b659044ae43ee18af4, type: 3}
+    - {fileID: 21300000, guid: 5715e882016324a0dbd6f90c009e3550, type: 3}
+    - {fileID: 21300000, guid: d40cda0d1575b44af81c6532bec4cebc, type: 3}
+    - {fileID: 21300000, guid: 4d1dfd69b7755442697f28d60a980d8c, type: 3}
+    - {fileID: 21300000, guid: 44006e8ee633b4f7a8b0d415bf8dbf1c, type: 3}
     - {fileID: 21300000, guid: a86a2e35d278541428b160555e29bcae, type: 3}
+    - {fileID: 21300000, guid: 13b2b392666aa4e439f3d5d38e320a37, type: 3}
+    - {fileID: 21300000, guid: faab2a7b64954475c846e64886f97afd, type: 3}
+    - {fileID: 21300000, guid: 405cdb855ae684b89901d52ea43f59fe, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -44,7 +44,7 @@ MonoBehaviour:
     - Name: CardDataRankCollection
       Entry: 7
       Data: 0|System.Collections.Generic.Dictionary`2[[Code.StaticData.Cards.CardRankType,
-        Game],[Code.StaticData.Cards.CardData, Game]], mscorlib
+        Game],[Code.StaticData.Cards.Rank.CardRankData, Game]], mscorlib
     - Name: comparer
       Entry: 7
       Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Code.StaticData.Cards.CardRankType,
@@ -69,22 +69,22 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 7
-      Data: 2|Code.StaticData.Cards.CardData, Game
+      Data: Code.StaticData.Cards.Rank.CardRankData, Game
     - Name: RankText
       Entry: 1
-      Data: E
+      Data: C
     - Name: Color
       Entry: 7
       Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0.745283
+      Data: 0.5943396
     - Name: 
       Entry: 4
-      Data: 0.745283
+      Data: 0.5943396
     - Name: 
       Entry: 4
-      Data: 0.745283
+      Data: 0.5943396
     - Name: 
       Entry: 4
       Data: 0.5019608
@@ -96,7 +96,7 @@ MonoBehaviour:
       Data: 0
     - Name: BodySprite
       Entry: 10
-      Data: 1
+      Data: 0
     - Name: BgLevelSprite
       Entry: 10
       Data: 1
@@ -114,22 +114,22 @@ MonoBehaviour:
       Data: 1
     - Name: $v
       Entry: 7
-      Data: 3|Code.StaticData.Cards.CardData, Game
+      Data: Code.StaticData.Cards.Rank.CardRankData, Game
     - Name: RankText
       Entry: 1
-      Data: D
+      Data: B
     - Name: Color
       Entry: 7
       Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0.3768207
+      Data: 0
     - Name: 
       Entry: 4
-      Data: 0.9716981
+      Data: 1
     - Name: 
       Entry: 4
-      Data: 0.33459416
+      Data: 0.08628178
     - Name: 
       Entry: 4
       Data: 0.5019608
@@ -141,7 +141,7 @@ MonoBehaviour:
       Data: 2
     - Name: BodySprite
       Entry: 10
-      Data: 3
+      Data: 2
     - Name: BgLevelSprite
       Entry: 10
       Data: 3
@@ -159,19 +159,19 @@ MonoBehaviour:
       Data: 2
     - Name: $v
       Entry: 7
-      Data: 4|Code.StaticData.Cards.CardData, Game
+      Data: Code.StaticData.Cards.Rank.CardRankData, Game
     - Name: RankText
       Entry: 1
-      Data: C
+      Data: A
     - Name: Color
       Entry: 7
       Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0.193396211
+      Data: 0.1273585
     - Name: 
       Entry: 4
-      Data: 0.7387059
+      Data: 0.7910339
     - Name: 
       Entry: 4
       Data: 1
@@ -186,7 +186,7 @@ MonoBehaviour:
       Data: 4
     - Name: BodySprite
       Entry: 10
-      Data: 5
+      Data: 4
     - Name: BgLevelSprite
       Entry: 10
       Data: 5
@@ -204,22 +204,22 @@ MonoBehaviour:
       Data: 3
     - Name: $v
       Entry: 7
-      Data: 5|Code.StaticData.Cards.CardData, Game
+      Data: Code.StaticData.Cards.Rank.CardRankData, Game
     - Name: RankText
       Entry: 1
-      Data: B
+      Data: S
     - Name: Color
       Entry: 7
       Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0.691742241
+      Data: 0.7050457
     - Name: 
       Entry: 4
-      Data: 0.371262
+      Data: 0
     - Name: 
       Entry: 4
-      Data: 0.9716981
+      Data: 1
     - Name: 
       Entry: 4
       Data: 0.5019608
@@ -231,7 +231,7 @@ MonoBehaviour:
       Data: 6
     - Name: BodySprite
       Entry: 10
-      Data: 7
+      Data: 6
     - Name: BgLevelSprite
       Entry: 10
       Data: 7
@@ -249,10 +249,10 @@ MonoBehaviour:
       Data: 4
     - Name: $v
       Entry: 7
-      Data: 6|Code.StaticData.Cards.CardData, Game
+      Data: Code.StaticData.Cards.Rank.CardRankData, Game
     - Name: RankText
       Entry: 1
-      Data: A
+      Data: SS
     - Name: Color
       Entry: 7
       Data: UnityEngine.Color, UnityEngine.CoreModule
@@ -261,10 +261,10 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 4
-      Data: 0.4305535
+      Data: 0.5001359
     - Name: 
       Entry: 4
-      Data: 0.117924511
+      Data: 0
     - Name: 
       Entry: 4
       Data: 0.5019608
@@ -276,7 +276,7 @@ MonoBehaviour:
       Data: 8
     - Name: BodySprite
       Entry: 10
-      Data: 9
+      Data: 8
     - Name: BgLevelSprite
       Entry: 10
       Data: 9
@@ -294,10 +294,10 @@ MonoBehaviour:
       Data: 5
     - Name: $v
       Entry: 7
-      Data: 7|Code.StaticData.Cards.CardData, Game
+      Data: Code.StaticData.Cards.Rank.CardRankData, Game
     - Name: RankText
       Entry: 1
-      Data: S
+      Data: SSS
     - Name: Color
       Entry: 7
       Data: UnityEngine.Color, UnityEngine.CoreModule
@@ -306,10 +306,10 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 4
-      Data: 0.248229355
+      Data: 0
     - Name: 
       Entry: 4
-      Data: 0.21226418
+      Data: 0.7741265
     - Name: 
       Entry: 4
       Data: 0.5019608
@@ -321,7 +321,7 @@ MonoBehaviour:
       Data: 10
     - Name: BodySprite
       Entry: 10
-      Data: 11
+      Data: 10
     - Name: BgLevelSprite
       Entry: 10
       Data: 11
@@ -339,22 +339,22 @@ MonoBehaviour:
       Data: 6
     - Name: $v
       Entry: 7
-      Data: 8|Code.StaticData.Cards.CardData, Game
+      Data: Code.StaticData.Cards.Rank.CardRankData, Game
     - Name: RankText
       Entry: 1
-      Data: SS
+      Data: X
     - Name: Color
       Entry: 7
       Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0.160377383
+      Data: 1
     - Name: 
       Entry: 4
-      Data: 0.160377383
+      Data: 0
     - Name: 
       Entry: 4
-      Data: 0.160377383
+      Data: 0
     - Name: 
       Entry: 4
       Data: 0.5019608
@@ -366,7 +366,7 @@ MonoBehaviour:
       Data: 12
     - Name: BodySprite
       Entry: 10
-      Data: 13
+      Data: 12
     - Name: BgLevelSprite
       Entry: 10
       Data: 13
@@ -384,22 +384,22 @@ MonoBehaviour:
       Data: 7
     - Name: $v
       Entry: 7
-      Data: 9|Code.StaticData.Cards.CardData, Game
+      Data: Code.StaticData.Cards.Rank.CardRankData, Game
     - Name: RankText
       Entry: 1
-      Data: SSS
+      Data: XX
     - Name: Color
       Entry: 7
       Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 0.3915094
+      Data: 0.3537736
     - Name: 
       Entry: 4
       Data: 1
     - Name: 
       Entry: 4
-      Data: 0.7011782
+      Data: 0.5442705
     - Name: 
       Entry: 4
       Data: 0.5019608
@@ -411,7 +411,7 @@ MonoBehaviour:
       Data: 14
     - Name: BodySprite
       Entry: 10
-      Data: 15
+      Data: 14
     - Name: BgLevelSprite
       Entry: 10
       Data: 15
@@ -429,10 +429,10 @@ MonoBehaviour:
       Data: 8
     - Name: $v
       Entry: 7
-      Data: 10|Code.StaticData.Cards.CardData, Game
+      Data: Code.StaticData.Cards.Rank.CardRankData, Game
     - Name: RankText
       Entry: 1
-      Data: EX
+      Data: XXX
     - Name: Color
       Entry: 7
       Data: UnityEngine.Color, UnityEngine.CoreModule
@@ -441,10 +441,10 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 4
-      Data: 0.28773582
+      Data: 0.86603415
     - Name: 
       Entry: 4
-      Data: 0.685743451
+      Data: 0
     - Name: 
       Entry: 4
       Data: 0.5019608
@@ -456,7 +456,7 @@ MonoBehaviour:
       Data: 16
     - Name: BodySprite
       Entry: 10
-      Data: 17
+      Data: 16
     - Name: BgLevelSprite
       Entry: 10
       Data: 17
@@ -474,7 +474,7 @@ MonoBehaviour:
       Data: 9
     - Name: $v
       Entry: 7
-      Data: 11|Code.StaticData.Cards.CardData, Game
+      Data: Code.StaticData.Cards.Rank.CardRankData, Game
     - Name: RankText
       Entry: 1
       Data: "\u03A9"
@@ -483,13 +483,13 @@ MonoBehaviour:
       Data: UnityEngine.Color, UnityEngine.CoreModule
     - Name: 
       Entry: 4
-      Data: 1
+      Data: 0.1792453
     - Name: 
       Entry: 4
-      Data: 0.9878745
+      Data: 0.1792453
     - Name: 
       Entry: 4
-      Data: 0.334905684
+      Data: 0.1792453
     - Name: 
       Entry: 4
       Data: 0.5019608
@@ -501,7 +501,7 @@ MonoBehaviour:
       Data: 18
     - Name: BodySprite
       Entry: 10
-      Data: 19
+      Data: 18
     - Name: BgLevelSprite
       Entry: 10
       Data: 19

@@ -9,5 +9,6 @@ namespace Code.StaticData.Cards
         Bird = 4,
         Egg = 5,
         Fledgling,
+        BatLoad,
     }
 }
