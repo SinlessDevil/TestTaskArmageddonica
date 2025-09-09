@@ -15,5 +15,5 @@ MonoBehaviour:
   Id: Egg
   Prefab: {fileID: 3295690693072712635, guid: 2a7aadcbb75c8e9499da81394f641c9f, type: 3}
   Rank: 0
-  CardDefinition: 0
+  CardDefinition: 5
   InvocationType: 1

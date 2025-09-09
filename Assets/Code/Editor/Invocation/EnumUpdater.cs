@@ -1,5 +1,5 @@
+using System;
 using System.IO;
-using System.Text;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,18 +7,17 @@ namespace Code.Editor.Invocation
 {
     public static class EnumUpdater
     {
-        private const string CARD_DEFINITION_TYPE_PATH = "Assets/Code/StaticData/Cards/Definition/CardDefinitionType.cs";
+        private const string CardDefinitionTypePath = "Assets/Code/StaticData/Cards/Definition/CardDefinitionType.cs";
         
         public static void AddCardDefinitionType(string cardName)
         {
             if (string.IsNullOrEmpty(cardName))
                 return;
-                
-            // Проверяем, существует ли уже такое значение в enum
+            
             if (CardDefinitionTypeExists(cardName))
                 return;
                 
-            string enumFilePath = CARD_DEFINITION_TYPE_PATH;
+            string enumFilePath = CardDefinitionTypePath;
             
             if (!File.Exists(enumFilePath))
             {
@@ -31,7 +30,6 @@ namespace Code.Editor.Invocation
                 string content = File.ReadAllText(enumFilePath);
                 string newEnumValue = $"        {cardName},";
                 
-                // Находим последнее значение enum и добавляем новое
                 int lastCommaIndex = content.LastIndexOf(',');
                 if (lastCommaIndex != -1)
                 {
@@ -39,7 +37,6 @@ namespace Code.Editor.Invocation
                 }
                 else
                 {
-                    // Если нет запятых, добавляем после открывающей скобки
                     int openBraceIndex = content.IndexOf('{');
                     if (openBraceIndex != -1)
                     {
@@ -48,15 +45,14 @@ namespace Code.Editor.Invocation
                 }
                 
                 File.WriteAllText(enumFilePath, content);
-                AssetDatabase.Refresh();
                 
-                // Принудительно обновляем компиляцию
                 AssetDatabase.ImportAsset(enumFilePath);
+                AssetDatabase.Refresh();
                 EditorUtility.RequestScriptReload();
                 
-                Debug.Log($"Added {cardName} to CardDefinitionType enum");
+                Debug.Log($"Added {cardName} to CardDefinitionType enum and requested script reload");
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Debug.LogError($"Failed to update CardDefinitionType enum: {e.Message}");
             }
@@ -64,7 +60,7 @@ namespace Code.Editor.Invocation
         
         private static bool CardDefinitionTypeExists(string cardName)
         {
-            string enumFilePath = CARD_DEFINITION_TYPE_PATH;
+            string enumFilePath = CardDefinitionTypePath;
             
             if (!File.Exists(enumFilePath))
                 return false;
@@ -80,31 +76,13 @@ namespace Code.Editor.Invocation
             }
         }
         
-        public static void UpdateCardDefinitionTypeEnum()
-        {
-            // Находим все CardDefinitionStaticData файлы
-            string[] guids = AssetDatabase.FindAssets("t:CardDefinitionStaticData");
-            
-            foreach (string guid in guids)
-            {
-                string path = AssetDatabase.GUIDToAssetPath(guid);
-                var cardDefinition = AssetDatabase.LoadAssetAtPath<Code.StaticData.Cards.CardDefinitionStaticData>(path);
-                
-                if (cardDefinition != null && !string.IsNullOrEmpty(cardDefinition.Name))
-                {
-                    AddCardDefinitionType(cardDefinition.Name);
-                }
-            }
-        }
-        
         public static bool IsCardDefinitionTypeExists(string cardName)
         {
             try
             {
-                // Пытаемся найти значение через рефлексию
-                var enumType = typeof(Code.StaticData.Cards.CardDefinitionType);
-                var enumValues = System.Enum.GetNames(enumType);
-                return System.Array.Exists(enumValues, name => name == cardName);
+                Type enumType = typeof(StaticData.Cards.CardDefinitionType);
+                string[] enumValues = Enum.GetNames(enumType);
+                return Array.Exists(enumValues, name => name == cardName);
             }
             catch
             {

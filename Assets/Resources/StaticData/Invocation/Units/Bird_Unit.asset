@@ -15,5 +15,5 @@ MonoBehaviour:
   Id: Bird
   Prefab: {fileID: 2361259873805981146, guid: 509cc0139dddd3e4fbe729e27b8f0dc8, type: 3}
   Rank: 2
-  CardDefinition: 0
+  CardDefinition: 4
   InvocationType: 1

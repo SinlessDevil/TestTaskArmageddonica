@@ -1,25 +1,25 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
-using UnityEngine;
 using Code.StaticData.Cards;
 using Code.StaticData.Cards.Definition;
 using Code.StaticData.Invocation;
 using Code.StaticData.Invocation.Data;
+using UnityEditor;
+using UnityEngine;
 
 namespace Code.Editor.Invocation
 {
     public static class CollectionUpdater
     {
-        private const string INVOCATION_COLLECTION_PATH = "Assets/Resources/StaticData/Invocation/InvocationCollectionStaticData.asset";
-        private const string CARD_DEFINITION_COLLECTION_PATH = "Assets/Resources/StaticData/Cards/CardDefinitionCollectionStaticData.asset";
+        private const string InvocationCollectionPath = "Assets/Resources/StaticData/Invocation/InvocationCollectionStaticData.asset";
+        private const string CardDefinitionCollectionPath = "Assets/Resources/StaticData/Cards/CardDefinitionCollectionStaticData.asset";
         
         public static void AddToInvocationCollection(InvocationStaticData invocationData)
         {
-            var collection = AssetDatabase.LoadAssetAtPath<InvocationCollectionStaticData>(INVOCATION_COLLECTION_PATH);
+            InvocationCollectionStaticData collection = AssetDatabase.LoadAssetAtPath<InvocationCollectionStaticData>(InvocationCollectionPath);
             if (collection == null)
             {
-                Debug.LogError($"InvocationCollectionStaticData not found at {INVOCATION_COLLECTION_PATH}");
+                Debug.LogError($"InvocationCollectionStaticData not found at {InvocationCollectionPath}");
                 return;
             }
             
@@ -37,7 +37,6 @@ namespace Code.Editor.Invocation
                         }
                     }
                     break;
-                    
                 case InvocationType.Build:
                     if (invocationData is BuildStaticData buildData)
                     {
@@ -48,7 +47,6 @@ namespace Code.Editor.Invocation
                         }
                     }
                     break;
-                    
                 case InvocationType.Skill:
                     if (invocationData is SkillStaticData skillData)
                     {
@@ -59,6 +57,10 @@ namespace Code.Editor.Invocation
                         }
                     }
                     break;
+                case InvocationType.Unknown:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
             
             if (wasModified)
@@ -73,10 +75,16 @@ namespace Code.Editor.Invocation
         {
             Debug.Log($"Attempting to add {cardDefinition.Name} (Type: {cardDefinition.Type}) to CardDefinitionCollectionStaticData");
             
-            var collection = AssetDatabase.LoadAssetAtPath<CardDefinitionCollectionStaticData>(CARD_DEFINITION_COLLECTION_PATH);
+            if (cardDefinition.Type == CardDefinitionType.Unknown)
+            {
+                Debug.LogWarning($"CardDefinitionType is Unknown for {cardDefinition.Name}, skipping collection update. Will be added after enum compilation.");
+                return;
+            }
+            
+            CardDefinitionCollectionStaticData collection = AssetDatabase.LoadAssetAtPath<CardDefinitionCollectionStaticData>(CardDefinitionCollectionPath);
             if (collection == null)
             {
-                Debug.LogWarning($"CardDefinitionCollectionStaticData not found at {CARD_DEFINITION_COLLECTION_PATH}, creating new one...");
+                Debug.LogWarning($"CardDefinitionCollectionStaticData not found at {CardDefinitionCollectionPath}, creating new one...");
                 collection = CreateCardDefinitionCollectionStaticData();
                 if (collection == null)
                 {
@@ -104,92 +112,34 @@ namespace Code.Editor.Invocation
                 collection.CardDefinitionStaticData[cardDefinition.Type] = cardDefinition;
                 EditorUtility.SetDirty(collection);
                 AssetDatabase.SaveAssets();
+                Debug.Log($"Updated {cardDefinition.Name} (Type: {cardDefinition.Type}) in CardDefinitionCollectionStaticData");
             }
-        }
-        
-        public static void UpdateAllCollections()
-        {
-            // Обновляем InvocationCollection
-            UpdateInvocationCollection();
-            
-            // Обновляем CardDefinitionCollection
-            UpdateCardDefinitionCollection();
         }
         
         private static CardDefinitionCollectionStaticData CreateCardDefinitionCollectionStaticData()
         {
             try
             {
-                var collection = ScriptableObject.CreateInstance<CardDefinitionCollectionStaticData>();
+                CardDefinitionCollectionStaticData collection = ScriptableObject.CreateInstance<CardDefinitionCollectionStaticData>();
                 collection.CardDefinitionStaticData = new Dictionary<CardDefinitionType, CardDefinitionStaticData>();
-                
-                // Создаем папку если не существует
                 string folderPath = "Assets/Resources/StaticData/Cards/";
                 if (!System.IO.Directory.Exists(folderPath))
                 {
                     System.IO.Directory.CreateDirectory(folderPath);
                 }
                 
-                AssetDatabase.CreateAsset(collection, CARD_DEFINITION_COLLECTION_PATH);
+                AssetDatabase.CreateAsset(collection, CardDefinitionCollectionPath);
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
                 
-                Debug.Log($"Created new CardDefinitionCollectionStaticData at {CARD_DEFINITION_COLLECTION_PATH}");
+                Debug.Log($"Created new CardDefinitionCollectionStaticData at {CardDefinitionCollectionPath}");
                 return collection;
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 Debug.LogError($"Failed to create CardDefinitionCollectionStaticData: {e.Message}");
                 return null;
             }
-        }
-        
-        private static void UpdateInvocationCollection()
-        {
-            var collection = AssetDatabase.LoadAssetAtPath<InvocationCollectionStaticData>(INVOCATION_COLLECTION_PATH);
-            if (collection == null) return;
-            
-            // Находим все InvocationStaticData файлы
-            string[] guids = AssetDatabase.FindAssets("t:InvocationStaticData");
-            
-            foreach (string guid in guids)
-            {
-                string path = AssetDatabase.GUIDToAssetPath(guid);
-                var invocationData = AssetDatabase.LoadAssetAtPath<InvocationStaticData>(path);
-                
-                if (invocationData != null)
-                {
-                    AddToInvocationCollection(invocationData);
-                }
-            }
-        }
-        
-        private static void UpdateCardDefinitionCollection()
-        {
-            var collection = AssetDatabase.LoadAssetAtPath<CardDefinitionCollectionStaticData>(CARD_DEFINITION_COLLECTION_PATH);
-            if (collection == null) return;
-            
-            if (collection.CardDefinitionStaticData == null)
-            {
-                collection.CardDefinitionStaticData = new Dictionary<CardDefinitionType, CardDefinitionStaticData>();
-            }
-            
-            // Находим все CardDefinitionStaticData файлы
-            string[] guids = AssetDatabase.FindAssets("t:CardDefinitionStaticData");
-            
-            foreach (string guid in guids)
-            {
-                string path = AssetDatabase.GUIDToAssetPath(guid);
-                var cardDefinition = AssetDatabase.LoadAssetAtPath<CardDefinitionStaticData>(path);
-                
-                if (cardDefinition != null && cardDefinition.Type != CardDefinitionType.Unknown)
-                {
-                    collection.CardDefinitionStaticData[cardDefinition.Type] = cardDefinition;
-                }
-            }
-            
-            EditorUtility.SetDirty(collection);
-            AssetDatabase.SaveAssets();
         }
     }
 }

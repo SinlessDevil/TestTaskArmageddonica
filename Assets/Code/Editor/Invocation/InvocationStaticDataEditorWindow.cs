@@ -40,7 +40,7 @@ namespace Code.Editor.Invocation
         private Vector2 _scrollPosition;
         private int _currentStep = 1;
         
-        [MenuItem("Tools/Invocation Static Data Creator")]
+        [MenuItem("Tools/Invocation Static Data Window Editor")]
         public static void ShowWindow()
         {
             GetWindow<InvocationStaticDataEditorWindow>("Invocation Creator");
@@ -77,7 +77,6 @@ namespace Code.Editor.Invocation
             
             EditorGUILayout.Space();
             DrawNavigationButtons();
-            
             
             EditorGUILayout.EndScrollView();
         }
@@ -124,6 +123,10 @@ namespace Code.Editor.Invocation
                     EditorGUILayout.LabelField("• Skills are abilities that can be cast");
                     EditorGUILayout.LabelField("• They have cooldown, mana cost, and range parameters");
                     break;
+                case InvocationType.Unknown:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
         
@@ -202,17 +205,13 @@ namespace Code.Editor.Invocation
             EditorGUILayout.Space();
             
             bool isValid = ValidateAllData();
-            if (!isValid)
-            {
+            if (!isValid) 
                 EditorGUILayout.HelpBox("Please fill in all required fields", MessageType.Warning);
-            }
             
             EditorGUI.BeginDisabledGroup(!isValid);
             
-            if (GUILayout.Button("Create Invocation Static Data", GUILayout.Height(30)))
-            {
+            if (GUILayout.Button("Create Invocation Static Data", GUILayout.Height(30))) 
                 CreateInvocationStaticData();
-            }
             
             EditorGUI.EndDisabledGroup();
         }
@@ -222,12 +221,8 @@ namespace Code.Editor.Invocation
             EditorGUILayout.BeginHorizontal();
             
             if (_currentStep > 1)
-            {
-                if (GUILayout.Button("Previous"))
-                {
+                if (GUILayout.Button("Previous")) 
                     _currentStep--;
-                }
-            }
             
             GUILayout.FlexibleSpace();
             
@@ -236,10 +231,8 @@ namespace Code.Editor.Invocation
                 bool canProceed = CanProceedToNextStep();
                 EditorGUI.BeginDisabledGroup(!canProceed);
                 
-                if (GUILayout.Button("Next"))
-                {
+                if (GUILayout.Button("Next")) 
                     _currentStep++;
-                }
                 
                 EditorGUI.EndDisabledGroup();
             }
@@ -279,13 +272,8 @@ namespace Code.Editor.Invocation
             
             try
             {
-                // 1. Создаем CardDefinitionStaticData
                 CreateCardDefinitionStaticData();
-                
-                // 2. Создаем InvocationStaticData
-                var invocationData = CreateInvocationStaticDataAsset();
-                
-                // 3. Добавляем в InvocationCollection
+                InvocationStaticData invocationData = CreateInvocationStaticDataAsset();
                 if (invocationData != null)
                 {
                     CollectionUpdater.AddToInvocationCollection(invocationData);
@@ -295,7 +283,7 @@ namespace Code.Editor.Invocation
                     "Invocation Static Data and Card Definition created and added to collections successfully!", "OK");
                 ClearForm();
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 EditorUtility.DisplayDialog("Error", $"Failed to create assets: {e.Message}", "OK");
             }
@@ -303,15 +291,12 @@ namespace Code.Editor.Invocation
         
         private void CreateCardDefinitionStaticData()
         {
-            // Сначала добавляем в enum
             EnumUpdater.AddCardDefinitionType(_cardName);
-            
-            // Создаем CardDefinitionStaticData с Unknown типом пока
             CardDefinitionStaticData cardDefinition = CreateInstance<CardDefinitionStaticData>();
             cardDefinition.Name = _cardName;
             cardDefinition.Description = _cardDescription;
             cardDefinition.Icon = _cardIcon;
-            cardDefinition.Type = CardDefinitionType.Unknown; // Временно Unknown
+            cardDefinition.Type = CardDefinitionType.Unknown;
             
             string folderPath = "Assets/Resources/StaticData/Cards/Definition/";
             if (!Directory.Exists(folderPath))
@@ -335,29 +320,21 @@ namespace Code.Editor.Invocation
             
             AssetDatabase.CreateAsset(cardDefinition, fullPath);
             AssetDatabase.SaveAssets();
-            
-            // Планируем обновление после компиляции
             InvocationCollectionAutoSync.ScheduleCardDefinitionUpdate(_cardName);
         }
         
         
         private CardDefinitionType GetCardDefinitionTypeFromName(string cardName)
         {
-            // Сначала пытаемся найти значение в enum
-            if (System.Enum.TryParse<CardDefinitionType>(cardName, out CardDefinitionType result))
+            if (Enum.TryParse(cardName, out CardDefinitionType result))
                 return result;
-            
-            // Если не найдено, добавляем в enum
-            if (!EnumUpdater.IsCardDefinitionTypeExists(cardName))
-            {
+
+            if (!EnumUpdater.IsCardDefinitionTypeExists(cardName)) 
                 EnumUpdater.AddCardDefinitionType(cardName);
-            }
             
-            // Пробуем снова после добавления
-            if (System.Enum.TryParse<CardDefinitionType>(cardName, out result))
+            if (Enum.TryParse(cardName, out result))
                 return result;
             
-            // Если все еще не найдено, возвращаем Unknown
             Debug.LogWarning($"Could not find CardDefinitionType for {cardName}, using Unknown");
             return CardDefinitionType.Unknown;
         }
@@ -381,24 +358,24 @@ namespace Code.Editor.Invocation
                     asset = CreateInstance<SkillStaticData>();
                     folderPath = "Assets/Resources/StaticData/Invocation/Skills/";
                     break;
+                case InvocationType.Unknown:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
             
             if (asset == null)
-            {
-                throw new System.Exception("Failed to create InvocationStaticData asset");
-            }
+                throw new Exception("Failed to create InvocationStaticData asset");
             
-            var invocationData = asset as InvocationStaticData;
+            InvocationStaticData invocationData = asset as InvocationStaticData;
             invocationData.Id = _id;
             invocationData.Prefab = _prefab;
             invocationData.Rank = _rank;
             invocationData.CardDefinition = GetCardDefinitionTypeFromName(_cardName);
             invocationData.InvocationType = _invocationType;
             
-            if (!Directory.Exists(folderPath))
-            {
+            if (!Directory.Exists(folderPath)) 
                 Directory.CreateDirectory(folderPath);
-            }
             
             string fileName = $"{_id}_{_invocationType}.asset";
             string fullPath = Path.Combine(folderPath, fileName);
