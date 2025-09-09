@@ -1,4 +1,5 @@
 using Code.StaticData.Cards;
+using Code.StaticData.Invocation;
 using UnityEngine;
 
 namespace Code.Services.IInvocation.DTO
@@ -9,5 +10,16 @@ namespace Code.Services.IInvocation.DTO
         public GameObject Prefab;
         public CardRankType Rank;
         public CardDefinitionType CardDefinition;
+        private InvocationType invocationType;
+        
+        public InvocationDTO(string id, GameObject prefab, CardRankType rank, CardDefinitionType cardDefinition,
+            InvocationType invocationType)
+        {
+            Id = id;
+            Prefab = prefab;
+            Rank = rank;
+            CardDefinition = cardDefinition;
+            this.invocationType = invocationType;
+        }
     }
 }

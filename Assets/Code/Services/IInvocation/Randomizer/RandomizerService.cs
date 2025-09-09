@@ -1,5 +1,8 @@
+using System.Collections.Generic;
 using Code.Services.IInvocation.DTO;
 using Code.Services.IInvocation.StaticData;
+using Code.StaticData.Invocation;
+using Code.StaticData.Invocation.Data;
 
 namespace Code.Services.IInvocation.Randomizer
 {
@@ -14,46 +17,49 @@ namespace Code.Services.IInvocation.Randomizer
 
         public InvocationDTO GenerateRandomInvocationDTO()
         {
-            var randomStaticData = _invocationStaticDataService.GetRandomInvocation();
-            if (randomStaticData == null) return null;
+            InvocationStaticData randomStaticData = _invocationStaticDataService.GetRandomInvocation();
+            if (randomStaticData == null) 
+                return null;
 
-            return randomStaticData.Type switch
+            return randomStaticData.InvocationType switch
             {
-                InvocationType.Unit => new UnitDTO(randomStaticData),
-                InvocationType.Build => new BuildingDTO(randomStaticData),
-                InvocationType.Skill => new SkillDTO(randomStaticData),
-                _ => new InvocationDTO(randomStaticData)
+                InvocationType.Unit => new UnitDTO(randomStaticData.Id, randomStaticData.Prefab, randomStaticData.Rank, randomStaticData.CardDefinition, randomStaticData.InvocationType),
+                InvocationType.Build => new BuildingDTO(randomStaticData.Id, randomStaticData.Prefab, randomStaticData.Rank, randomStaticData.CardDefinition, randomStaticData.InvocationType),
+                InvocationType.Skill => new SkillDTO(randomStaticData.Id, randomStaticData.Prefab, randomStaticData.Rank, randomStaticData.CardDefinition, randomStaticData.InvocationType),
+                _ => new InvocationDTO(randomStaticData.Id, randomStaticData.Prefab, randomStaticData.Rank, randomStaticData.CardDefinition, randomStaticData.InvocationType)
             };
         }
 
         public UnitDTO GenerateRandomUnitDTO()
         {
-            var allInvocations = _invocationStaticDataService.GetAllInvocations();
-            var units = allInvocations.FindAll(x => x.Type == InvocationType.Unit);
-            if (units.Count == 0) return null;
+            List<InvocationStaticData> allInvocations = _invocationStaticDataService.GetAllInvocations();
+            List<InvocationStaticData> units = allInvocations.FindAll(x => x.InvocationType == InvocationType.Unit);
+            if (units.Count == 0) 
+                return null;
 
-            var randomUnit = units[Random.Range(0, units.Count)];
-            return new UnitDTO(randomUnit);
+            InvocationStaticData randomUnit = units[UnityEngine.Random.Range(0, units.Count)];
+            return new UnitDTO(randomUnit.Id, randomUnit.Prefab, randomUnit.Rank, randomUnit.CardDefinition, randomUnit.InvocationType);
         }
 
         public BuildingDTO GenerateRandomBuildingDTO()
         {
-            var allInvocations = _invocationStaticDataService.GetAllInvocations();
-            var buildings = allInvocations.FindAll(x => x.Type == InvocationType.Build);
-            if (buildings.Count == 0) return null;
+            List<InvocationStaticData> allInvocations = _invocationStaticDataService.GetAllInvocations();
+            List<InvocationStaticData> buildings = allInvocations.FindAll(x => x.InvocationType == InvocationType.Build);
+            if (buildings.Count == 0) 
+                return null;
 
-            var randomBuilding = buildings[Random.Range(0, buildings.Count)];
-            return new BuildingDTO(randomBuilding);
+            var randomBuilding = buildings[UnityEngine.Random.Range(0, buildings.Count)];
+            return new BuildingDTO(randomBuilding.Id, randomBuilding.Prefab, randomBuilding.Rank, randomBuilding.CardDefinition, randomBuilding.InvocationType);
         }
 
         public SkillDTO GenerateRandomSkillDTO()
         {
             var allInvocations = _invocationStaticDataService.GetAllInvocations();
-            var skills = allInvocations.FindAll(x => x.Type == InvocationType.Skill);
+            var skills = allInvocations.FindAll(x => x.InvocationType == InvocationType.Skill);
             if (skills.Count == 0) return null;
 
-            var randomSkill = skills[Random.Range(0, skills.Count)];
-            return new SkillDTO(randomSkill);
+            var randomSkill = skills[UnityEngine.Random.Range(0, skills.Count)];
+            return new SkillDTO(randomSkill.Id, randomSkill.Prefab, randomSkill.Rank, randomSkill.CardDefinition, randomSkill.InvocationType);
         }
     }
 }

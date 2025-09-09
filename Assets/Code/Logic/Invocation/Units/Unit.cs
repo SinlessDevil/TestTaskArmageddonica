@@ -1,16 +1,7 @@
-using UnityEngine;
-
-public class Unit : MonoBehaviour
+namespace Code.Logic.Invocation.Units
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class Unit : Invocation
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    
     }
 }

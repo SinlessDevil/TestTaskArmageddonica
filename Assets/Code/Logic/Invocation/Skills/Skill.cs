@@ -1,8 +1,6 @@
-using UnityEngine;
-
-namespace Code
+namespace Code.Logic.Invocation.Skills
 {
-    public class Skill : MonoBehaviour
+    public class Skill : Invocation
     {
     
     }

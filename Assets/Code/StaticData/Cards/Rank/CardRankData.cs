@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Code.StaticData.Cards
+namespace Code.StaticData.Cards.Rank
 {
     [System.Serializable]
     public struct CardRankData

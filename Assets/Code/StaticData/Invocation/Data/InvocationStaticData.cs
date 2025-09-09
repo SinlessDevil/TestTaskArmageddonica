@@ -10,5 +10,6 @@ namespace Code.StaticData.Invocation.Data
         public GameObject Prefab;
         public CardRankType Rank;
         public CardDefinitionType CardDefinition;
+        public InvocationType InvocationType;
     }
 }

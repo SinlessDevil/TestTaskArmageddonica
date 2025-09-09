@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using StaticData.Cards.Rank;
 using UnityEngine;
 
 namespace Code.StaticData.Cards

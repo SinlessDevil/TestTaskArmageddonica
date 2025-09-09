@@ -1,6 +1,4 @@
-using Code.StaticData.Invocation.Data;
-
-namespace StaticData.Invocation.Data
+namespace Code.StaticData.Invocation.Data
 {
     public class UnitStaticData : InvocationStaticData
     {
