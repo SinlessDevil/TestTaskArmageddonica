@@ -16,4 +16,4 @@ MonoBehaviour:
   Description: 'Bat Lord is such a true king that he can knock out his opponent with
     a single blow and deal 25 damage. '
   Icon: {fileID: 21300000, guid: 1cc5832122ec43a4cbd0c713119107c1, type: 3}
-  Type: 0
+  Type: 7

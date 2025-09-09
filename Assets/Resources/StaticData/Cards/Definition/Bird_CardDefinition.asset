@@ -16,4 +16,4 @@ MonoBehaviour:
   Description: 'A fighting bird no worse than a flying squirrel calmly deals 4 damage
     points. '
   Icon: {fileID: 21300000, guid: ca2a8d657e8c0574fa5010534ce02501, type: 3}
-  Type: 0
+  Type: 4

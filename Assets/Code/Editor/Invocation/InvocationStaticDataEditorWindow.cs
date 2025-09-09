@@ -320,22 +320,30 @@ namespace Code.Editor.Invocation
             
             AssetDatabase.CreateAsset(cardDefinition, fullPath);
             AssetDatabase.SaveAssets();
-            InvocationCollectionAutoSync.ScheduleCardDefinitionUpdate(_cardName);
         }
         
         
         private CardDefinitionType GetCardDefinitionTypeFromName(string cardName)
         {
-            if (Enum.TryParse(cardName, out CardDefinitionType result))
+            if (string.IsNullOrEmpty(cardName))
+                return CardDefinitionType.Unknown;
+            
+            // Пытаемся найти существующий тип в enum
+            if (System.Enum.TryParse<CardDefinitionType>(cardName, out CardDefinitionType result))
+            {
                 return result;
-
+            }
+            
+            // Если не найден, добавляем в enum
             if (!EnumUpdater.IsCardDefinitionTypeExists(cardName)) 
                 EnumUpdater.AddCardDefinitionType(cardName);
             
-            if (Enum.TryParse(cardName, out result))
+            // Пытаемся снова после добавления
+            if (System.Enum.TryParse<CardDefinitionType>(cardName, out result))
+            {
                 return result;
+            }
             
-            Debug.LogWarning($"Could not find CardDefinitionType for {cardName}, using Unknown");
             return CardDefinitionType.Unknown;
         }
         
@@ -424,5 +432,60 @@ namespace Code.Editor.Invocation
             _skillRange = 8f;
         }
         
+        public void UpdateCardDefinitionsAfterReload()
+        {
+            // Обновляем CardDefinitionStaticData
+            string[] cardGuids = AssetDatabase.FindAssets($"t:CardDefinitionStaticData");
+            foreach (string guid in cardGuids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                CardDefinitionStaticData cardDefinition = AssetDatabase.LoadAssetAtPath<CardDefinitionStaticData>(path);
+                
+                if (cardDefinition != null && !string.IsNullOrEmpty(cardDefinition.Name))
+                {
+                    if (System.Enum.TryParse<CardDefinitionType>(cardDefinition.Name, out CardDefinitionType result))
+                    {
+                        if (cardDefinition.Type != result)
+                        {
+                            cardDefinition.Type = result;
+                            EditorUtility.SetDirty(cardDefinition);
+                        }
+                        
+                        CollectionUpdater.AddToCardDefinitionCollection(cardDefinition);
+                    }
+                }
+            }
+            
+            // Обновляем InvocationStaticData
+            string[] invocationGuids = AssetDatabase.FindAssets($"t:InvocationStaticData");
+            foreach (string guid in invocationGuids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                InvocationStaticData invocationData = AssetDatabase.LoadAssetAtPath<InvocationStaticData>(path);
+                
+                if (invocationData != null && invocationData.CardDefinition == CardDefinitionType.Unknown)
+                {
+                    // Ищем соответствующий CardDefinitionStaticData по имени
+                    string[] cardGuids2 = AssetDatabase.FindAssets($"t:CardDefinitionStaticData");
+                    foreach (string cardGuid in cardGuids2)
+                    {
+                        string cardPath = AssetDatabase.GUIDToAssetPath(cardGuid);
+                        CardDefinitionStaticData cardDefinition = AssetDatabase.LoadAssetAtPath<CardDefinitionStaticData>(cardPath);
+                        
+                        if (cardDefinition != null && cardDefinition.Name == invocationData.Id)
+                        {
+                            if (System.Enum.TryParse<CardDefinitionType>(cardDefinition.Name, out CardDefinitionType result))
+                            {
+                                invocationData.CardDefinition = result;
+                                EditorUtility.SetDirty(invocationData);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            AssetDatabase.SaveAssets();
+        }
     }
 }

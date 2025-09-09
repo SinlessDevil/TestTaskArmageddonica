@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 192fd505512c4f39931c758bc2ec3640, type: 3}
-  m_Name: TextBuild
+  m_Script: {fileID: 11500000, guid: 9811d27ca5604d988cbcc730ae87bda6, type: 3}
+  m_Name: Fungi_Unit
   m_EditorClassIdentifier: 
-  Id: 
-  Prefab: {fileID: 0}
-  Rank: 0
-  CardDefinition: 0
-  InvocationType: 0
+  Id: Fungi
+  Prefab: {fileID: 4558253575625511845, guid: 91b5d5ead6cb5f045bb0139cedb0e524, type: 3}
+  Rank: 3
+  CardDefinition: 10
+  InvocationType: 1

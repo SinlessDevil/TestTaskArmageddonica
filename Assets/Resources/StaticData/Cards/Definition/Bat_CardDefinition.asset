@@ -17,4 +17,4 @@ MonoBehaviour:
 
     which deals 3 damage'
   Icon: {fileID: 21300000, guid: 46ccb3ef822a43d429313a5a80c54504, type: 3}
-  Type: 0
+  Type: 3

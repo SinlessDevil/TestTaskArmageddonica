@@ -10,5 +10,9 @@ namespace Code.StaticData.Cards
         Egg = 5,
         Fledgling,
         BatLoad,
+        FlowerPotMonster,
+        Mushroom,
+        Fungi,
+        Phantom,
     }
 }

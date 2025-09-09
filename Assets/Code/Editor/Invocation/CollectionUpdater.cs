@@ -73,22 +73,17 @@ namespace Code.Editor.Invocation
         
         public static void AddToCardDefinitionCollection(CardDefinitionStaticData cardDefinition)
         {
-            Debug.Log($"Attempting to add {cardDefinition.Name} (Type: {cardDefinition.Type}) to CardDefinitionCollectionStaticData");
-            
             if (cardDefinition.Type == CardDefinitionType.Unknown)
             {
-                Debug.LogWarning($"CardDefinitionType is Unknown for {cardDefinition.Name}, skipping collection update. Will be added after enum compilation.");
                 return;
             }
             
             CardDefinitionCollectionStaticData collection = AssetDatabase.LoadAssetAtPath<CardDefinitionCollectionStaticData>(CardDefinitionCollectionPath);
             if (collection == null)
             {
-                Debug.LogWarning($"CardDefinitionCollectionStaticData not found at {CardDefinitionCollectionPath}, creating new one...");
                 collection = CreateCardDefinitionCollectionStaticData();
                 if (collection == null)
                 {
-                    Debug.LogError("Failed to create CardDefinitionCollectionStaticData");
                     return;
                 }
             }
@@ -96,24 +91,11 @@ namespace Code.Editor.Invocation
             if (collection.CardDefinitionStaticData == null)
             {
                 collection.CardDefinitionStaticData = new Dictionary<CardDefinitionType, CardDefinitionStaticData>();
-                Debug.Log("Initialized CardDefinitionStaticData dictionary");
             }
             
-            if (!collection.CardDefinitionStaticData.ContainsKey(cardDefinition.Type))
-            {
-                collection.CardDefinitionStaticData[cardDefinition.Type] = cardDefinition;
-                EditorUtility.SetDirty(collection);
-                AssetDatabase.SaveAssets();
-                Debug.Log($"Added {cardDefinition.Name} (Type: {cardDefinition.Type}) to CardDefinitionCollectionStaticData");
-            }
-            else
-            {
-                Debug.Log($"CardDefinitionType {cardDefinition.Type} already exists in collection, updating...");
-                collection.CardDefinitionStaticData[cardDefinition.Type] = cardDefinition;
-                EditorUtility.SetDirty(collection);
-                AssetDatabase.SaveAssets();
-                Debug.Log($"Updated {cardDefinition.Name} (Type: {cardDefinition.Type}) in CardDefinitionCollectionStaticData");
-            }
+            collection.CardDefinitionStaticData[cardDefinition.Type] = cardDefinition;
+            EditorUtility.SetDirty(collection);
+            AssetDatabase.SaveAssets();
         }
         
         private static CardDefinitionCollectionStaticData CreateCardDefinitionCollectionStaticData()

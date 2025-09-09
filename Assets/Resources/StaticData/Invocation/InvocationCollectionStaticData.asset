@@ -21,6 +21,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 370521e92d2e6894387a6e08b842a9e0, type: 2}
   - {fileID: 11400000, guid: 64f0dc6152e675a44addbfda2c290644, type: 2}
   - {fileID: 11400000, guid: e81a6afd55e858c49b9cf1ac61e981ab, type: 2}
+  - {fileID: 11400000, guid: 2099e9af5046a0d4ea2c511678670062, type: 2}
+  - {fileID: 11400000, guid: 937c8f44969cd0f469a5c9713f63dccb, type: 2}
+  - {fileID: 11400000, guid: 872b5775d29c8de4f968a459bda4ac97, type: 2}
+  - {fileID: 11400000, guid: 05f0c3e9095e0aa40b47e71dc11f98e2, type: 2}
   BuildCollectionData:
   - {fileID: 11400000, guid: 6f287fbdc4be6ac4687362b8ce0804e8, type: 2}
   SkillCollectionData:

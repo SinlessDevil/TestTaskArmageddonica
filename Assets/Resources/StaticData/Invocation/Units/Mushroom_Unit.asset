@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62db079a6287478c987df1deddbee942, type: 3}
-  m_Name: Egg_CardDefinition
+  m_Script: {fileID: 11500000, guid: 9811d27ca5604d988cbcc730ae87bda6, type: 3}
+  m_Name: Mushroom_Unit
   m_EditorClassIdentifier: 
-  Name: Egg
-  Description: A regular egg deals 1 damage.
-  Icon: {fileID: 21300000, guid: 2765584043d58ed4b94a001f125a202d, type: 3}
-  Type: 5
+  Id: Mushroom
+  Prefab: {fileID: 49664409928230331, guid: 82dd4b3e48ff1974f92d0019f58a4f24, type: 3}
+  Rank: 5
+  CardDefinition: 9
+  InvocationType: 1

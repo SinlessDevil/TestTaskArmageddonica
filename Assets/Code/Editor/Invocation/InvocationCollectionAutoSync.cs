@@ -1,92 +1,83 @@
-using System.Collections.Generic;
-using Code.StaticData.Cards;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
+using Code.StaticData.Cards;
+using Code.StaticData.Cards.Definition;
+using Code.StaticData.Invocation.Data;
 
 namespace Code.Editor.Invocation
 {
     [InitializeOnLoad]
     public static class InvocationCollectionAutoSync
     {
-        private static readonly Queue<string> _pendingCardUpdates = new Queue<string>();
-        
-        static InvocationCollectionAutoSync()
-        {
-            Debug.Log("InvocationCollectionAutoSync initialized");
-        }
-        
         [DidReloadScripts]
         private static void OnScriptsReloaded()
         {
-            Debug.Log("Scripts recompiled. Processing pending CardDefinition updates...");
-            while (_pendingCardUpdates.Count > 0)
+            InvocationStaticDataEditorWindow editorWindow = Resources.FindObjectsOfTypeAll<InvocationStaticDataEditorWindow>().FirstOrDefault();
+            if (editorWindow == null) 
             {
-                string cardName = _pendingCardUpdates.Dequeue();
-                UpdateCardDefinitionAfterReload(cardName);
-            }
-        }
-        
-        public static void ScheduleCardDefinitionUpdate(string cardName)
-        {
-            if (_pendingCardUpdates.Contains(cardName)) 
+                UpdateAllCardDefinitionsAfterReload();
                 return;
+            }
             
-            _pendingCardUpdates.Enqueue(cardName);
-            Debug.Log($"Scheduled CardDefinition update for: {cardName} (Queue size: {_pendingCardUpdates.Count})");
+            editorWindow.UpdateCardDefinitionsAfterReload();
         }
         
-        private static void UpdateCardDefinitionAfterReload(string cardName)
+        private static void UpdateAllCardDefinitionsAfterReload()
         {
-            try
-            {
-                Debug.Log($"Processing CardDefinition update for: {cardName}");
-                if (!System.Enum.TryParse(cardName, out CardDefinitionType result))
-                {
-                    Debug.LogWarning($"CardDefinitionType {cardName} not found in enum after reload, retrying...");
-                    EditorApplication.delayCall += () => {
-                        if (System.Enum.TryParse(cardName, out CardDefinitionType retryResult))
-                        {
-                            ProcessCardDefinitionUpdate(cardName, retryResult);
-                        }
-                        else
-                        {
-                            Debug.LogError($"CardDefinitionType {cardName} still not found after retry");
-                        }
-                    };
-                    return;
-                }
-                
-                ProcessCardDefinitionUpdate(cardName, result);
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError($"Failed to update CardDefinition after reload: {e.Message}");
-            }
-        }
-        
-        private static void ProcessCardDefinitionUpdate(string cardName, CardDefinitionType cardType)
-        {
-            string[] guids = AssetDatabase.FindAssets($"t:CardDefinitionStaticData");
-            
-            foreach (string guid in guids)
+            // Обновляем CardDefinitionStaticData
+            string[] cardGuids = AssetDatabase.FindAssets($"t:CardDefinitionStaticData");
+            foreach (string guid in cardGuids)
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 CardDefinitionStaticData cardDefinition = AssetDatabase.LoadAssetAtPath<CardDefinitionStaticData>(path);
                 
-                if (cardDefinition != null && cardDefinition.Name == cardName)
+                if (cardDefinition != null && !string.IsNullOrEmpty(cardDefinition.Name))
                 {
-                    cardDefinition.Type = cardType;
-                    EditorUtility.SetDirty(cardDefinition);
-                    AssetDatabase.SaveAssets();
-                    CollectionUpdater.AddToCardDefinitionCollection(cardDefinition);
-                    
-                    Debug.Log($"Successfully updated CardDefinitionType to {cardType} for {cardName} and added to collection");
-                    return;
+                    if (System.Enum.TryParse<CardDefinitionType>(cardDefinition.Name, out CardDefinitionType result))
+                    {
+                        if (cardDefinition.Type != result)
+                        {
+                            cardDefinition.Type = result;
+                            EditorUtility.SetDirty(cardDefinition);
+                        }
+                        
+                        CollectionUpdater.AddToCardDefinitionCollection(cardDefinition);
+                    }
                 }
             }
             
-            Debug.LogWarning($"CardDefinitionStaticData with name '{cardName}' not found");
+            // Обновляем InvocationStaticData
+            string[] invocationGuids = AssetDatabase.FindAssets($"t:InvocationStaticData");
+            foreach (string guid in invocationGuids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                InvocationStaticData invocationData = AssetDatabase.LoadAssetAtPath<InvocationStaticData>(path);
+                
+                if (invocationData != null && invocationData.CardDefinition == CardDefinitionType.Unknown)
+                {
+                    // Ищем соответствующий CardDefinitionStaticData по имени
+                    string[] cardGuids2 = AssetDatabase.FindAssets($"t:CardDefinitionStaticData");
+                    foreach (string cardGuid in cardGuids2)
+                    {
+                        string cardPath = AssetDatabase.GUIDToAssetPath(cardGuid);
+                        CardDefinitionStaticData cardDefinition = AssetDatabase.LoadAssetAtPath<CardDefinitionStaticData>(cardPath);
+                        
+                        if (cardDefinition != null && cardDefinition.Name == invocationData.Id)
+                        {
+                            if (System.Enum.TryParse<CardDefinitionType>(cardDefinition.Name, out CardDefinitionType result))
+                            {
+                                invocationData.CardDefinition = result;
+                                EditorUtility.SetDirty(invocationData);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            AssetDatabase.SaveAssets();
         }
     }
 }
