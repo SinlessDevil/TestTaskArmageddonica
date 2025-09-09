@@ -22,19 +22,16 @@ namespace Code.Services.IInvocation.StaticData
 
             _invocationData = new Dictionary<string, InvocationStaticData>();
             
-            // Добавляем все Unit данные
             foreach (var unitData in _collectionData.UnitCollectionData)
             {
                 _invocationData[unitData.Id] = unitData;
             }
             
-            // Добавляем все Build данные
             foreach (var buildData in _collectionData.BuildCollectionData)
             {
                 _invocationData[buildData.Id] = buildData;
             }
             
-            // Добавляем все Skill данные
             foreach (var skillData in _collectionData.SkillCollectionData)
             {
                 _invocationData[skillData.Id] = skillData;

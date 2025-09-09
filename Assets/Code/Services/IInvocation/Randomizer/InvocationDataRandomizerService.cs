@@ -6,11 +6,11 @@ using Code.StaticData.Invocation.Data;
 
 namespace Code.Services.IInvocation.Randomizer
 {
-    public class RandomizerService : IRandomizerService
+    public class InvocationDataRandomizerService : IRandomizerService
     {
         private readonly IInvocationStaticDataService _invocationStaticDataService;
 
-        public RandomizerService(IInvocationStaticDataService invocationStaticDataService)
+        public InvocationDataRandomizerService(IInvocationStaticDataService invocationStaticDataService)
         {
             _invocationStaticDataService = invocationStaticDataService;
         }

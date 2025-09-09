@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33642114c1e675f4c96dac8472f0d6ce, type: 3}
   m_Name: InvocationCollectionStaticData
   m_EditorClassIdentifier: 
-  UnitCollectionData: []
-  BuildCollectionData: []
-  SkillCollectionData: []
+  UnitCollectionData:
+  - {fileID: 11400000, guid: 6c1aaaed6f4e6a74885dddf931744ea3, type: 2}
+  - {fileID: 11400000, guid: 187fd3f4f7c4e8b4fb457a18f60084d4, type: 2}
+  - {fileID: 11400000, guid: b44afb3f53ba7114d96f206cf3209109, type: 2}
+  BuildCollectionData:
+  - {fileID: 11400000, guid: 6f287fbdc4be6ac4687362b8ce0804e8, type: 2}
+  SkillCollectionData:
+  - {fileID: 11400000, guid: e5989defa20f4c948b6d3ac366e28235, type: 2}

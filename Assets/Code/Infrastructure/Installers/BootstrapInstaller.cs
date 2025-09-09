@@ -104,17 +104,16 @@ namespace Code.Infrastructure.Installers
             IAudioStaticDataService audioStaticDataService = new AudioStaticDataService();
             audioStaticDataService.LoadData();
             Container.Bind<IAudioStaticDataService>().FromInstance(audioStaticDataService).AsSingle();
+            
+            IInvocationStaticDataService invocationStaticDataService = new InvocationStaticDataService();
+            invocationStaticDataService.LoadData();
+            Container.Bind<IInvocationStaticDataService>().FromInstance(invocationStaticDataService).AsSingle();
         }
 
         private void BindInvocationServices()
         {
-            IInvocationStaticDataService invocationStaticDataService = new InvocationStaticDataService();
-            invocationStaticDataService.LoadData();
-            Container.Bind<IInvocationStaticDataService>().FromInstance(invocationStaticDataService).AsSingle();
-            
             Container.BindInterfacesTo<InvocationHandlerService>().AsSingle();
-            Container.BindInterfacesTo<InvocationFactory>().AsSingle();
-            Container.BindInterfacesTo<RandomizerService>().AsSingle();
+            Container.BindInterfacesTo<InvocationDataRandomizerService>().AsSingle();
         }
         
         private void BindProviders()
@@ -124,6 +123,8 @@ namespace Code.Infrastructure.Installers
 
             Container.Bind<IPoolFactory<Widget>>().To<WidgetFactory>().AsSingle();
             Container.Bind<IPoolProvider<Widget>>().To<WidgetProvider>().AsSingle();
+            
+            Container.BindInterfacesTo<InvocationFactory>().AsSingle();
         }
         
         private void BindFactories()

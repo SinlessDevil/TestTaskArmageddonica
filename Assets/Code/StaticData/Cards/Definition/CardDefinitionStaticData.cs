@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Code.StaticData.Cards
 {
-    [CreateAssetMenu(fileName = "CardDefinitionStaticData", menuName = "StaticData/Cards/CardDefinitionStaticData")]
+    [CreateAssetMenu(fileName = "CardDefinitionStaticData", menuName = "StaticData/Cards/CardDefinition")]
     public class CardDefinitionStaticData : ScriptableObject
     {
         public string Name;
