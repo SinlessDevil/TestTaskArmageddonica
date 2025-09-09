@@ -18,7 +18,6 @@ namespace Code.Editor.AudioVibration
         private const string Sound3DPath = "Assets/Code/Services/AudioVibrationFX/Sound/Sound3DType.cs";
         private const string MusicPath   = "Assets/Code/Services/AudioVibrationFX/Music/MusicType.cs";
         private const string SoundsDataResourcePath = "StaticData/Sounds/Sounds";
-
         
         [MenuItem("Tools/Audio Vibration Window/Sound Library", false, 2002)]
         private static void OpenWindow()

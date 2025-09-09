@@ -3,7 +3,6 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using Code.StaticData.Cards;
-using Code.StaticData.Cards.Definition;
 using Code.StaticData.Invocation.Data;
 
 namespace Code.Editor.Invocation
@@ -26,7 +25,6 @@ namespace Code.Editor.Invocation
         
         private static void UpdateAllCardDefinitionsAfterReload()
         {
-            // Обновляем CardDefinitionStaticData
             string[] cardGuids = AssetDatabase.FindAssets($"t:CardDefinitionStaticData");
             foreach (string guid in cardGuids)
             {
@@ -35,7 +33,7 @@ namespace Code.Editor.Invocation
                 
                 if (cardDefinition != null && !string.IsNullOrEmpty(cardDefinition.Name))
                 {
-                    if (System.Enum.TryParse<CardDefinitionType>(cardDefinition.Name, out CardDefinitionType result))
+                    if (System.Enum.TryParse(cardDefinition.Name, out CardDefinitionType result))
                     {
                         if (cardDefinition.Type != result)
                         {
@@ -48,7 +46,6 @@ namespace Code.Editor.Invocation
                 }
             }
             
-            // Обновляем InvocationStaticData
             string[] invocationGuids = AssetDatabase.FindAssets($"t:InvocationStaticData");
             foreach (string guid in invocationGuids)
             {
@@ -57,7 +54,6 @@ namespace Code.Editor.Invocation
                 
                 if (invocationData != null && invocationData.CardDefinition == CardDefinitionType.Unknown)
                 {
-                    // Ищем соответствующий CardDefinitionStaticData по имени
                     string[] cardGuids2 = AssetDatabase.FindAssets($"t:CardDefinitionStaticData");
                     foreach (string cardGuid in cardGuids2)
                     {
@@ -76,7 +72,6 @@ namespace Code.Editor.Invocation
                     }
                 }
             }
-            
             AssetDatabase.SaveAssets();
         }
     }

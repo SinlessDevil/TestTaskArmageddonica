@@ -74,24 +74,18 @@ namespace Code.Editor.Invocation
         public static void AddToCardDefinitionCollection(CardDefinitionStaticData cardDefinition)
         {
             if (cardDefinition.Type == CardDefinitionType.Unknown)
-            {
                 return;
-            }
             
             CardDefinitionCollectionStaticData collection = AssetDatabase.LoadAssetAtPath<CardDefinitionCollectionStaticData>(CardDefinitionCollectionPath);
             if (collection == null)
             {
                 collection = CreateCardDefinitionCollectionStaticData();
                 if (collection == null)
-                {
                     return;
-                }
             }
             
-            if (collection.CardDefinitionStaticData == null)
-            {
+            if (collection.CardDefinitionStaticData == null) 
                 collection.CardDefinitionStaticData = new Dictionary<CardDefinitionType, CardDefinitionStaticData>();
-            }
             
             collection.CardDefinitionStaticData[cardDefinition.Type] = cardDefinition;
             EditorUtility.SetDirty(collection);
@@ -105,10 +99,8 @@ namespace Code.Editor.Invocation
                 CardDefinitionCollectionStaticData collection = ScriptableObject.CreateInstance<CardDefinitionCollectionStaticData>();
                 collection.CardDefinitionStaticData = new Dictionary<CardDefinitionType, CardDefinitionStaticData>();
                 string folderPath = "Assets/Resources/StaticData/Cards/";
-                if (!System.IO.Directory.Exists(folderPath))
-                {
+                if (!System.IO.Directory.Exists(folderPath)) 
                     System.IO.Directory.CreateDirectory(folderPath);
-                }
                 
                 AssetDatabase.CreateAsset(collection, CardDefinitionCollectionPath);
                 AssetDatabase.SaveAssets();

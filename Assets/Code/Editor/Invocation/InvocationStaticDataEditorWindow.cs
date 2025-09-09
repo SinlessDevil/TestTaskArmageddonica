@@ -40,7 +40,7 @@ namespace Code.Editor.Invocation
         private Vector2 _scrollPosition;
         private int _currentStep = 1;
         
-        [MenuItem("Tools/Invocation Static Data Window Editor")]
+        [MenuItem("Tools/Invocation Static Data Window Editor", false, 2002)]
         public static void ShowWindow()
         {
             GetWindow<InvocationStaticDataEditorWindow>("Invocation Creator");
@@ -328,21 +328,14 @@ namespace Code.Editor.Invocation
             if (string.IsNullOrEmpty(cardName))
                 return CardDefinitionType.Unknown;
             
-            // Пытаемся найти существующий тип в enum
-            if (System.Enum.TryParse<CardDefinitionType>(cardName, out CardDefinitionType result))
-            {
+            if (Enum.TryParse(cardName, out CardDefinitionType result))
                 return result;
-            }
             
-            // Если не найден, добавляем в enum
             if (!EnumUpdater.IsCardDefinitionTypeExists(cardName)) 
                 EnumUpdater.AddCardDefinitionType(cardName);
             
-            // Пытаемся снова после добавления
-            if (System.Enum.TryParse<CardDefinitionType>(cardName, out result))
-            {
+            if (Enum.TryParse(cardName, out result))
                 return result;
-            }
             
             return CardDefinitionType.Unknown;
         }
@@ -434,54 +427,51 @@ namespace Code.Editor.Invocation
         
         public void UpdateCardDefinitionsAfterReload()
         {
-            // Обновляем CardDefinitionStaticData
             string[] cardGuids = AssetDatabase.FindAssets($"t:CardDefinitionStaticData");
             foreach (string guid in cardGuids)
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 CardDefinitionStaticData cardDefinition = AssetDatabase.LoadAssetAtPath<CardDefinitionStaticData>(path);
+
+                if (cardDefinition == null || string.IsNullOrEmpty(cardDefinition.Name)) 
+                    continue;
                 
-                if (cardDefinition != null && !string.IsNullOrEmpty(cardDefinition.Name))
+                if (!Enum.TryParse(cardDefinition.Name, out CardDefinitionType result))
+                    continue;
+                
+                if (cardDefinition.Type != result)
                 {
-                    if (System.Enum.TryParse<CardDefinitionType>(cardDefinition.Name, out CardDefinitionType result))
-                    {
-                        if (cardDefinition.Type != result)
-                        {
-                            cardDefinition.Type = result;
-                            EditorUtility.SetDirty(cardDefinition);
-                        }
-                        
-                        CollectionUpdater.AddToCardDefinitionCollection(cardDefinition);
-                    }
+                    cardDefinition.Type = result;
+                    EditorUtility.SetDirty(cardDefinition);
                 }
+                        
+                CollectionUpdater.AddToCardDefinitionCollection(cardDefinition);
             }
             
-            // Обновляем InvocationStaticData
             string[] invocationGuids = AssetDatabase.FindAssets($"t:InvocationStaticData");
             foreach (string guid in invocationGuids)
             {
                 string path = AssetDatabase.GUIDToAssetPath(guid);
                 InvocationStaticData invocationData = AssetDatabase.LoadAssetAtPath<InvocationStaticData>(path);
+
+                if (invocationData == null || invocationData.CardDefinition != CardDefinitionType.Unknown) 
+                    continue;
                 
-                if (invocationData != null && invocationData.CardDefinition == CardDefinitionType.Unknown)
+                string[] cardGuids2 = AssetDatabase.FindAssets($"t:CardDefinitionStaticData");
+                foreach (string cardGuid in cardGuids2)
                 {
-                    // Ищем соответствующий CardDefinitionStaticData по имени
-                    string[] cardGuids2 = AssetDatabase.FindAssets($"t:CardDefinitionStaticData");
-                    foreach (string cardGuid in cardGuids2)
-                    {
-                        string cardPath = AssetDatabase.GUIDToAssetPath(cardGuid);
-                        CardDefinitionStaticData cardDefinition = AssetDatabase.LoadAssetAtPath<CardDefinitionStaticData>(cardPath);
-                        
-                        if (cardDefinition != null && cardDefinition.Name == invocationData.Id)
-                        {
-                            if (System.Enum.TryParse<CardDefinitionType>(cardDefinition.Name, out CardDefinitionType result))
-                            {
-                                invocationData.CardDefinition = result;
-                                EditorUtility.SetDirty(invocationData);
-                                break;
-                            }
-                        }
-                    }
+                    string cardPath = AssetDatabase.GUIDToAssetPath(cardGuid);
+                    CardDefinitionStaticData cardDefinition = AssetDatabase.LoadAssetAtPath<CardDefinitionStaticData>(cardPath);
+
+                    if (cardDefinition == null || cardDefinition.Name != invocationData.Id) 
+                        continue;
+                    
+                    if (!Enum.TryParse(cardDefinition.Name, out CardDefinitionType result)) 
+                        continue;
+                    
+                    invocationData.CardDefinition = result;
+                    EditorUtility.SetDirty(invocationData);
+                    break;
                 }
             }
             
