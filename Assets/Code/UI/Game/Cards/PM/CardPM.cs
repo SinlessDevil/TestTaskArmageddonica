@@ -25,7 +25,8 @@ namespace Code.UI.Game.Cards.PM
         
         public CardDefinitionStaticData? DefinitionData => DefinitionCollectionData.GetCardDefinitionByType(DTO.CardDefinition);
         public CardDefinitionType DefinitionType => DTO.CardDefinition;
-        
+
+        public string RankId => RankData?.RankText;
         public string CardName => DefinitionData?.Name ?? "Unknown Card";
         public string CardDescription => DefinitionData?.Description ?? "No description available";
         public Sprite CardIcon => DefinitionData?.Icon;

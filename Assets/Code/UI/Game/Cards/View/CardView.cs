@@ -47,7 +47,6 @@ namespace Code.UI.Game.Cards.View
         
         private void SetupCardComponents()
         {
-            
             SetupIcon();
             SetupTexts();
             SetupBackgrounds();
@@ -56,97 +55,51 @@ namespace Code.UI.Game.Cards.View
         
         private void SetupIcon()
         {
-            if (_iconImage != null && _cardPM.CardIcon != null)
-            {
-                _iconImage.sprite = _cardPM.CardIcon;
-                _iconImage.color = Color.white;
-            }
+            _iconImage.sprite = _cardPM.CardIcon;
+            _iconImage.color = Color.white;
         }
         
         private void SetupTexts()
         {
-            if (_nameText != null)
-            {
-                _nameText.text = _cardPM.CardName;
-                _nameText.color = _cardPM.RankColor;
-            }
+            _nameText.text = _cardPM.CardName + $"({_cardPM.RankText})";
             
-            if (_infoText != null)
-            {
-                _infoText.text = _cardPM.CardDescription;
-            }
+            _infoText.text = _cardPM.CardDescription;
         }
         
         private void SetupBackgrounds()
         {
-            if (_bgImage != null && _cardPM.BackgroundSprite != null)
-            {
-                _bgImage.sprite = _cardPM.BackgroundSprite;
-                _bgImage.color = _cardPM.RankColor;
-            }
+            _bgImage.sprite = _cardPM.BackgroundSprite;
             
-            if (_BodyImage != null && _cardPM.BodySprite != null)
-            {
-                _BodyImage.sprite = _cardPM.BodySprite;
-                _BodyImage.color = Color.white;
-            }
+            _BodyImage.color = _cardPM.RankColor;
         }
         
         private void SetupLevel()
         {
-            if (_levelText != null)
-            {
-                _levelText.text = _cardPM.Level.ToString();
-            }
+            _levelText.text = _cardPM.Level.ToString();
             
-            if (_bgLevelImage != null && _cardPM.LevelBackgroundSprite != null)
-            {
-                _bgLevelImage.sprite = _cardPM.LevelBackgroundSprite;
-                _bgLevelImage.color = _cardPM.RankColor;
-            }
+            _bgLevelImage.sprite = _cardPM.LevelBackgroundSprite;
         }
         
         private void ResetCardComponents()
         {
-            if (_iconImage != null)
-            {
-                _iconImage.sprite = null;
-                _iconImage.color = Color.white;
-            }
+            _iconImage.sprite = null;
+            _iconImage.color = Color.white;
             
-            if (_nameText != null)
-            {
-                _nameText.text = string.Empty;
-                _nameText.color = Color.white;
-            }
+            _nameText.text = string.Empty;
+            _nameText.color = Color.white;
             
-            if (_infoText != null)
-            {
-                _infoText.text = string.Empty;
-            }
+            _infoText.text = string.Empty;
             
-            if (_levelText != null)
-            {
-                _levelText.text = string.Empty;
-            }
+            _levelText.text = string.Empty;
             
-            if (_bgImage != null)
-            {
-                _bgImage.sprite = null;
-                _bgImage.color = Color.white;
-            }
+            _bgImage.sprite = null;
+            _bgImage.color = Color.white;
             
-            if (_BodyImage != null)
-            {
-                _BodyImage.sprite = null;
-                _BodyImage.color = Color.white;
-            }
+            _BodyImage.sprite = null;
+            _BodyImage.color = Color.white;
             
-            if (_bgLevelImage != null)
-            {
-                _bgLevelImage.sprite = null;
-                _bgLevelImage.color = Color.white;
-            }
+            _bgLevelImage.sprite = null;
+            _bgLevelImage.color = Color.white;
         }
         
         public void Show()
