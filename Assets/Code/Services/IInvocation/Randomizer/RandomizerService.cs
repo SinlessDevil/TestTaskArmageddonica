@@ -32,19 +32,17 @@ namespace Code.Services.IInvocation.Randomizer
 
         public UnitDTO GenerateRandomUnitDTO()
         {
-            List<InvocationStaticData> allInvocations = _invocationStaticDataService.GetAllInvocations();
-            List<InvocationStaticData> units = allInvocations.FindAll(x => x.InvocationType == InvocationType.Unit);
+            var units = _invocationStaticDataService.GetUnitCollection();
             if (units.Count == 0) 
                 return null;
 
-            InvocationStaticData randomUnit = units[UnityEngine.Random.Range(0, units.Count)];
+            var randomUnit = units[UnityEngine.Random.Range(0, units.Count)];
             return new UnitDTO(randomUnit.Id, randomUnit.Prefab, randomUnit.Rank, randomUnit.CardDefinition, randomUnit.InvocationType);
         }
 
         public BuildingDTO GenerateRandomBuildingDTO()
         {
-            List<InvocationStaticData> allInvocations = _invocationStaticDataService.GetAllInvocations();
-            List<InvocationStaticData> buildings = allInvocations.FindAll(x => x.InvocationType == InvocationType.Build);
+            var buildings = _invocationStaticDataService.GetBuildCollection();
             if (buildings.Count == 0) 
                 return null;
 
@@ -54,8 +52,7 @@ namespace Code.Services.IInvocation.Randomizer
 
         public SkillDTO GenerateRandomSkillDTO()
         {
-            var allInvocations = _invocationStaticDataService.GetAllInvocations();
-            var skills = allInvocations.FindAll(x => x.InvocationType == InvocationType.Skill);
+            var skills = _invocationStaticDataService.GetSkillCollection();
             if (skills.Count == 0) return null;
 
             var randomSkill = skills[UnityEngine.Random.Range(0, skills.Count)];

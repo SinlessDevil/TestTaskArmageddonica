@@ -9,5 +9,8 @@ namespace Code.Services.IInvocation.StaticData
         InvocationStaticData GetInvocationData(string id);
         List<InvocationStaticData> GetAllInvocations();
         InvocationStaticData GetRandomInvocation();
+        List<UnitStaticData> GetUnitCollection();
+        List<BuildStaticData> GetBuildCollection();
+        List<SkillStaticData> GetSkillCollection();
     }
 }
