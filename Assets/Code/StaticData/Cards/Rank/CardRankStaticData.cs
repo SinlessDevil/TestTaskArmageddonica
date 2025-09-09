@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
-using StaticData.Cards.Rank;
+using Code.StaticData.Cards.Rank;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace Code.StaticData.Cards
 {
