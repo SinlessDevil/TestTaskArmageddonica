@@ -78,13 +78,6 @@ namespace Code.Editor.Invocation
             EditorGUILayout.Space();
             DrawNavigationButtons();
             
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Collection Management", EditorStyles.boldLabel);
-            if (GUILayout.Button("Update All Collections"))
-            {
-                CollectionUpdater.UpdateAllCollections();
-                EditorUtility.DisplayDialog("Success", "All collections have been updated!", "OK");
-            }
             
             EditorGUILayout.EndScrollView();
         }
@@ -292,14 +285,11 @@ namespace Code.Editor.Invocation
                 // 2. Создаем InvocationStaticData
                 var invocationData = CreateInvocationStaticDataAsset();
                 
-                // 3. Добавляем в коллекции
+                // 3. Добавляем в InvocationCollection
                 if (invocationData != null)
                 {
                     CollectionUpdater.AddToInvocationCollection(invocationData);
                 }
-                
-                // 4. Обновляем все коллекции
-                CollectionUpdater.UpdateAllCollections();
                 
                 EditorUtility.DisplayDialog("Success", 
                     "Invocation Static Data and Card Definition created and added to collections successfully!", "OK");
@@ -346,28 +336,10 @@ namespace Code.Editor.Invocation
             AssetDatabase.CreateAsset(cardDefinition, fullPath);
             AssetDatabase.SaveAssets();
             
-            // Обновляем тип после создания ассета
-            UpdateCardDefinitionType(cardDefinition, _cardName);
+            // Планируем обновление после компиляции
+            InvocationCollectionAutoSync.ScheduleCardDefinitionUpdate(_cardName);
         }
         
-        private void UpdateCardDefinitionType(CardDefinitionStaticData cardDefinition, string cardName)
-        {
-            // Ждем компиляции
-            AssetDatabase.Refresh();
-            
-            // Пытаемся найти правильный тип
-            if (System.Enum.TryParse<CardDefinitionType>(cardName, out CardDefinitionType result))
-            {
-                cardDefinition.Type = result;
-                EditorUtility.SetDirty(cardDefinition);
-                AssetDatabase.SaveAssets();
-                Debug.Log($"Updated CardDefinitionType to {result} for {cardName}");
-            }
-            else
-            {
-                Debug.LogWarning($"Could not find CardDefinitionType for {cardName}, keeping Unknown");
-            }
-        }
         
         private CardDefinitionType GetCardDefinitionTypeFromName(string cardName)
         {
@@ -474,5 +446,6 @@ namespace Code.Editor.Invocation
             _skillManaCost = 10f;
             _skillRange = 8f;
         }
+        
     }
 }

@@ -5,5 +5,8 @@ namespace Code.StaticData.Cards
         Unknown = 0,
         Chicken,
         Bee,
+        Bat,
+        Bird,
+        Egg,
     }
 }

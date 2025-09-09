@@ -12,7 +12,7 @@ namespace Code.Editor.Invocation
     public static class CollectionUpdater
     {
         private const string INVOCATION_COLLECTION_PATH = "Assets/Resources/StaticData/Invocation/InvocationCollectionStaticData.asset";
-        private const string CARD_DEFINITION_COLLECTION_PATH = "Assets/Resources/StaticData/Cards/Definition/Card Definition Collection Static Data.asset";
+        private const string CARD_DEFINITION_COLLECTION_PATH = "Assets/Resources/StaticData/Cards/CardDefinitionCollectionStaticData.asset";
         
         public static void AddToInvocationCollection(InvocationStaticData invocationData)
         {
@@ -71,16 +71,24 @@ namespace Code.Editor.Invocation
         
         public static void AddToCardDefinitionCollection(CardDefinitionStaticData cardDefinition)
         {
+            Debug.Log($"Attempting to add {cardDefinition.Name} (Type: {cardDefinition.Type}) to CardDefinitionCollectionStaticData");
+            
             var collection = AssetDatabase.LoadAssetAtPath<CardDefinitionCollectionStaticData>(CARD_DEFINITION_COLLECTION_PATH);
             if (collection == null)
             {
-                Debug.LogError($"CardDefinitionCollectionStaticData not found at {CARD_DEFINITION_COLLECTION_PATH}");
-                return;
+                Debug.LogWarning($"CardDefinitionCollectionStaticData not found at {CARD_DEFINITION_COLLECTION_PATH}, creating new one...");
+                collection = CreateCardDefinitionCollectionStaticData();
+                if (collection == null)
+                {
+                    Debug.LogError("Failed to create CardDefinitionCollectionStaticData");
+                    return;
+                }
             }
             
             if (collection.CardDefinitionStaticData == null)
             {
                 collection.CardDefinitionStaticData = new Dictionary<CardDefinitionType, CardDefinitionStaticData>();
+                Debug.Log("Initialized CardDefinitionStaticData dictionary");
             }
             
             if (!collection.CardDefinitionStaticData.ContainsKey(cardDefinition.Type))
@@ -88,7 +96,14 @@ namespace Code.Editor.Invocation
                 collection.CardDefinitionStaticData[cardDefinition.Type] = cardDefinition;
                 EditorUtility.SetDirty(collection);
                 AssetDatabase.SaveAssets();
-                Debug.Log($"Added {cardDefinition.Name} to CardDefinitionCollectionStaticData");
+                Debug.Log($"Added {cardDefinition.Name} (Type: {cardDefinition.Type}) to CardDefinitionCollectionStaticData");
+            }
+            else
+            {
+                Debug.Log($"CardDefinitionType {cardDefinition.Type} already exists in collection, updating...");
+                collection.CardDefinitionStaticData[cardDefinition.Type] = cardDefinition;
+                EditorUtility.SetDirty(collection);
+                AssetDatabase.SaveAssets();
             }
         }
         
@@ -99,6 +114,34 @@ namespace Code.Editor.Invocation
             
             // Обновляем CardDefinitionCollection
             UpdateCardDefinitionCollection();
+        }
+        
+        private static CardDefinitionCollectionStaticData CreateCardDefinitionCollectionStaticData()
+        {
+            try
+            {
+                var collection = ScriptableObject.CreateInstance<CardDefinitionCollectionStaticData>();
+                collection.CardDefinitionStaticData = new Dictionary<CardDefinitionType, CardDefinitionStaticData>();
+                
+                // Создаем папку если не существует
+                string folderPath = "Assets/Resources/StaticData/Cards/";
+                if (!System.IO.Directory.Exists(folderPath))
+                {
+                    System.IO.Directory.CreateDirectory(folderPath);
+                }
+                
+                AssetDatabase.CreateAsset(collection, CARD_DEFINITION_COLLECTION_PATH);
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+                
+                Debug.Log($"Created new CardDefinitionCollectionStaticData at {CARD_DEFINITION_COLLECTION_PATH}");
+                return collection;
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Failed to create CardDefinitionCollectionStaticData: {e.Message}");
+                return null;
+            }
         }
         
         private static void UpdateInvocationCollection()
