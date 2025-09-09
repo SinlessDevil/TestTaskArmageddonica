@@ -10,7 +10,7 @@ namespace Code.Services.IInvocation.DTO
         public GameObject Prefab;
         public CardRankType Rank;
         public CardDefinitionType CardDefinition;
-        private InvocationType invocationType;
+        public InvocationType InvocationType;
         
         public InvocationDTO(string id, GameObject prefab, CardRankType rank, CardDefinitionType cardDefinition,
             InvocationType invocationType)
@@ -19,7 +19,7 @@ namespace Code.Services.IInvocation.DTO
             Prefab = prefab;
             Rank = rank;
             CardDefinition = cardDefinition;
-            this.invocationType = invocationType;
+            InvocationType = invocationType;
         }
     }
 }

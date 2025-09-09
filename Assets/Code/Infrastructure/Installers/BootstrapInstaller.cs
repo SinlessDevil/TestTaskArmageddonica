@@ -27,6 +27,7 @@ using Code.Services.Levels;
 using Code.Services.LocalProgress;
 using Code.Services.PersistenceProgress;
 using Code.Services.Providers;
+using Code.Services.Providers.CardComposites;
 using Code.Services.Providers.Cards;
 using Code.Services.Providers.Widgets;
 using Code.Services.Random;
@@ -36,7 +37,6 @@ using Code.Services.Storage;
 using Code.Services.Timer;
 using Code.Services.Window;
 using Code.UI;
-using Code.UI.Game.Cards;
 using Code.UI.Game.Cards.View;
 using UnityEngine;
 using Zenject;
@@ -125,7 +125,7 @@ namespace Code.Infrastructure.Installers
             Container.Bind<IPoolFactory<Widget>>().To<WidgetFactory>().AsSingle();
             Container.Bind<IPoolProvider<Widget>>().To<WidgetProvider>().AsSingle();
             
-            Container.BindInterfacesTo<InvocationFactory>().AsSingle();
+            Container.BindInterfacesTo<CardCompositeProvider>().AsSingle();
         }
         
         private void BindFactories()
@@ -133,6 +133,7 @@ namespace Code.Infrastructure.Installers
             Container.BindInterfacesTo<UIFactory>().AsSingle();
             Container.BindInterfacesTo<GameFactory>().AsSingle();
             Container.BindInterfacesTo<GridFactory>().AsSingle();
+            Container.BindInterfacesTo<InvocationFactory>().AsSingle();
         }
         
         private void BindInputServices()
