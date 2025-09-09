@@ -1,6 +1,12 @@
-namespace  Code.Services.IInvocation.InvocationHandle
+using Code.Logic.Grid;
+using Code.UI.Game.Cards;
+
+namespace Code.Services.IInvocation.InvocationHandle
 {
     public interface IInvocationHandlerService
     {
+        void Initialize();
+        void Cleanup();
+        void SpawnInvocation(CardView cardView, Cell targetCell);
     }
 }

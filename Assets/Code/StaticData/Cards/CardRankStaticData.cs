@@ -9,7 +9,7 @@ namespace Code.StaticData.Cards
     {
         public Dictionary<CardRankType, CardRankData> CardDataRankCollection = new();
         
-        public CardRankData GetCardDataByRank(CardRankType rankType)
+        public CardRankData? GetCardDataByRank(CardRankType rankType)
         {
             if (CardDataRankCollection.TryGetValue(rankType, out var cardData))
                 return cardData;

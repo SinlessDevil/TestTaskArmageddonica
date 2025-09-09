@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Code.StaticData.Cards
 {
     [System.Serializable]
-    public class CardRankData
+    public struct CardRankData
     {
         public string RankText;
         public Color Color;

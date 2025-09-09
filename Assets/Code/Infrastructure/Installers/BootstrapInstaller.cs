@@ -18,6 +18,10 @@ using Code.Services.Finish.Win;
 using Code.Services.Input;
 using Code.Services.Input.Card;
 using Code.Services.Input.Grid;
+using Code.Services.IInvocation.Factories;
+using Code.Services.IInvocation.InvocationHandle;
+using Code.Services.IInvocation.Randomizer;
+using Code.Services.IInvocation.StaticData;
 using Code.Services.LevelConductor;
 using Code.Services.Levels;
 using Code.Services.LocalProgress;
@@ -70,6 +74,7 @@ namespace Code.Infrastructure.Installers
         private void BindServices()
         {
             BindStaticDataService();
+            BindInvocationServices();
             BindProviders();
             BindFactories();
             BindInputServices();
@@ -99,6 +104,17 @@ namespace Code.Infrastructure.Installers
             IAudioStaticDataService audioStaticDataService = new AudioStaticDataService();
             audioStaticDataService.LoadData();
             Container.Bind<IAudioStaticDataService>().FromInstance(audioStaticDataService).AsSingle();
+        }
+
+        private void BindInvocationServices()
+        {
+            IInvocationStaticDataService invocationStaticDataService = new InvocationStaticDataService();
+            invocationStaticDataService.LoadData();
+            Container.Bind<IInvocationStaticDataService>().FromInstance(invocationStaticDataService).AsSingle();
+            
+            Container.BindInterfacesTo<InvocationHandlerService>().AsSingle();
+            Container.BindInterfacesTo<InvocationFactory>().AsSingle();
+            Container.BindInterfacesTo<RandomizerService>().AsSingle();
         }
         
         private void BindProviders()
