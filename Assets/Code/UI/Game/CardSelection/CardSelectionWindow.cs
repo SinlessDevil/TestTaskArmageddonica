@@ -102,7 +102,7 @@ namespace Code.UI.Game.CardSelection
         {
             OnClosed(selected);
             
-            _animator.Close(null);
+            _animator.Close(() => _cardSelectionPM.OnCloseWindow());
         }
 
         private void OnClosed(CardView selected)
@@ -112,12 +112,11 @@ namespace Code.UI.Game.CardSelection
 
         private void LayoutCards(IReadOnlyList<CardView> cards)
         {
-            var root = _cardsRoot as RectTransform;
+            RectTransform root = _cardsRoot as RectTransform;
             if (root == null)
                 return;
 
             int count = cards.Count(c => c != null);
-
             if (count == 0)
                 return;
 

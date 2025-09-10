@@ -30,7 +30,10 @@ namespace Code.UI.Game.CardSelection
 
         public event Action RolledCardsEvent;
         public event Action<CardView> SellectedCardViewEvent;
+        public event Action ClosedWindowEvent;
 
+        public void Dispose() => ReturnCurrentCards();
+        
         public void Subscribe() => _cardInputService.ClickReleased += OnSelectCardView;
 
         public void Unsubscribe() => _cardInputService.ClickReleased -= OnSelectCardView;
@@ -38,15 +41,25 @@ namespace Code.UI.Game.CardSelection
         public List<CardView> GetCards()
         {
             ReturnCurrentCards();
+            
             _currentCards = _cardCompositeProvider.CreateRandomUnitCards(CountCards);
             return _currentCards.Select(cardComposite => cardComposite.View).ToList();
         }
 
         public void OnRollCards() => RolledCardsEvent?.Invoke();
 
-        public void OnAddCardToHolder(CardView selected) => _uiFactory.GameHud.CardHolder.AddCard(selected);
+        public void OnAddCardToHolder(CardView selected)
+        {
+            _uiFactory.GameHud.CardHolder.AddCard(selected);
+            
+            CardComposite cardToRemove = _currentCards.FirstOrDefault(card => card.View == selected);
+            if (cardToRemove != null) 
+                _currentCards.Remove(cardToRemove);
+        }
 
         private void OnSelectCardView(CardView view) => SellectedCardViewEvent?.Invoke(view);
+
+        public void OnCloseWindow() => ClosedWindowEvent?.Invoke();
 
         private void ReturnCurrentCards()
         {
@@ -56,7 +69,5 @@ namespace Code.UI.Game.CardSelection
             _cardCompositeProvider.ReturnCardComposites(_currentCards);
             _currentCards.Clear();
         }
-        
-        public void Dispose() => ReturnCurrentCards();
     }
 }

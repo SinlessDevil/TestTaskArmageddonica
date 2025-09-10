@@ -1,12 +1,15 @@
+using System;
+using Code.UI.Game.Cards.View;
 using Code.UI.Game.CardSelection;
 
 namespace Code.Services.CardSelection
 {
     public interface ICardSelectionService
     {
-        System.Action Selected { get; set; }
-        CardSelectionWindow Open();
-        void Close(CardSelectionWindow window);
+        event Action<CardView> SelectedCardEvent;
+        event Action ClosedWindowEvent;
+        void Open();
+        void Close();
+        CardSelectionWindow CardSelectionWindow { get; }
     }
 }
-

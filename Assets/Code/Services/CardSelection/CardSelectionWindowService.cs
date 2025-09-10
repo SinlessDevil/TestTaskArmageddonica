@@ -3,7 +3,6 @@ using Code.Services.Factories.UIFactory;
 using Code.Services.Input.Card;
 using Code.Services.Providers.CardComposites;
 using Code.Services.Window;
-using Code.UI.Game.Cards;
 using Code.UI.Game.Cards.View;
 using Code.UI.Game.CardSelection;
 using Code.Window;
@@ -19,7 +18,6 @@ namespace Code.Services.CardSelection
 
         private ICardSelectionPM _cardSelectionPM;
         private CardSelectionWindow _cardSelectionWindow;
-        public Action Selected { get; set; }
         
         public CardSelectionWindowService(
             IWindowService windowService,
@@ -33,23 +31,30 @@ namespace Code.Services.CardSelection
             _cardInputService = cardInputService;
         }
 
-        public CardSelectionWindow Open()
+        public event Action<CardView> SelectedCardEvent;
+        
+        public event Action ClosedWindowEvent;
+
+        public CardSelectionWindow CardSelectionWindow => _cardSelectionWindow;
+        
+        public void Open()
         {
             _cardSelectionPM = new CardSelectionPM(_cardCompositeProvider, _uiFactory, _cardInputService);
             _cardSelectionPM.Subscribe();
-            _cardSelectionPM.SellectedCardViewEvent += OnSelected;
+            _cardSelectionPM.SellectedCardViewEvent += OnSelectCard;
+            _cardSelectionPM.ClosedWindowEvent += OnCloseWindow;
             
             _cardSelectionWindow = _windowService
                 .Open(WindowTypeId.CardSelection)
                 .GetComponent<CardSelectionWindow>();
             _cardSelectionWindow.Initialize(_cardSelectionPM);
-            
-            return _cardSelectionWindow;
         }
 
-        public void Close(CardSelectionWindow window)
+        public void Close()
         {
-            _cardSelectionPM.SellectedCardViewEvent -= OnSelected;
+            _cardSelectionPM.SellectedCardViewEvent -= OnSelectCard;
+            _cardSelectionPM.ClosedWindowEvent -= OnCloseWindow;
+            
             _cardSelectionPM.Unsubscribe();
             _cardSelectionPM.Dispose();
             _cardSelectionPM = null;
@@ -57,10 +62,15 @@ namespace Code.Services.CardSelection
             _cardSelectionWindow.Dispose();
             _cardSelectionWindow = null;
         }
-
-        private void OnSelected(CardView _)
+        
+        private void OnSelectCard(CardView cardView)
         {
-            Selected?.Invoke();
+            SelectedCardEvent?.Invoke(cardView);
+        }
+        
+        private void OnCloseWindow()
+        {
+            ClosedWindowEvent?.Invoke();
         }
     }
 }
