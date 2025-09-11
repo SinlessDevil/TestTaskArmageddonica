@@ -63,9 +63,35 @@ namespace Code.Editor.Battle
             
             if (GUILayout.Button("Force Save")) 
             {
+                Debug.Log($"Before save - BattleDataList count: {_target.BattleDataList.Count}");
+                foreach (var battle in _target.BattleDataList)
+                {
+                    Debug.Log($"Battle: {battle.BattleName}, ID: {battle.BattleId}, Matrix: {battle.MatrixWidth}x{battle.MatrixHeight}");
+                }
+                
                 EditorUtility.SetDirty(_target);
                 AssetDatabase.SaveAssets();
-                Debug.Log("BattleStaticData saved!");
+                AssetDatabase.Refresh();
+                
+                Debug.Log("BattleStaticData saved and refreshed!");
+                
+                // Проверяем после сохранения
+                Debug.Log($"After save - BattleDataList count: {_target.BattleDataList.Count}");
+            }
+            
+            if (GUILayout.Button("Debug Data")) 
+            {
+                Debug.Log("=== DEBUG BATTLE DATA ===");
+                Debug.Log($"Target: {_target.name}");
+                Debug.Log($"BattleDataList Count: {_target.BattleDataList.Count}");
+                Debug.Log($"BattleDataList is null: {_target.BattleDataList == null}");
+                
+                for (int i = 0; i < _target.BattleDataList.Count; i++)
+                {
+                    var battle = _target.BattleDataList[i];
+                    Debug.Log($"Battle {i}: {battle?.BattleName ?? "NULL"}, ID: {battle?.BattleId ?? -1}");
+                }
+                Debug.Log("=== END DEBUG ===");
             }
             
             EditorGUILayout.EndHorizontal();
@@ -137,15 +163,42 @@ namespace Code.Editor.Battle
         
         private void AddNewBattle()
         {
-            BattleData newBattle = new BattleData($"Battle_{_target.BattleDataList.Count + 1}", 5, 5);
-            newBattle.GenerateBattleId(); // Генерируем ID после создания
-            newBattle.InitializeMatrix(); // Инициализируем матрицу после создания
-            _target.AddBattleData(newBattle);
+            Debug.Log($"Adding new battle. Current count: {_target.BattleDataList.Count}");
+            
+            // Создаем новую битву напрямую через SerializedObject
+            serializedObject.Update();
+            SerializedProperty battleListProperty = serializedObject.FindProperty("_battleDataList");
+            battleListProperty.arraySize++;
+            SerializedProperty newBattleProperty = battleListProperty.GetArrayElementAtIndex(battleListProperty.arraySize - 1);
+            
+            // Устанавливаем все свойства через SerializedProperty
+            newBattleProperty.FindPropertyRelative("_battleName").stringValue = $"Battle_{battleListProperty.arraySize}";
+            newBattleProperty.FindPropertyRelative("_battleId").intValue = UnityEngine.Random.Range(1000, 9999);
+            newBattleProperty.FindPropertyRelative("_matrixWidth").intValue = 5;
+            newBattleProperty.FindPropertyRelative("_matrixHeight").intValue = 5;
+            
+            // Инициализируем матрицу как одномерный массив
+            SerializedProperty matrixProperty = newBattleProperty.FindPropertyRelative("_battleMatrix");
+            matrixProperty.arraySize = 5 * 5; // 5x5 матрица = 25 элементов
+            
+            for (int i = 0; i < matrixProperty.arraySize; i++)
+            {
+                SerializedProperty cellProperty = matrixProperty.GetArrayElementAtIndex(i);
+                cellProperty.FindPropertyRelative("_invocationId").stringValue = "";
+                cellProperty.FindPropertyRelative("_isOccupied").boolValue = false;
+            }
+            
+            serializedObject.ApplyModifiedProperties();
+            
             _selectedBattleIndex = _target.BattleDataList.Count - 1;
+            
+            Debug.Log($"After adding. New count: {_target.BattleDataList.Count}");
             
             // Принудительно помечаем как измененный и сохраняем
             EditorUtility.SetDirty(_target);
             AssetDatabase.SaveAssets();
+            
+            Debug.Log("New battle added and saved!");
         }
         
         private void LoadAvailableInvocationIds()
@@ -217,14 +270,15 @@ namespace Code.Editor.Battle
             
             EditorGUILayout.LabelField("Battle Matrix:", EditorStyles.boldLabel);
             
-            BattleMatrixCell[,] matrix = battleData.BattleMatrix;
+            BattleMatrixCell[] matrix = battleData.BattleMatrix;
             
             if (matrix != null)
             {
                 // Проверяем соответствие размеров матрицы
-                if (matrix.GetLength(0) != battleData.MatrixWidth || matrix.GetLength(1) != battleData.MatrixHeight)
+                int expectedSize = battleData.MatrixWidth * battleData.MatrixHeight;
+                if (matrix.Length != expectedSize)
                 {
-                    EditorGUILayout.HelpBox($"Matrix size mismatch! Expected: {battleData.MatrixWidth}x{battleData.MatrixHeight}, Actual: {matrix.GetLength(0)}x{matrix.GetLength(1)}. Reinitializing...", MessageType.Warning);
+                    EditorGUILayout.HelpBox($"Matrix size mismatch! Expected: {expectedSize} cells ({battleData.MatrixWidth}x{battleData.MatrixHeight}), Actual: {matrix.Length} cells. Reinitializing...", MessageType.Warning);
                     battleData.InitializeMatrix();
                     EditorUtility.SetDirty(_target);
                     matrix = battleData.BattleMatrix;
@@ -238,14 +292,16 @@ namespace Code.Editor.Battle
                     
                     for (int x = 0; x < battleData.MatrixWidth; x++)
                     {
+                        int index = y * battleData.MatrixWidth + x;
+                        
                         // Проверяем границы массива
-                        if (x < matrix.GetLength(0) && y < matrix.GetLength(1))
+                        if (index < matrix.Length)
                         {
-                            var cell = matrix[x, y];
+                            var cell = matrix[index];
                             if (cell == null)
                             {
                                 cell = new BattleMatrixCell();
-                                matrix[x, y] = cell;
+                                matrix[index] = cell;
                             }
                             DisplayMatrixCell(x, y, cell, battleData);
                         }
