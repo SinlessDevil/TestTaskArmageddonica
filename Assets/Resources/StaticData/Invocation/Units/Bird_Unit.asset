@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: Bird
   Prefab: {fileID: 7839633962325119934, guid: 24a642af292e7044387ff787de718741, type: 3}
-  Rank: 2
+  Rank: 0
   CardDefinition: 4
   InvocationType: 1
+  Health: 60
+  Damage: 25
+  Speed: 100

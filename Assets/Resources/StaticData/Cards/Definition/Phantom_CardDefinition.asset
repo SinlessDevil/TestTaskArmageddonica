@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Phantom_CardDefinition
   m_EditorClassIdentifier: 
   Name: Phantom
-  Description: 'Phantom, the legendary ghost that can deal 30 damage '
+  Description: A shadowy figure with terrifying speed and deadly strikes.
   Icon: {fileID: 21300000, guid: 7a5b9d1212a9e574bab8057b0bfd5e9d, type: 3}
   Type: 11

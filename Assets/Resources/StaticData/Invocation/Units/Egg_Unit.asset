@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: Egg
   Prefab: {fileID: 7839633962325119934, guid: 0f488496984010c4caa274825303374c, type: 3}
-  Rank: 0
+  Rank: 2
   CardDefinition: 5
   InvocationType: 1
+  Health: 200
+  Damage: 0
+  Speed: 20

@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: Fledgling
   Prefab: {fileID: 7839633962325119934, guid: 8dd2b9956968ca745981b3095335968b, type: 3}
-  Rank: 3
+  Rank: 0
   CardDefinition: 6
   InvocationType: 1
+  Health: 70
+  Damage: 20
+  Speed: 95

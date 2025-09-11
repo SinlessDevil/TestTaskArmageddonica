@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Bird_CardDefinition
   m_EditorClassIdentifier: 
   Name: Bird
-  Description: 'A fighting bird no worse than a flying squirrel calmly deals 4 damage
-    points. '
+  Description: A swift flier that scouts the land from above.
   Icon: {fileID: 21300000, guid: ca2a8d657e8c0574fa5010534ce02501, type: 3}
   Type: 4

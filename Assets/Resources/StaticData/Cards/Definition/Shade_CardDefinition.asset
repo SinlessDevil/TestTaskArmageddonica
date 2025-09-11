@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62db079a6287478c987df1deddbee942, type: 3}
+  m_Name: Shade_CardDefinition
+  m_EditorClassIdentifier: 
+  Name: Shade
+  Description: A dark flame-like being that drains energy.
+  Icon: {fileID: 21300000, guid: 9de69b097acb4b743a9fa9b431dcf12e, type: 3}
+  Type: 15

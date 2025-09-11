@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Code.StaticData.Cards;
 using Code.StaticData.Invocation;
@@ -25,9 +26,9 @@ namespace Code.Editor.Invocation
         private Sprite _cardIcon;
         
         // Step 4: Specific Parameters (will be shown based on InvocationType)
-        private float _unitHealth = 100f;
-        private float _unitDamage = 10f;
-        private float _unitSpeed = 5f;
+        private int _unitHealth = 100;
+        private int _unitDamage = 10;
+        private int _unitSpeed = 5;
         
         private float _buildingHealth = 200f;
         private float _buildingDefense = 5f;
@@ -40,10 +41,63 @@ namespace Code.Editor.Invocation
         private Vector2 _scrollPosition;
         private int _currentStep = 1;
         
+        private int _selectedTab = 0;
+        private string[] _tabNames = { "Create New", "Edit Existing" };
+        
+        private List<InvocationStaticData> _allInvocationData = new();
+        private List<UnitStaticData> _unitData = new();
+        private List<BuildStaticData> _buildData = new();
+        private List<SkillStaticData> _skillData = new();
+        private Vector2 _existingObjectsScrollPosition;
+        private bool _dataLoaded = false;
+        
+        // Foldout states for sections
+        private bool _unitsSectionFolded = false;
+        private bool _buildsSectionFolded = false;
+        private bool _skillsSectionFolded = false;
+        
+        // Foldout states for individual items
+        private Dictionary<string, bool> _itemFoldoutStates = new();
+        
         [MenuItem("Tools/Invocation Static Data Window Editor", false, 2002)]
         public static void ShowWindow()
         {
-            GetWindow<InvocationStaticDataEditorWindow>("Invocation Creator");
+            InvocationStaticDataEditorWindow window = GetWindow<InvocationStaticDataEditorWindow>("Invocation Creator");
+            window.LoadExistingData();
+        }
+        
+        private void LoadExistingData()
+        {
+            _allInvocationData.Clear();
+            _unitData.Clear();
+            _buildData.Clear();
+            _skillData.Clear();
+            
+            string[] guids = AssetDatabase.FindAssets("t:InvocationStaticData");
+            foreach (string guid in guids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                InvocationStaticData data = AssetDatabase.LoadAssetAtPath<InvocationStaticData>(path);
+                if (data != null)
+                {
+                    _allInvocationData.Add(data);
+
+                    switch (data)
+                    {
+                        case UnitStaticData unitData:
+                            _unitData.Add(unitData);
+                            break;
+                        case BuildStaticData buildData:
+                            _buildData.Add(buildData);
+                            break;
+                        case SkillStaticData skillData:
+                            _skillData.Add(skillData);
+                            break;
+                    }
+                }
+            }
+            
+            _dataLoaded = true;
         }
         
         private void OnGUI()
@@ -53,32 +107,249 @@ namespace Code.Editor.Invocation
             EditorGUILayout.LabelField("Invocation Static Data Creator", EditorStyles.boldLabel);
             EditorGUILayout.Space();
             
-            DrawStepIndicator();
+            _selectedTab = GUILayout.Toolbar(_selectedTab, _tabNames);
             EditorGUILayout.Space();
             
-            switch (_currentStep)
+            if (_selectedTab == 0)
             {
-                case 1:
-                    DrawStep1_InvocationTypeSelection();
-                    break;
-                case 2:
-                    DrawStep2_BasicData();
-                    break;
-                case 3:
-                    DrawStep3_CardDefinition();
-                    break;
-                case 4:
-                    DrawStep4_SpecificParameters();
-                    break;
-                case 5:
-                    DrawStep5_ReviewAndCreate();
-                    break;
+                DrawStepIndicator();
+                EditorGUILayout.Space();
+                
+                switch (_currentStep)
+                {
+                    case 1:
+                        DrawStep1_InvocationTypeSelection();
+                        break;
+                    case 2:
+                        DrawStep2_BasicData();
+                        break;
+                    case 3:
+                        DrawStep3_CardDefinition();
+                        break;
+                    case 4:
+                        DrawStep4_SpecificParameters();
+                        break;
+                    case 5:
+                        DrawStep5_ReviewAndCreate();
+                        break;
+                }
+                
+                EditorGUILayout.Space();
+                DrawNavigationButtons();
+            }
+            else
+            {
+                DrawExistingObjectsTab();
+            }
+            
+            EditorGUILayout.EndScrollView();
+        }
+        
+        private void DrawExistingObjectsTab()
+        {
+            EditorGUILayout.LabelField("Edit Existing Invocation Data", EditorStyles.boldLabel);
+            EditorGUILayout.Space();
+            
+            // Control buttons
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("Refresh Data", GUILayout.Height(25)))
+                LoadExistingData();
+            
+            if (GUILayout.Button("Expand All", GUILayout.Height(25)))
+            {
+                _unitsSectionFolded = false;
+                _buildsSectionFolded = false;
+                _skillsSectionFolded = false;
+                _itemFoldoutStates.Clear();
+            }
+            
+            if (GUILayout.Button("Collapse All", GUILayout.Height(25)))
+            {
+                _unitsSectionFolded = true;
+                _buildsSectionFolded = true;
+                _skillsSectionFolded = true;
+                _itemFoldoutStates.Clear();
+            }
+            EditorGUILayout.EndHorizontal();
+            
+            EditorGUILayout.Space();
+            
+            if (!_dataLoaded)
+                LoadExistingData();
+            
+            _existingObjectsScrollPosition = EditorGUILayout.BeginScrollView(_existingObjectsScrollPosition);
+            
+            DrawCollectionSection("Units", _unitData);
+            DrawCollectionSection("Builds", _buildData);
+            DrawCollectionSection("Skills", _skillData);
+            
+            EditorGUILayout.EndScrollView();
+        }
+        
+        private void DrawCollectionSection<T>(string title, List<T> collection) where T : InvocationStaticData
+        {
+            bool isFolded = GetSectionFoldoutState(title);
+            
+            EditorGUILayout.BeginHorizontal();
+            isFolded = EditorGUILayout.Foldout(!isFolded, $"{title} ({collection.Count} items)", true, EditorStyles.foldoutHeader);
+            SetSectionFoldoutState(title, !isFolded);
+            EditorGUILayout.EndHorizontal();
+            
+            if (isFolded)
+            {
+                if (collection.Count == 0)
+                {
+                    EditorGUILayout.HelpBox($"No {title.ToLower()} found.", MessageType.Info);
+                }
+                else
+                {
+                    EditorGUI.indentLevel++;
+                    foreach (var item in collection)
+                        DrawInvocationDataItem(item);
+                    EditorGUI.indentLevel--;
+                }
             }
             
             EditorGUILayout.Space();
-            DrawNavigationButtons();
+        }
+        
+        private bool GetSectionFoldoutState(string sectionName)
+        {
+            return sectionName switch
+            {
+                "Units" => _unitsSectionFolded,
+                "Builds" => _buildsSectionFolded,
+                "Skills" => _skillsSectionFolded,
+                _ => false
+            };
+        }
+        
+        private void SetSectionFoldoutState(string sectionName, bool folded)
+        {
+            switch (sectionName)
+            {
+                case "Units":
+                    _unitsSectionFolded = folded;
+                    break;
+                case "Builds":
+                    _buildsSectionFolded = folded;
+                    break;
+                case "Skills":
+                    _skillsSectionFolded = folded;
+                    break;
+            }
+        }
+        
+        private void DrawInvocationDataItem(InvocationStaticData data)
+        {
+            string itemKey = $"{data.Id}_{data.InvocationType}";
+            bool isItemFolded = GetItemFoldoutState(itemKey);
             
-            EditorGUILayout.EndScrollView();
+            EditorGUILayout.BeginVertical("box");
+            
+            // Header with foldout
+            EditorGUILayout.BeginHorizontal();
+            isItemFolded = EditorGUILayout.Foldout(!isItemFolded, $"{data.Id} ({data.InvocationType})", true, EditorStyles.foldoutHeader);
+            SetItemFoldoutState(itemKey, !isItemFolded);
+            
+            GUILayout.FlexibleSpace();
+            
+            if (GUILayout.Button("Select", GUILayout.Width(60)))
+            {
+                Selection.activeObject = data;
+                EditorGUIUtility.PingObject(data);
+            }
+            
+            EditorGUILayout.EndHorizontal();
+            
+            if (isItemFolded)
+            {
+                EditorGUI.indentLevel++;
+                DrawItemContent(data);
+                EditorGUI.indentLevel--;
+            }
+            
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.Space();
+        }
+        
+        private void DrawItemContent(InvocationStaticData data)
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("ID:", GUILayout.Width(50));
+            data.Id = EditorGUILayout.TextField(data.Id);
+            EditorGUILayout.EndHorizontal();
+            
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Rank:", GUILayout.Width(50));
+            data.Rank = (CardRankType)EditorGUILayout.EnumPopup(data.Rank);
+            EditorGUILayout.EndHorizontal();
+            
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Prefab:", GUILayout.Width(50));
+            data.Prefab = (GameObject)EditorGUILayout.ObjectField(data.Prefab, typeof(GameObject), false);
+            EditorGUILayout.EndHorizontal();
+ 
+            switch (data)
+            {
+                case UnitStaticData unitData:
+                    EditorGUILayout.LabelField("Unit Stats:", EditorStyles.miniBoldLabel);
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Health:", GUILayout.Width(50));
+                    unitData.Health = EditorGUILayout.IntField(unitData.Health);
+                    EditorGUILayout.LabelField("Damage:", GUILayout.Width(50));
+                    unitData.Damage = EditorGUILayout.IntField(unitData.Damage);
+                    EditorGUILayout.LabelField("Speed:", GUILayout.Width(50));
+                    unitData.Speed = EditorGUILayout.IntField(unitData.Speed);
+                    EditorGUILayout.EndHorizontal();
+                    break;
+                case BuildStaticData buildData:
+                    EditorGUILayout.LabelField("Build Stats:", EditorStyles.miniBoldLabel);
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Defense:", GUILayout.Width(60));
+                    buildData.Defense = EditorGUILayout.FloatField(buildData.Defense);
+                    EditorGUILayout.LabelField("Range:", GUILayout.Width(50));
+                    buildData.Range = EditorGUILayout.FloatField(buildData.Range);
+                    EditorGUILayout.LabelField("Build Time:", GUILayout.Width(70));
+                    buildData.BuildTime = EditorGUILayout.FloatField(buildData.BuildTime);
+                    EditorGUILayout.EndHorizontal();
+                    break;
+                case SkillStaticData skillData:
+                    EditorGUILayout.LabelField("Skill Stats:", EditorStyles.miniBoldLabel);
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Cooldown:", GUILayout.Width(60));
+                    skillData.Cooldown = EditorGUILayout.FloatField(skillData.Cooldown);
+                    EditorGUILayout.LabelField("Mana Cost:", GUILayout.Width(70));
+                    skillData.ManaCost = EditorGUILayout.FloatField(skillData.ManaCost);
+                    EditorGUILayout.LabelField("Range:", GUILayout.Width(50));
+                    skillData.Range = EditorGUILayout.FloatField(skillData.Range);
+                    EditorGUILayout.EndHorizontal();
+                
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Duration:", GUILayout.Width(60));
+                    skillData.Duration = EditorGUILayout.FloatField(skillData.Duration);
+                    EditorGUILayout.EndHorizontal();
+                    break;
+            }
+            
+            if (GUILayout.Button("Save Changes", GUILayout.Height(20)))
+            {
+                EditorUtility.SetDirty(data);
+                AssetDatabase.SaveAssets();
+                Debug.Log($"Saved changes to {data.Id}");
+            }
+        }
+        
+        private bool GetItemFoldoutState(string itemKey)
+        {
+            if (!_itemFoldoutStates.ContainsKey(itemKey))
+                _itemFoldoutStates[itemKey] = true; // Default to expanded
+            return _itemFoldoutStates[itemKey];
+        }
+        
+        private void SetItemFoldoutState(string itemKey, bool folded)
+        {
+            _itemFoldoutStates[itemKey] = folded;
         }
         
         private void DrawStepIndicator()
@@ -165,18 +436,16 @@ namespace Code.Editor.Invocation
             {
                 case InvocationType.Unit:
                     EditorGUILayout.LabelField("Unit Parameters", EditorStyles.boldLabel);
-                    _unitHealth = EditorGUILayout.FloatField("Health", _unitHealth);
-                    _unitDamage = EditorGUILayout.FloatField("Damage", _unitDamage);
-                    _unitSpeed = EditorGUILayout.FloatField("Speed", _unitSpeed);
+                    _unitHealth = EditorGUILayout.IntField("Health", _unitHealth);
+                    _unitDamage = EditorGUILayout.IntField("Damage", _unitDamage);
+                    _unitSpeed = EditorGUILayout.IntField("Speed", _unitSpeed);
                     break;
-                    
                 case InvocationType.Build:
                     EditorGUILayout.LabelField("Building Parameters", EditorStyles.boldLabel);
                     _buildingHealth = EditorGUILayout.FloatField("Health", _buildingHealth);
                     _buildingDefense = EditorGUILayout.FloatField("Defense", _buildingDefense);
                     _buildingRange = EditorGUILayout.FloatField("Range", _buildingRange);
                     break;
-                    
                 case InvocationType.Skill:
                     EditorGUILayout.LabelField("Skill Parameters", EditorStyles.boldLabel);
                     _skillCooldown = EditorGUILayout.FloatField("Cooldown", _skillCooldown);
@@ -252,7 +521,6 @@ namespace Code.Editor.Invocation
             };
         }
         
-        
         private bool ValidateAllData()
         {
             return !string.IsNullOrEmpty(_id) && 
@@ -275,13 +543,13 @@ namespace Code.Editor.Invocation
                 CreateCardDefinitionStaticData();
                 InvocationStaticData invocationData = CreateInvocationStaticDataAsset();
                 if (invocationData != null)
-                {
                     CollectionUpdater.AddToInvocationCollection(invocationData);
-                }
                 
                 EditorUtility.DisplayDialog("Success", 
                     "Invocation Static Data and Card Definition created and added to collections successfully!", "OK");
                 ClearForm();
+                LoadExistingData();
+                _selectedTab = 1;
             }
             catch (Exception e)
             {
@@ -322,7 +590,6 @@ namespace Code.Editor.Invocation
             AssetDatabase.SaveAssets();
         }
         
-        
         private CardDefinitionType GetCardDefinitionTypeFromName(string cardName)
         {
             if (string.IsNullOrEmpty(cardName))
@@ -334,10 +601,7 @@ namespace Code.Editor.Invocation
             if (!EnumUpdater.IsCardDefinitionTypeExists(cardName)) 
                 EnumUpdater.AddCardDefinitionType(cardName);
             
-            if (Enum.TryParse(cardName, out result))
-                return result;
-            
-            return CardDefinitionType.Unknown;
+            return Enum.TryParse(cardName, out result) ? result : CardDefinitionType.Unknown;
         }
         
         private InvocationStaticData CreateInvocationStaticDataAsset()
@@ -375,6 +639,8 @@ namespace Code.Editor.Invocation
             invocationData.CardDefinition = GetCardDefinitionTypeFromName(_cardName);
             invocationData.InvocationType = _invocationType;
             
+            SetSpecificStats(invocationData);
+            
             if (!Directory.Exists(folderPath)) 
                 Directory.CreateDirectory(folderPath);
             
@@ -402,6 +668,42 @@ namespace Code.Editor.Invocation
             return invocationData;
         }
         
+        private void SetSpecificStats(InvocationStaticData invocationData)
+        {
+            switch (_invocationType)
+            {
+                case InvocationType.Unit:
+                    if (invocationData is UnitStaticData unitData)
+                    {
+                        unitData.Health = _unitHealth;
+                        unitData.Damage = _unitDamage;
+                        unitData.Speed = _unitSpeed;
+                    }
+                    break;
+                case InvocationType.Build:
+                    if (invocationData is BuildStaticData buildData)
+                    {
+                        buildData.Defense = _buildingDefense;
+                        buildData.Range = _buildingRange;
+                        buildData.BuildTime = 5f;
+                    }
+                    break;
+                case InvocationType.Skill:
+                    if (invocationData is SkillStaticData skillData)
+                    {
+                        skillData.Cooldown = _skillCooldown;
+                        skillData.ManaCost = _skillManaCost;
+                        skillData.Range = _skillRange;
+                        skillData.Duration = 0f;
+                    }
+                    break;
+                case InvocationType.Unknown:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        
         private void ClearForm()
         {
             _currentStep = 1;
@@ -414,9 +716,9 @@ namespace Code.Editor.Invocation
             _cardDescription = "";
             _cardIcon = null;
             
-            _unitHealth = 100f;
-            _unitDamage = 10f;
-            _unitSpeed = 5f;
+            _unitHealth = 100;
+            _unitDamage = 10;
+            _unitSpeed = 5;
             _buildingHealth = 200f;
             _buildingDefense = 5f;
             _buildingRange = 10f;

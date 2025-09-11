@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: Bat
   Prefab: {fileID: 7839633962325119934, guid: d55b2f087cac408439acd49a697bff50, type: 3}
-  Rank: 2
+  Rank: 1
   CardDefinition: 3
   InvocationType: 1
+  Health: 80
+  Damage: 25
+  Speed: 60

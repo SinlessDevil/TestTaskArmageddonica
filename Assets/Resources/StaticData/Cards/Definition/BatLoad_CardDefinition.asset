@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: BatLoad_CardDefinition
   m_EditorClassIdentifier: 
   Name: BatLoad
-  Description: 'Bat Lord is such a true king that he can knock out his opponent with
-    a single blow and deal 25 damage. '
+  Description: 'A dark ruler of the skies, feared for its piercing screech.  '
   Icon: {fileID: 21300000, guid: 1cc5832122ec43a4cbd0c713119107c1, type: 3}
   Type: 7

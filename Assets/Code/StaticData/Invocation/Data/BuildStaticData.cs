@@ -1,10 +1,13 @@
- using UnityEngine;
+using UnityEngine;
 
- namespace Code.StaticData.Invocation.Data
+namespace Code.StaticData.Invocation.Data
 {
     [CreateAssetMenu(fileName = "BuildStaticData", menuName = "StaticData/Invocation/Build", order = 0)]
     public class BuildStaticData : InvocationStaticData
     {
-        
+        [Header("Building Specific Stats")]
+        public float Defense = 5f;
+        public float Range = 10f;
+        public float BuildTime = 5f;
     }
 }

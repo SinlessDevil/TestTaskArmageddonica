@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: BatLord
   Prefab: {fileID: 7839633962325119934, guid: 6e7b871e19d42f9439a7ba00a4c8395e, type: 3}
-  Rank: 6
+  Rank: 4
   CardDefinition: 7
   InvocationType: 1
+  Health: 160
+  Damage: 40
+  Speed: 70

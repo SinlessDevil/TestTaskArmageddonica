@@ -25,6 +25,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 937c8f44969cd0f469a5c9713f63dccb, type: 2}
   - {fileID: 11400000, guid: 872b5775d29c8de4f968a459bda4ac97, type: 2}
   - {fileID: 11400000, guid: 05f0c3e9095e0aa40b47e71dc11f98e2, type: 2}
+  - {fileID: 11400000, guid: 13e7891173f040b4cad2cce9f465efca, type: 2}
+  - {fileID: 11400000, guid: 7b5aada60fe621548b5343b33ab5c689, type: 2}
+  - {fileID: 11400000, guid: a5e9989a34f1c16468f54ace9a62051b, type: 2}
+  - {fileID: 11400000, guid: 3840f15c5fa05b64bae568c3dfb27770, type: 2}
+  - {fileID: 11400000, guid: eded246301faa9748b53854b6e4cea97, type: 2}
+  - {fileID: 11400000, guid: e44526fc2ca17b54592b9f3dcc789c18, type: 2}
+  - {fileID: 11400000, guid: 14bbdbb52af8050468376306b6ed340a, type: 2}
+  - {fileID: 11400000, guid: a6e7f1e32bdcd054eb25f512293c2620, type: 2}
+  - {fileID: 11400000, guid: a5db0e63a87509c469587cdd9ee5b746, type: 2}
+  - {fileID: 11400000, guid: 4315eccfdbd19cf4baf7c6790ca6a6c4, type: 2}
+  - {fileID: 11400000, guid: aae65948662828347829a904029e72b5, type: 2}
+  - {fileID: 11400000, guid: a0e69f5ff934fab46af0999cfbd523ea, type: 2}
+  - {fileID: 11400000, guid: 1936d94caf909594db8b2e951ba5f740, type: 2}
   BuildCollectionData:
   - {fileID: 11400000, guid: 6f287fbdc4be6ac4687362b8ce0804e8, type: 2}
   SkillCollectionData:

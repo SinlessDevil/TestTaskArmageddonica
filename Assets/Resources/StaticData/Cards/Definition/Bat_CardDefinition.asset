@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Bat_CardDefinition
   m_EditorClassIdentifier: 
   Name: Bat
-  Description: 'cluster bat
+  Description: 'A nocturnal hunter, swift and silent in the night.
 
-    which deals 3 damage'
+    which deals
+    3 damage'
   Icon: {fileID: 21300000, guid: 46ccb3ef822a43d429313a5a80c54504, type: 3}
   Type: 3

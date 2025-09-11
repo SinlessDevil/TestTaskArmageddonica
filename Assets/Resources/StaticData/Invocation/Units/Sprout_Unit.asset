@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9811d27ca5604d988cbcc730ae87bda6, type: 3}
+  m_Name: Sprout_Unit
+  m_EditorClassIdentifier: 
+  Id: Sprout
+  Prefab: {fileID: 7839633962325119934, guid: a59349f72ea9fa34e92c3c0d842784b0, type: 3}
+  Rank: 2
+  CardDefinition: 21
+  InvocationType: 1
+  Health: 130
+  Damage: 25
+  Speed: 40

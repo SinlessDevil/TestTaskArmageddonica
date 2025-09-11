@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: Fungi
   Prefab: {fileID: 7839633962325119934, guid: 1d1d2ae288a5fdc47af9121276f9b155, type: 3}
-  Rank: 3
+  Rank: 1
   CardDefinition: 10
   InvocationType: 1
+  Health: 120
+  Damage: 25
+  Speed: 30

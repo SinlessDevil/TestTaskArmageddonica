@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Fungi_CardDefinition
   m_EditorClassIdentifier: 
   Name: Fungi
-  Description: 'Fungi, the second strongest plant, can deal 10 damage. '
+  Description: A strange mushroom creature that spreads spores.
   Icon: {fileID: 21300000, guid: 88fa9135cc68f3e44804abd84c5527aa, type: 3}
   Type: 10

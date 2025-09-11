@@ -17,3 +17,6 @@ MonoBehaviour:
   Rank: 1
   CardDefinition: 2
   InvocationType: 1
+  Health: 70
+  Damage: 30
+  Speed: 90

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Chicken_CardDefinition
   m_EditorClassIdentifier: 
   Name: Chicken
-  Description: Just a chicken that deals 1 damage
+  Description: A fragile but speedy hatchling learning to fight.
   Icon: {fileID: 21300000, guid: 60b64bb9f8fe2424bbcd1d7d5c414084, type: 3}
   Type: 1

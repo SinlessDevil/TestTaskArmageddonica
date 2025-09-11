@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Bee_CardDefinition
   m_EditorClassIdentifier: 
   Name: Bee
-  Description: 'A little bee is stronger than a chicken and can deal up to 2 damage
-    points. '
+  Description: A buzzing warrior with a venomous sting.
   Icon: {fileID: 21300000, guid: 8da47673cd771ef41b510dbc20b6aaa4, type: 3}
   Type: 2

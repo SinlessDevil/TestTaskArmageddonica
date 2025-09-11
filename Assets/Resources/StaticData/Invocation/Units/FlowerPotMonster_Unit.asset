@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: FlowerPotMonster
   Prefab: {fileID: 7839633962325119934, guid: 7534f495d00e52b4787f3f35859b9ece, type: 3}
-  Rank: 4
+  Rank: 3
   CardDefinition: 8
   InvocationType: 1
+  Health: 150
+  Damage: 15
+  Speed: 40

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9811d27ca5604d988cbcc730ae87bda6, type: 3}
+  m_Name: Sting_Unit
+  m_EditorClassIdentifier: 
+  Id: Sting
+  Prefab: {fileID: 7839633962325119934, guid: 4e5736d64bf7c1c4391886cfc0348188, type: 3}
+  Rank: 6
+  CardDefinition: 22
+  InvocationType: 1
+  Health: 150
+  Damage: 45
+  Speed: 85

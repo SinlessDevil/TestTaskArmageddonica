@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9811d27ca5604d988cbcc730ae87bda6, type: 3}
+  m_Name: Ghost_Unit
+  m_EditorClassIdentifier: 
+  Id: Ghost
+  Prefab: {fileID: 7839633962325119934, guid: 2904b788ee4e9014790169482b305f13, type: 3}
+  Rank: 3
+  CardDefinition: 13
+  InvocationType: 1
+  Health: 90
+  Damage: 40
+  Speed: 80

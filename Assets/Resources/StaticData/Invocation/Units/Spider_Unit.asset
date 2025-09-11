@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9811d27ca5604d988cbcc730ae87bda6, type: 3}
+  m_Name: Spider_Unit
+  m_EditorClassIdentifier: 
+  Id: Spider
+  Prefab: {fileID: 8672787908860700878, guid: d7aa467cc2d06614c81778313afa4825, type: 3}
+  Rank: 2
+  CardDefinition: 19
+  InvocationType: 1
+  Health: 110
+  Damage: 40
+  Speed: 65

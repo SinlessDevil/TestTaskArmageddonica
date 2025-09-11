@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Egg_CardDefinition
   m_EditorClassIdentifier: 
   Name: Egg
-  Description: A regular egg deals 1 damage.
+  Description: A mysterious creature waiting to hatch into unknown power.
   Icon: {fileID: 21300000, guid: 2765584043d58ed4b94a001f125a202d, type: 3}
   Type: 5
