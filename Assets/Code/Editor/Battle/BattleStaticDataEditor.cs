@@ -19,6 +19,22 @@ namespace Code.Editor.Battle
         {
             _target = (BattleStaticData)target;
             LoadAvailableInvocationIds();
+            
+            // Генерируем ID для битв, у которых ID = 0
+            bool needsSave = false;
+            foreach (var battleData in _target.BattleDataList)
+            {
+                if (battleData.BattleId == 0)
+                {
+                    battleData.GenerateBattleId();
+                    needsSave = true;
+                }
+            }
+            
+            if (needsSave)
+            {
+                EditorUtility.SetDirty(_target);
+            }
         }
         
         public override void OnInspectorGUI()
@@ -108,6 +124,7 @@ namespace Code.Editor.Battle
         private void AddNewBattle()
         {
             BattleData newBattle = new BattleData($"Battle_{_target.BattleDataList.Count + 1}", 5, 5);
+            newBattle.GenerateBattleId(); // Генерируем ID после создания
             _target.AddBattleData(newBattle);
             _selectedBattleIndex = _target.BattleDataList.Count - 1;
             
@@ -189,6 +206,15 @@ namespace Code.Editor.Battle
             
             if (matrix != null)
             {
+                // Проверяем соответствие размеров матрицы
+                if (matrix.GetLength(0) != battleData.MatrixWidth || matrix.GetLength(1) != battleData.MatrixHeight)
+                {
+                    EditorGUILayout.HelpBox($"Matrix size mismatch! Expected: {battleData.MatrixWidth}x{battleData.MatrixHeight}, Actual: {matrix.GetLength(0)}x{matrix.GetLength(1)}. Reinitializing...", MessageType.Warning);
+                    battleData.InitializeMatrix();
+                    EditorUtility.SetDirty(_target);
+                    matrix = battleData.BattleMatrix;
+                }
+                
                 EditorGUILayout.BeginVertical("box");
                 
                 for (int y = battleData.MatrixHeight - 1; y >= 0; y--)
@@ -197,13 +223,23 @@ namespace Code.Editor.Battle
                     
                     for (int x = 0; x < battleData.MatrixWidth; x++)
                     {
-                        var cell = matrix[x, y];
-                        if (cell == null)
+                        // Проверяем границы массива
+                        if (x < matrix.GetLength(0) && y < matrix.GetLength(1))
                         {
-                            cell = new BattleMatrixCell();
-                            matrix[x, y] = cell;
+                            var cell = matrix[x, y];
+                            if (cell == null)
+                            {
+                                cell = new BattleMatrixCell();
+                                matrix[x, y] = cell;
+                            }
+                            DisplayMatrixCell(x, y, cell, battleData);
                         }
-                        DisplayMatrixCell(x, y, cell, battleData);
+                        else
+                        {
+                            // Если выходим за границы, создаем новую ячейку
+                            var cell = new BattleMatrixCell();
+                            DisplayMatrixCell(x, y, cell, battleData);
+                        }
                     }
                     
                     EditorGUILayout.EndHorizontal();

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91de38510dc8c31408d1878387c1c8af, type: 3}
   m_Name: Level_1
   m_EditorClassIdentifier: 
-  LevelName: Zuma
+  LevelName: "Pok\xE9mon"
   LevelId: 1
   LevelTypeId: 0
   GridData:

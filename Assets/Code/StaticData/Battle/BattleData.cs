@@ -22,27 +22,57 @@ namespace Code.StaticData.Battle
         
         public BattleData()
         {
-            _battleId = UnityEngine.Random.Range(1000, 9999);
+            _battleId = 0; // Будет сгенерирован позже
             InitializeMatrix();
         }
         
         public BattleData(string battleName, int width, int height)
         {
             _battleName = battleName;
-            _battleId = UnityEngine.Random.Range(1000, 9999);
+            _battleId = 0; // Будет сгенерирован позже
             _matrixWidth = width;
             _matrixHeight = height;
             
             InitializeMatrix();
         }
         
+        public void GenerateBattleId()
+        {
+            if (_battleId == 0)
+            {
+                _battleId = UnityEngine.Random.Range(1000, 9999);
+            }
+        }
+        
         public void InitializeMatrix()
         {
+            // Сохраняем существующие данные если матрица уже существует
+            BattleMatrixCell[,] oldMatrix = _battleMatrix;
+            
             _battleMatrix = new BattleMatrixCell[_matrixWidth, _matrixHeight];
             
+            // Копируем существующие данные если они есть
+            if (oldMatrix != null)
+            {
+                int copyWidth = Mathf.Min(_matrixWidth, oldMatrix.GetLength(0));
+                int copyHeight = Mathf.Min(_matrixHeight, oldMatrix.GetLength(1));
+                
+                for (int x = 0; x < copyWidth; x++)
+                for (int y = 0; y < copyHeight; y++)
+                {
+                    _battleMatrix[x, y] = oldMatrix[x, y] ?? new BattleMatrixCell();
+                }
+            }
+            
+            // Заполняем новые ячейки
             for (int x = 0; x < _matrixWidth; x++)
-            for (int y = 0; y < _matrixHeight; y++) 
-                _battleMatrix[x, y] = new BattleMatrixCell();
+            for (int y = 0; y < _matrixHeight; y++)
+            {
+                if (_battleMatrix[x, y] == null)
+                {
+                    _battleMatrix[x, y] = new BattleMatrixCell();
+                }
+            }
         }
         
         public void ResizeMatrix(int newWidth, int newHeight)
