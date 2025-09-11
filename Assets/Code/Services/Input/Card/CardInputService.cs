@@ -208,7 +208,7 @@ namespace Code.Services.Input.Card
             }
             else
             {
-                _dragRT.SetParent(_origParent, false);
+                _dragRT.SetParent(_origParent);
                 _dragRT.SetSiblingIndex(_origSibling);
 
                 _returnTw?.Kill();

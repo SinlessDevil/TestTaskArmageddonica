@@ -40,8 +40,7 @@ namespace Code.UI.Game.Cards.Holder
             if (cardView == null) 
                 return;
             
-            cardView.transform.SetParent(_root, false);
-            cardView.Root.anchoredPosition = Vector2.zero;
+            cardView.transform.SetParent(_root);
             cardView.Root.localScale = Vector3.one;
 
             _cardViews.Add(cardView);
