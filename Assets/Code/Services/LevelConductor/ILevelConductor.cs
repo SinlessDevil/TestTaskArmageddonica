@@ -13,7 +13,6 @@ namespace Code.Services.LevelConductor
         event Action ChangedWaveEvent;
         
         void RunBattle();
-        void EndBattle();
         void Cleanup();
         
         void AddWave();

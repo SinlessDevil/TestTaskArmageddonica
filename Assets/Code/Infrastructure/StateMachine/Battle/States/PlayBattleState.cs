@@ -28,7 +28,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         private readonly ILevelConductor _levelConductor;
         private readonly ILevelService _levelService;
         private readonly IStaticDataService _staticDataService;
-
+        private readonly IStateMachine<IBattleState> _stateMachine;
+        
         public PlayBattleState(
             IGridInputService gridInputService,
             ICardInputService cardInputService,
@@ -38,7 +39,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             IInvocationCreatorDTOService invocationCreatorDtoService,
             ILevelConductor levelConductor,
             ILevelService levelService,
-            IStaticDataService staticDataService)
+            IStaticDataService staticDataService,
+            IStateMachine<IBattleState> stateMachine)
         {
             _gridInputService = gridInputService;
             _cardInputService = cardInputService;
@@ -49,6 +51,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             _levelConductor = levelConductor;
             _levelService = levelService;
             _staticDataService = staticDataService;
+            _stateMachine = stateMachine;
         }
 
         void IState.Enter()
@@ -60,18 +63,23 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             
             SpawnEnemies();
             
-            // Запускаем битву и анимацию "FIGHT!"
             _levelConductor.RunBattle();
+            _levelConductor.EndedBattleEvent += OnNextWave;
         }
 
         void IExitable.Exit()
         {
-            
+            _levelConductor.EndedBattleEvent -= OnNextWave;
         }
         
         public void Update()
         {
             
+        }
+
+        private void OnNextWave()
+        {
+            _stateMachine.Enter<CardPlacementBattleState>();
         }
         
         private void SpawnEnemies()

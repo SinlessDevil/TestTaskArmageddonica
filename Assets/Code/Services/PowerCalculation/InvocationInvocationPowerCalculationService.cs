@@ -59,15 +59,15 @@ namespace Code.Services.PowerCalculation
             return power;
         }
         
-        public BattleResult ComparePowers()
+        public BattlResult ComparePowers()
         {
             float playerPower = CalculatePlayerPower();
             float enemyPower = CalculateEnemyPower();
             
             if (System.Math.Abs(playerPower - enemyPower) < Tolerance)
-                return BattleResult.Draw;
+                return BattlResult.Draw;
             
-            return playerPower > enemyPower ? BattleResult.Player : BattleResult.Enemy;
+            return playerPower > enemyPower ? BattlResult.Player : BattlResult.Enemy;
         }
         
         private float CalculateTotalPower(Dictionary<string, InvocationDTO> invocations) => invocations.Values.Sum(invocation => CalculateInvocationPower(invocation));
