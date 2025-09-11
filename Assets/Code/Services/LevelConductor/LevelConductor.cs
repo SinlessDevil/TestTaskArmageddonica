@@ -27,8 +27,9 @@ namespace Code.Services.LevelConductor
         
         public event Action ChangedPowerPlayerEvent;
         
-        public event Action ChangedPowerEnemyEvent; 
-        
+        public event Action ChangedPowerEnemyEvent;
+        public event Action ChangedWaveEvent;
+
         public void RunBattle()
         {
             RunnedBattleEvent?.Invoke();
@@ -54,6 +55,7 @@ namespace Code.Services.LevelConductor
         public void AddWave()
         {
             _currentGetCurrentWave++;
+            ChangedWaveEvent?.Invoke();
         }
         
         public void AddInvocationForPlayer(InvocationDTO dto)

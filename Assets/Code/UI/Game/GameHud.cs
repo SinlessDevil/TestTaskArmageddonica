@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Code.Services.StaticData;
 using Code.UI.Game.Battle;
+using Code.UI.Game.Battle.Progress;
 using Code.UI.Game.Battle.Score;
 using Code.UI.Game.Cards.Holder;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Code.UI.Game
         [SerializeField] private FightDisplayer _fightDisplayer;
         [SerializeField] private PlayerScoreView _playerScoreView;
         [SerializeField] private EnemyScoreView _enemyScoreView;
+        [SerializeField] private BattleProgressView _battleProgressView;
         [SerializeField] private Canvas _canvas;
         [Space(10)] [Header("Other")]
         [SerializeField] private List<GameObject> _debugObjects;
@@ -39,6 +41,7 @@ namespace Code.UI.Game
             _fightDisplayer.Initialize();
             _playerScoreView.Initialize();
             _enemyScoreView.Initialize();
+            _battleProgressView.Initialize();
         }
 
         public void Dispose()
@@ -46,6 +49,7 @@ namespace Code.UI.Game
             _fightDisplayer.Dispose();
             _playerScoreView.Dispose();
             _enemyScoreView.Dispose();
+            _battleProgressView.Dispose();
         }
         
         public CardHolder CardHolder => _cardHolder;

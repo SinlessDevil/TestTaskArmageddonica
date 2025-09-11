@@ -10,6 +10,7 @@ namespace Code.Services.LevelConductor
         event Action EndedBattleEvent;
         event Action ChangedPowerPlayerEvent;
         event Action ChangedPowerEnemyEvent;
+        event Action ChangedWaveEvent;
         
         void RunBattle();
         void EndBattle();
