@@ -78,6 +78,10 @@ namespace Code.Editor.Battle
                                 _selectedBattleIndex = -1;
                             else if (_selectedBattleIndex > i)
                                 _selectedBattleIndex--;
+                            
+                            // Принудительно сохраняем изменения
+                            EditorUtility.SetDirty(_target);
+                            AssetDatabase.SaveAssets();
                         }
                     }
                     GUI.backgroundColor = Color.white;
@@ -106,6 +110,10 @@ namespace Code.Editor.Battle
             BattleData newBattle = new BattleData($"Battle_{_target.BattleDataList.Count + 1}", 5, 5);
             _target.AddBattleData(newBattle);
             _selectedBattleIndex = _target.BattleDataList.Count - 1;
+            
+            // Принудительно помечаем как измененный и сохраняем
+            EditorUtility.SetDirty(_target);
+            AssetDatabase.SaveAssets();
         }
         
         private void LoadAvailableInvocationIds()
@@ -167,6 +175,7 @@ namespace Code.Editor.Battle
                 {
                     battleData.ResizeMatrix(newWidth, newHeight);
                     EditorUtility.SetDirty(_target);
+                    AssetDatabase.SaveAssets();
                 }
             }
             
@@ -239,6 +248,7 @@ namespace Code.Editor.Battle
             menu.AddItem(new GUIContent("Clear"), false, () => {
                 cell.Clear();
                 EditorUtility.SetDirty(_target);
+                AssetDatabase.SaveAssets();
             });
             
             menu.AddSeparator("");
@@ -251,6 +261,7 @@ namespace Code.Editor.Battle
                     menu.AddItem(new GUIContent($"ID: {capturedId}"), cell.InvocationId == capturedId, () => {
                         cell.SetInvocation(capturedId);
                         EditorUtility.SetDirty(_target);
+                        AssetDatabase.SaveAssets();
                     });
                 }
             }
