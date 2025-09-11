@@ -1,7 +1,6 @@
 using System.Collections.Generic;
+using Code.Services.IInvocation.Creator;
 using Code.Services.IInvocation.StaticData;
-using Code.Services.UniqueId;
-using Code.StaticData.Invocation;
 using Code.StaticData.Invocation.Data;
 using Code.StaticData.Invocation.DTO;
 
@@ -10,14 +9,14 @@ namespace Code.Services.IInvocation.Randomizer
     public class InvocationDataRandomizerService : IRandomizerService
     {
         private readonly IInvocationStaticDataService _invocationStaticDataService;
-        private readonly IUniqueIdService _uniqueIdService;
+        private readonly IInvocationCreatorDTOService _invocationCreatorDtoService;
 
         public InvocationDataRandomizerService(
             IInvocationStaticDataService invocationStaticDataService,
-            IUniqueIdService uniqueIdService)
+            IInvocationCreatorDTOService invocationCreatorDtoService)
         {
             _invocationStaticDataService = invocationStaticDataService;
-            _uniqueIdService = uniqueIdService;
+            _invocationCreatorDtoService = invocationCreatorDtoService;
         }
 
         public InvocationDTO GenerateRandomInvocationDTO()
@@ -26,15 +25,7 @@ namespace Code.Services.IInvocation.Randomizer
             if (randomStaticData == null) 
                 return null;
 
-            string uniqueId = _uniqueIdService.GenerateUniqueId(randomStaticData.InvocationType.ToString());
-
-            return randomStaticData.InvocationType switch
-            {
-                InvocationType.Unit => new UnitDTO(randomStaticData.Id, uniqueId, randomStaticData.Prefab, randomStaticData.Rank, randomStaticData.CardDefinition, randomStaticData.InvocationType, 1),
-                InvocationType.Build => new BuildingDTO(randomStaticData.Id, uniqueId, randomStaticData.Prefab, randomStaticData.Rank, randomStaticData.CardDefinition, randomStaticData.InvocationType, 1),
-                InvocationType.Skill => new SkillDTO(randomStaticData.Id, uniqueId, randomStaticData.Prefab, randomStaticData.Rank, randomStaticData.CardDefinition, randomStaticData.InvocationType, 1),
-                _ => new InvocationDTO(randomStaticData.Id, uniqueId, randomStaticData.Prefab, randomStaticData.Rank, randomStaticData.CardDefinition, randomStaticData.InvocationType, 1)
-            };
+            return _invocationCreatorDtoService.GetInvocationDTO(randomStaticData.Id);
         }
 
         public UnitDTO GenerateRandomUnitDTO()
@@ -44,8 +35,7 @@ namespace Code.Services.IInvocation.Randomizer
                 return null;
 
             UnitStaticData randomUnit = units[UnityEngine.Random.Range(0, units.Count)];
-            string uniqueId = _uniqueIdService.GenerateUniqueId("Unit");
-            return new UnitDTO(randomUnit.Id, uniqueId, randomUnit.Prefab, randomUnit.Rank, randomUnit.CardDefinition, randomUnit.InvocationType, 1);
+            return _invocationCreatorDtoService.GetUnitDTO(randomUnit.Id);
         }
 
         public BuildingDTO GenerateRandomBuildingDTO()
@@ -55,8 +45,7 @@ namespace Code.Services.IInvocation.Randomizer
                 return null;
 
             BuildStaticData randomBuilding = buildings[UnityEngine.Random.Range(0, buildings.Count)];
-            string uniqueId = _uniqueIdService.GenerateUniqueId("Building");
-            return new BuildingDTO(randomBuilding.Id, uniqueId, randomBuilding.Prefab, randomBuilding.Rank, randomBuilding.CardDefinition, randomBuilding.InvocationType, 1);
+            return _invocationCreatorDtoService.GetBuildingDTO(randomBuilding.Id);
         }
 
         public SkillDTO GenerateRandomSkillDTO()
@@ -66,8 +55,7 @@ namespace Code.Services.IInvocation.Randomizer
                 return null;
 
             SkillStaticData randomSkill = skills[UnityEngine.Random.Range(0, skills.Count)];
-            string uniqueId = _uniqueIdService.GenerateUniqueId("Skill");
-            return new SkillDTO(randomSkill.Id, uniqueId, randomSkill.Prefab, randomSkill.Rank, randomSkill.CardDefinition, randomSkill.InvocationType, 1);
+            return _invocationCreatorDtoService.GetSkillDTO(randomSkill.Id);
         }
     }
 }

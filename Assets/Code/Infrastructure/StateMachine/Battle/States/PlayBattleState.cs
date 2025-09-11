@@ -3,8 +3,8 @@ using Code.Logic.Grid;
 using Code.Logic.Invocation;
 using Code.Services.CameraController;
 using Code.Services.Context;
+using Code.Services.IInvocation.Creator;
 using Code.Services.IInvocation.Factories;
-using Code.Services.IInvocation.Randomizer;
 using Code.Services.Input.Card;
 using Code.Services.Input.Grid;
 using Code.Services.LevelConductor;
@@ -24,7 +24,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         private readonly ICameraDirector _cameraDirector;
         private readonly IGameContext _gameContext;
         private readonly IInvocationFactory _invocationFactory;
-        private readonly IRandomizerService _randomizerService;
+        private readonly IInvocationCreatorDTOService _invocationCreatorDtoService;
         private readonly ILevelConductor _levelConductor;
         private readonly ILevelService _levelService;
         private readonly IStaticDataService _staticDataService;
@@ -35,7 +35,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             ICameraDirector cameraDirector,
             IGameContext gameContext,
             IInvocationFactory invocationFactory,
-            IRandomizerService randomizerService,
+            IInvocationCreatorDTOService invocationCreatorDtoService,
             ILevelConductor levelConductor,
             ILevelService levelService,
             IStaticDataService staticDataService)
@@ -45,7 +45,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             _cameraDirector = cameraDirector;
             _gameContext = gameContext;
             _invocationFactory = invocationFactory;
-            _randomizerService = randomizerService;
+            _invocationCreatorDtoService = invocationCreatorDtoService;
             _levelConductor = levelConductor;
             _levelService = levelService;
             _staticDataService = staticDataService;
@@ -85,6 +85,9 @@ namespace Code.Infrastructure.StateMachine.Battle.States
                     if (enemyCell == null) 
                         continue;
                     
+                    if (cell.InvocationId == "")
+                        continue;
+                    
                     InvocationDTO enemyDTO = CreateEnemyDTO(cell.InvocationId);
                     if (enemyDTO == null) 
                         continue;
@@ -99,7 +102,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             }
         }
         
-        private InvocationDTO CreateEnemyDTO(string invocationId) => _randomizerService.GenerateRandomInvocationDTO();
+        private InvocationDTO CreateEnemyDTO(string invocationId) => 
+            _invocationCreatorDtoService.GetInvocationDTO(invocationId);
 
         private HeadRotation HeadRotation => _staticDataService.Balance.HeadRotation;
         private EnemyGird EnemyGrid => _gameContext.EnemyGird;

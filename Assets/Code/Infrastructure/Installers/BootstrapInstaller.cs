@@ -15,6 +15,7 @@ using Code.Services.Factories.UIFactory;
 using Code.Services.Finish;
 using Code.Services.Finish.Lose;
 using Code.Services.Finish.Win;
+using Code.Services.IInvocation.Creator;
 using Code.Services.IInvocation.Factories;
 using Code.Services.Input;
 using Code.Services.Input.Card;
@@ -115,7 +116,7 @@ namespace Code.Infrastructure.Installers
 
         private void BindInvocationServices()
         {
-            Container.BindInterfacesTo<InvocationFactory>().AsSingle();
+            Container.BindInterfacesTo<InvocationCreatorDtoService>().AsSingle();
             Container.BindInterfacesTo<InvocationDataRandomizerService>().AsSingle();
             Container.BindInterfacesTo<InvocationPowerCalculationService>().AsSingle();
         }
