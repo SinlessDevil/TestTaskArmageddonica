@@ -348,7 +348,10 @@ MonoBehaviour:
   _cardsRoot: {fileID: 4689081388843472705}
   _rerollButton: {fileID: 3201829488349472164}
   _toggleVisibilityButton: {fileID: 1359283882066936282}
+  _visibleImage: {fileID: 6453365581030322929}
   _animator: {fileID: 4936988881311856132}
+  _visibleSprite: {fileID: 21300000, guid: adddaa369a5564287a2c3927e4df97b7, type: 3}
+  _invisibleSprite: {fileID: 21300000, guid: b1af5599915d84f9a82fd42bc9a5dec8, type: 3}
   _cardSpacing: 250
   _verticalOffset: 0
   _cardWidth: 100

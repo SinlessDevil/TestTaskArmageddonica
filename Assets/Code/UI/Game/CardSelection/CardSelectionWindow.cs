@@ -11,7 +11,11 @@ namespace Code.UI.Game.CardSelection
         [SerializeField] private Transform _cardsRoot;
         [SerializeField] private Button _rerollButton;
         [SerializeField] private Button _toggleVisibilityButton;
+        [SerializeField] private Image _visibleImage;
         [SerializeField] private CardSelectionWindowAnimator _animator;
+        [Header("Sprites")]
+        [SerializeField] private Sprite _visibleSprite;
+        [SerializeField] private Sprite _invisibleSprite;
         [Header("Layout Settings")]
         [SerializeField] private float _cardSpacing = 200f;
         [SerializeField] private float _verticalOffset = 0f;
@@ -86,11 +90,17 @@ namespace Code.UI.Game.CardSelection
         private void OnToggleVisibilityButtonClick()
         {
             _visible = !_visible;
-            
+
             if (_visible)
+            {
+                _visibleImage.sprite = _visibleSprite;
                 _animator.Show();
+            }
             else
-                _animator.Hide();
+            {
+                _visibleImage.sprite = _invisibleSprite;
+                _animator.Hide();   
+            }
         }
 
         private void OnSelect(CardView view)
