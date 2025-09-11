@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Spider_Unit
   m_EditorClassIdentifier: 
   Id: Spider
-  Prefab: {fileID: 8672787908860700878, guid: d7aa467cc2d06614c81778313afa4825, type: 3}
+  Prefab: {fileID: 7839633962325119934, guid: 0d858759b64d8da4e8cf735e341ed752, type: 3}
   Rank: 2
   CardDefinition: 19
   InvocationType: 1
