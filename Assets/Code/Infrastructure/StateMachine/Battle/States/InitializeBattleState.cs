@@ -96,8 +96,11 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             LevelStaticData levelData = GetCurrentLevelStaticData();
             GridData gridData = levelData.GridData;
 
-            Cell[,] cells = GetCells(Grid.transform, gridData.Rows, gridData.Columns);
-            Grid.Initialize(cells);
+            Cell[,] cellsPlayer = GetCells(PlayerGrid.transform, gridData.Rows, gridData.Columns);
+            PlayerGrid.Initialize(cellsPlayer);
+            
+            Cell[,] cellsEnemy = GetCells(EnemyGrid.transform, gridData.Rows, gridData.Columns);
+            EnemyGrid.Initialize(cellsEnemy);
         }
         
         private Cell[,] GetCells(Transform root, int rows, int columns)
@@ -125,7 +128,9 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         
         private LevelStaticData GetCurrentLevelStaticData() => _levelService.GetCurrentLevelStaticData();
         
-        private Grid Grid => _gameContext.Grid;
+        private PlayerGrid PlayerGrid => _gameContext.PlayerGrid;
+        
+        private EnemyGird EnemyGrid => _gameContext.EnemyGird;
         
         private CardHolder CardHolder => _uiFactory.GameHud.CardHolder;
     }

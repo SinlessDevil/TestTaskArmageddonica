@@ -1,17 +1,20 @@
+using Code.Logic.Grid;
 using Code.Logic.Points;
 using UnityEngine;
-using Grid = Code.Logic.Grid.Grid;
 
 namespace Code.Services.Context
 {
     public class GameContext: IGameContext
     {
-        public Grid Grid { get; private set; }
+        public PlayerGrid PlayerGrid { get; private set; }
+        public EnemyGird EnemyGird { get; private set; }
         public SelectionLookAtPoint SelectionLookAtPoint { get; private set; }
         public BattleLookAtPoint BattleLookAtPoint { get; private set; }
         public Camera Camera { get; private set; }
 
-        public void SetGrid(Grid grid) => Grid = grid;
+        public void SetPlayerGrid(PlayerGrid grid) => PlayerGrid = grid;
+        
+        public void SetEnemyGrid(EnemyGird grid) => EnemyGird = grid;
 
         public void SetLookAtPoint(SelectionLookAtPoint selectionLookAt) => SelectionLookAtPoint = selectionLookAt;
 
@@ -21,9 +24,12 @@ namespace Code.Services.Context
         
         public void Cleanup()
         {
-            Grid = null;
+            PlayerGrid = null;
+            EnemyGird = null;
+            
             SelectionLookAtPoint = null;
             BattleLookAtPoint = null;
+            
             Camera = null;
         }
     }

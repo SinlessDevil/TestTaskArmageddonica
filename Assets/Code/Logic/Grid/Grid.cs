@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Code.Logic.Grid
 {
-    public class Grid : MonoBehaviour
+    public abstract class Grid : MonoBehaviour
     {
         private Cell[,] _cells;
         

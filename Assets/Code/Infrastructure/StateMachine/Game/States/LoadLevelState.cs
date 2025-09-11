@@ -1,4 +1,5 @@
-﻿using Code.Logic.Points;
+﻿using Code.Logic.Grid;
+using Code.Logic.Points;
 using Code.Services.CameraController;
 using Code.Services.Context;
 using Code.Services.Factories.UIFactory;
@@ -91,8 +92,11 @@ namespace Code.Infrastructure.StateMachine.Game.States
 
         private void SetupGameContext()
         {
-            Grid grid = Object.FindAnyObjectByType<Grid>();
-            _gameContext.SetGrid(grid);
+            PlayerGrid playerGrid = Object.FindAnyObjectByType<PlayerGrid>();
+            _gameContext.SetPlayerGrid(playerGrid);
+            
+            EnemyGird enemyGird = Object.FindAnyObjectByType<EnemyGird>();
+            _gameContext.SetEnemyGrid(enemyGird);
             
             SelectionLookAtPoint selectionLookAt = Object.FindAnyObjectByType<SelectionLookAtPoint>();
             _gameContext.SetLookAtPoint(selectionLookAt);
