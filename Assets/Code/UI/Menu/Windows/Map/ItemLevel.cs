@@ -1,9 +1,9 @@
 using System;
 using Code.Services.AudioVibrationFX.Sound;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
+using TMPro;
 
 namespace Code.UI.Menu.Windows.Map
 {

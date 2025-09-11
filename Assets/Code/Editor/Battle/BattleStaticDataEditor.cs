@@ -20,13 +20,20 @@ namespace Code.Editor.Battle
             _target = (BattleStaticData)target;
             LoadAvailableInvocationIds();
             
-            // Генерируем ID для битв, у которых ID = 0
+            // Генерируем ID для битв, у которых ID = 0, и инициализируем матрицы
             bool needsSave = false;
             foreach (var battleData in _target.BattleDataList)
             {
                 if (battleData.BattleId == 0)
                 {
                     battleData.GenerateBattleId();
+                    needsSave = true;
+                }
+                
+                // Проверяем и инициализируем матрицу если нужно
+                if (battleData.BattleMatrix == null)
+                {
+                    battleData.InitializeMatrix();
                     needsSave = true;
                 }
             }
@@ -53,6 +60,13 @@ namespace Code.Editor.Battle
             
             if (GUILayout.Button("Refresh Invocation IDs")) 
                 LoadAvailableInvocationIds();
+            
+            if (GUILayout.Button("Force Save")) 
+            {
+                EditorUtility.SetDirty(_target);
+                AssetDatabase.SaveAssets();
+                Debug.Log("BattleStaticData saved!");
+            }
             
             EditorGUILayout.EndHorizontal();
             
@@ -125,6 +139,7 @@ namespace Code.Editor.Battle
         {
             BattleData newBattle = new BattleData($"Battle_{_target.BattleDataList.Count + 1}", 5, 5);
             newBattle.GenerateBattleId(); // Генерируем ID после создания
+            newBattle.InitializeMatrix(); // Инициализируем матрицу после создания
             _target.AddBattleData(newBattle);
             _selectedBattleIndex = _target.BattleDataList.Count - 1;
             

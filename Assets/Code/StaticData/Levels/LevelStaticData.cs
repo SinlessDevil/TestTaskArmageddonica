@@ -10,7 +10,6 @@ namespace Code.StaticData.Levels
         public int LevelId;
         public LevelTypeId LevelTypeId;
         public GridData GridData;
-        
         [Header("Battle Data")]
         public BattleStaticData BattleStaticData;
     }

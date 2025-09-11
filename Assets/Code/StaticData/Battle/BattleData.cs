@@ -22,18 +22,18 @@ namespace Code.StaticData.Battle
         
         public BattleData()
         {
-            _battleId = 0; // Будет сгенерирован позже
-            InitializeMatrix();
+            _battleId = 0;
+            // Не инициализируем матрицу в конструкторе - это может вызвать проблемы с сериализацией
         }
         
         public BattleData(string battleName, int width, int height)
         {
             _battleName = battleName;
-            _battleId = 0; // Будет сгенерирован позже
+            _battleId = 0;
             _matrixWidth = width;
             _matrixHeight = height;
             
-            InitializeMatrix();
+            // Не инициализируем матрицу в конструкторе - это может вызвать проблемы с сериализацией
         }
         
         public void GenerateBattleId()
@@ -46,12 +46,10 @@ namespace Code.StaticData.Battle
         
         public void InitializeMatrix()
         {
-            // Сохраняем существующие данные если матрица уже существует
             BattleMatrixCell[,] oldMatrix = _battleMatrix;
             
             _battleMatrix = new BattleMatrixCell[_matrixWidth, _matrixHeight];
             
-            // Копируем существующие данные если они есть
             if (oldMatrix != null)
             {
                 int copyWidth = Mathf.Min(_matrixWidth, oldMatrix.GetLength(0));
@@ -64,14 +62,10 @@ namespace Code.StaticData.Battle
                 }
             }
             
-            // Заполняем новые ячейки
             for (int x = 0; x < _matrixWidth; x++)
             for (int y = 0; y < _matrixHeight; y++)
             {
-                if (_battleMatrix[x, y] == null)
-                {
-                    _battleMatrix[x, y] = new BattleMatrixCell();
-                }
+                _battleMatrix[x, y] ??= new BattleMatrixCell();
             }
         }
         
