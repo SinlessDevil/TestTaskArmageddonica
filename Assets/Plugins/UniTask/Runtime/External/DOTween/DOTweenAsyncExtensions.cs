@@ -1,5 +1,4 @@
 ﻿// asmdef Version Defines, enabled when com.demigiant.dotween is imported.
-
 using Cysharp.Threading.Tasks.Internal;
 using DG.Tweening;
 using System;

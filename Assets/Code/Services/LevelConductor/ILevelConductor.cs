@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Code.StaticData.Invocation.DTO;
 
@@ -5,6 +6,11 @@ namespace Code.Services.LevelConductor
 {
     public interface ILevelConductor
     {
+        event Action RunnedBattleEvent;
+        event Action EndedBattleEvent;
+        event Action ChangedPowerPlayerEvent;
+        event Action ChangedPowerEnemyEvent;
+        
         void RunBattle();
         void EndBattle();
         void Cleanup();

@@ -2,6 +2,7 @@ using Code.Infrastructure.StateMachine.Battle;
 using Code.Infrastructure.StateMachine.Battle.States;
 using Code.Services.CameraController;
 using Code.Services.Context;
+using Code.Services.Factories.UIFactory;
 using Code.Services.Input;
 using Code.Services.LevelConductor;
 using Code.Services.Levels;
@@ -25,8 +26,8 @@ namespace Code.Infrastructure.StateMachine.Game.States
         private readonly ILevelService _levelService;
         private readonly ILevelLocalProgressService _levelLocalProgressService;
         private readonly ITimeService _timeService;
-        private readonly ILevelConductor _levelConductor;
         private readonly IGameContext _gameContext;
+        private readonly IUIFactory _uiFactory;
         private readonly IStateMachine<IBattleState> _battleStateMachine;
 
         public GamePlayState(
@@ -37,8 +38,8 @@ namespace Code.Infrastructure.StateMachine.Game.States
             ILevelService levelService,
             ILevelLocalProgressService levelLocalProgressService,
             ITimeService timeService,
-            ILevelConductor levelConductor,
             IGameContext gameContext,
+            IUIFactory uiFactory,
             IStateMachine<IBattleState> battleStateMachine)
         {
             _gameStateMachine = gameStateMachine;
@@ -48,8 +49,8 @@ namespace Code.Infrastructure.StateMachine.Game.States
             _levelService = levelService;
             _levelLocalProgressService = levelLocalProgressService;
             _timeService = timeService;
-            _levelConductor = levelConductor;
             _gameContext = gameContext;
+            _uiFactory = uiFactory;
             _battleStateMachine = battleStateMachine;
         }
         
@@ -66,6 +67,8 @@ namespace Code.Infrastructure.StateMachine.Game.States
         public void Exit()
         {
             _battleStateMachine.Enter<CleanupBattleState>();
+            
+            _uiFactory.GameHud?.Dispose();
             
             _inputService.Cleanup();
             _widgetProvider.CleanupPool();

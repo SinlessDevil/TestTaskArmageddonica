@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using Code.Services.StaticData;
+using Code.UI.Game.Battle;
+using Code.UI.Game.Battle.Score;
 using Code.UI.Game.Cards.Holder;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,6 +13,9 @@ namespace Code.UI.Game
     {
         [Space(10)] [Header("Components")]
         [SerializeField] private CardHolder _cardHolder;
+        [SerializeField] private FightDisplayer _fightDisplayer;
+        [SerializeField] private PlayerScoreView _playerScoreView;
+        [SerializeField] private EnemyScoreView _enemyScoreView;
         [SerializeField] private Canvas _canvas;
         [Space(10)] [Header("Other")]
         [SerializeField] private List<GameObject> _debugObjects;
@@ -30,8 +35,19 @@ namespace Code.UI.Game
             TrySetUpEventSystem();
             
             InitCardHolder();
+            
+            _fightDisplayer.Initialize();
+            _playerScoreView.Initialize();
+            _enemyScoreView.Initialize();
         }
 
+        public void Dispose()
+        {
+            _fightDisplayer.Dispose();
+            _playerScoreView.Dispose();
+            _enemyScoreView.Dispose();
+        }
+        
         public CardHolder CardHolder => _cardHolder;
         public Canvas Canvas => _canvas;
         

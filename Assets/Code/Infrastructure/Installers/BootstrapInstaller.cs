@@ -118,7 +118,7 @@ namespace Code.Infrastructure.Installers
         {
             Container.BindInterfacesTo<InvocationCreatorDtoService>().AsSingle();
             Container.BindInterfacesTo<InvocationDataRandomizerService>().AsSingle();
-            Container.BindInterfacesTo<InvocationPowerCalculationService>().AsSingle();
+            Container.BindInterfacesTo<InvocationInvocationPowerCalculationService>().AsSingle();
         }
         
         private void BindProviders()

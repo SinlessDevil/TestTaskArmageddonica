@@ -88,8 +88,8 @@ namespace Code.Services.Input.Grid
 			if (!_isEnabled || _hoverCell == null)
 				return;
 
-			if (_hoverCell.StateCell != TypeStateCell.Fulled)
-				_hoverCell.SetFulledState();
+			if (_hoverCell.VisualController.StateCell != TypeStateCell.Fulled)
+				_hoverCell.VisualController.SetFulledState();
 		}
 
 		private void OnPointerUp() { }
@@ -99,13 +99,13 @@ namespace Code.Services.Input.Grid
 			if (_hoverCell == cell)
 				return;
 			
-			if (_hoverCell != null && _hoverCell.StateCell != TypeStateCell.Fulled)
-				_hoverCell.SetEmptyState();
+			if (_hoverCell != null && _hoverCell.VisualController.StateCell != TypeStateCell.Fulled)
+				_hoverCell.VisualController.SetEmptyState();
 
 			_hoverCell = cell;
 
-			if (_hoverCell.StateCell != TypeStateCell.Fulled)
-				_hoverCell.SetSelectedState();
+			if (_hoverCell.VisualController.StateCell != TypeStateCell.Fulled)
+				_hoverCell.VisualController.SetSelectedState();
 		}
 
 		private void ClearHover()
@@ -113,8 +113,8 @@ namespace Code.Services.Input.Grid
 			if (_hoverCell == null)
 				return;
 
-			if (_hoverCell.StateCell != TypeStateCell.Fulled)
-				_hoverCell.SetEmptyState();
+			if (_hoverCell.VisualController.StateCell != TypeStateCell.Fulled)
+				_hoverCell.VisualController.SetEmptyState();
 
 			_hoverCell = null;
 		}

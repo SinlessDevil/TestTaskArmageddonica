@@ -77,7 +77,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         private void OnCardDroppedOnCell(CardView cardView, ICardPM cardPM, Cell targetCell)
         {
             Invocation invocation = _invocationFactory.CreateInvocationByType(cardPM.DTO, targetCell, HeadRotation.PlayerRotation);
-            targetCell.SetInvocation(invocation);
+            targetCell.CellInvocationController.AddInvocation(invocation, cardPM.DTO.InvocationType, cardPM.DTO.UniqueId);
             _levelConductor.AddInvocationForPlayer(cardPM.DTO);
 
             PlayBattleState();

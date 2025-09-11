@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a0d7355cd1bbc6c44b68f572bb8c2722, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a4b8f8a96521cf408002ef48c1d8f4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stateController: {fileID: 5793911658221325261}
+  _visualController: {fileID: 5793911658221325261}
 --- !u!114 &5793911658221325261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 8695801834837072661}
-  _emptyColor: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 0.5019608}
-  _fulledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
-  _selectedColor: {r: 1, g: 0.8461648, b: 0, a: 0.5019608}
+  _emptyColor: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 1}
+  _fulledColor: {r: 1, g: 1, b: 1, a: 1}
+  _selectedColor: {r: 0.9622642, g: 0.83661455, b: 0.14070843, a: 1}
+  _notSelectedColor: {r: 0.9245283, g: 0.17880027, b: 0.17880027, a: 1}

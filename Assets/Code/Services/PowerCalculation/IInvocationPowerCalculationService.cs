@@ -2,7 +2,7 @@ using Code.StaticData.Invocation.DTO;
 
 namespace Code.Services.PowerCalculation
 {
-    public interface IPowerCalculationService
+    public interface IInvocationPowerCalculationService
     {
         float CalculatePlayerPower();
         float CalculateEnemyPower();

@@ -59,6 +59,9 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             _cameraDirector.FocusBattleShotAsync();
             
             SpawnEnemies();
+            
+            // Запускаем битву и анимацию "FIGHT!"
+            _levelConductor.RunBattle();
         }
 
         void IExitable.Exit()
@@ -96,7 +99,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
                     if (enemyInvocation == null) 
                         continue;
                         
-                    enemyCell.SetInvocation(enemyInvocation);
+                    enemyCell.CellInvocationController.AddInvocation(enemyInvocation, enemyDTO.InvocationType, enemyDTO.UniqueId);
                     _levelConductor.AddInvocationForEnemy(enemyDTO);
                 }
             }

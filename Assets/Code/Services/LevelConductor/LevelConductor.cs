@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Code.Services.Levels;
 using Code.StaticData.Invocation.DTO;
@@ -20,16 +21,24 @@ namespace Code.Services.LevelConductor
             _enemyInvocations = new Dictionary<string, InvocationDTO>();
         }
 
+        public event Action RunnedBattleEvent;
+        
+        public event Action EndedBattleEvent;
+        
+        public event Action ChangedPowerPlayerEvent;
+        
+        public event Action ChangedPowerEnemyEvent; 
+        
         public void RunBattle()
         {
-            
+            RunnedBattleEvent?.Invoke();
         }
         
         public void EndBattle()
         {
-            
+            EndedBattleEvent?.Invoke();
         }
-
+        
         public void Cleanup()
         {
             _playerInvocations.Clear();
@@ -57,6 +66,8 @@ namespace Code.Services.LevelConductor
             {
                 _playerInvocations[dto.UniqueId] = dto;
             }
+            
+            ChangedPowerPlayerEvent?.Invoke();
         }
         
         public void AddInvocationForEnemy(InvocationDTO dto)
@@ -69,6 +80,8 @@ namespace Code.Services.LevelConductor
             {
                 _enemyInvocations[dto.UniqueId] = dto;
             }
+            
+            ChangedPowerEnemyEvent?.Invoke();
         }
         
         public InvocationDTO GetInvocationForPlayer(string uniqueId) => 

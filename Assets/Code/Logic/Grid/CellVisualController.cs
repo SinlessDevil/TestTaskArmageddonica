@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Code.Logic.Grid
 {
-    public class CellStateController : MonoBehaviour
+    public class CellVisualController : MonoBehaviour
     {
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [Space(10)] [Header("Colors")]
@@ -20,6 +20,8 @@ namespace Code.Logic.Grid
         {
             SetEmptyState();
         }
+        
+        public TypeStateCell StateCell => _currentState;
         
         public void SetEmptyState()
         {

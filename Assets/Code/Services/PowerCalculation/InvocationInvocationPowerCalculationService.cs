@@ -10,13 +10,15 @@ using Code.StaticData.Invocation.DTO;
 
 namespace Code.Services.PowerCalculation
 {
-    public class InvocationPowerCalculationService : IPowerCalculationService
+    public class InvocationInvocationPowerCalculationService : IInvocationPowerCalculationService
     {
+        private const float Tolerance = 0.01f;
+        
         private readonly ILevelConductor _levelConductor;
         private readonly IStaticDataService _staticDataService;
         private readonly IInvocationStaticDataService _invocationStaticDataService;
         
-        public InvocationPowerCalculationService(
+        public InvocationInvocationPowerCalculationService(
             ILevelConductor levelConductor,
             IStaticDataService staticDataService,
             IInvocationStaticDataService invocationStaticDataService)
@@ -28,32 +30,28 @@ namespace Code.Services.PowerCalculation
         
         public float CalculatePlayerPower()
         {
-            var playerInvocations = _levelConductor.GetPlayerInvocations();
+            Dictionary<string, InvocationDTO> playerInvocations = _levelConductor.GetPlayerInvocations();
             return CalculateTotalPower(playerInvocations);
         }
         
         public float CalculateEnemyPower()
         {
-            var enemyInvocations = _levelConductor.GetEnemyInvocations();
+            Dictionary<string, InvocationDTO> enemyInvocations = _levelConductor.GetEnemyInvocations();
             return CalculateTotalPower(enemyInvocations);
         }
         
         public float CalculateInvocationPower(InvocationDTO invocation)
         {
-            // Пока считаем только для юнитов
             if (invocation.InvocationType != InvocationType.Unit)
                 return 0f;
             
-            // Получаем статические данные юнита
-            var unitStaticData = GetUnitStaticData(invocation.Id);
+            UnitStaticData unitStaticData = GetUnitStaticData(invocation.Id);
             if (unitStaticData == null)
                 return 0f;
             
-            // Получаем константы из баланса
-            var balance = _staticDataService.Balance;
-            var multipliers = balance.UnitCharacteristicsMultiplier;
+            BalanceStaticData balance = _staticDataService.Balance;
+            UnitCharacteristicsMultiplier multipliers = balance.UnitCharacteristicsMultiplier;
             
-            // Рассчитываем силу: (атака * 3 + скорость * 1.5 + здоровье * 2) * количество
             float power = (unitStaticData.Damage * multipliers.AttackMultiplier + 
                           unitStaticData.Speed * multipliers.SpeedMultiplier + 
                           unitStaticData.Health * multipliers.HealthMultiplier) * invocation.Quantity;
@@ -66,29 +64,17 @@ namespace Code.Services.PowerCalculation
             float playerPower = CalculatePlayerPower();
             float enemyPower = CalculateEnemyPower();
             
-            const float tolerance = 0.01f; // Допуск для ничьи
-            
-            if (System.Math.Abs(playerPower - enemyPower) < tolerance)
+            if (System.Math.Abs(playerPower - enemyPower) < Tolerance)
                 return BattleResult.Draw;
             
             return playerPower > enemyPower ? BattleResult.Player : BattleResult.Enemy;
         }
         
-        private float CalculateTotalPower(Dictionary<string, InvocationDTO> invocations)
-        {
-            float totalPower = 0f;
-            
-            foreach (var invocation in invocations.Values)
-            {
-                totalPower += CalculateInvocationPower(invocation);
-            }
-            
-            return totalPower;
-        }
-        
+        private float CalculateTotalPower(Dictionary<string, InvocationDTO> invocations) => invocations.Values.Sum(invocation => CalculateInvocationPower(invocation));
+
         private UnitStaticData GetUnitStaticData(string unitId)
         {
-            var invocationData = _invocationStaticDataService.GetInvocationData(unitId);
+            InvocationStaticData invocationData = _invocationStaticDataService.GetInvocationData(unitId);
             return invocationData as UnitStaticData;
         }
     }

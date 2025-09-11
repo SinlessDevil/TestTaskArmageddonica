@@ -32,44 +32,44 @@ MonoBehaviour:
       _isOccupied: 0
     - _invocationId: 
       _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: BatLord
+    - _invocationId: Bat
       _isOccupied: 1
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
     - _invocationId: 
       _isOccupied: 0
     - _invocationId: 
@@ -109,42 +109,6 @@ MonoBehaviour:
       _isOccupied: 0
     - _invocationId: 
       _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
     - _invocationId: Bat
       _isOccupied: 1
     - _invocationId: 
@@ -153,6 +117,42 @@ MonoBehaviour:
       _isOccupied: 0
     - _invocationId: Bat
       _isOccupied: 1
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
     - _invocationId: 
       _isOccupied: 0
     - _invocationId: 
@@ -186,42 +186,6 @@ MonoBehaviour:
       _isOccupied: 0
     - _invocationId: 
       _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
-    - _invocationId: 
-      _isOccupied: 0
     - _invocationId: Bat
       _isOccupied: 1
     - _invocationId: Bat
@@ -230,6 +194,42 @@ MonoBehaviour:
       _isOccupied: 1
     - _invocationId: Bat
       _isOccupied: 1
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
+    - _invocationId: 
+      _isOccupied: 0
     - _invocationId: 
       _isOccupied: 0
     - _invocationId: 

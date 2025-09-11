@@ -23,7 +23,6 @@ namespace Code.StaticData.Battle
         public BattleData()
         {
             _battleId = 0;
-            // Не инициализируем матрицу в конструкторе - это может вызвать проблемы с сериализацией
         }
         
         public BattleData(string battleName, int width, int height)
@@ -32,8 +31,6 @@ namespace Code.StaticData.Battle
             _battleId = 0;
             _matrixWidth = width;
             _matrixHeight = height;
-            
-            // Не инициализируем матрицу в конструкторе - это может вызвать проблемы с сериализацией
         }
         
         public void GenerateBattleId()
