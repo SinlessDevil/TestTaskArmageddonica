@@ -10,5 +10,13 @@ namespace Code.Logic.Grid
         {
             _cells = cells;
         }
+        
+        public Cell GetCell(int x, int y)
+        {
+            if (x < 0 || y < 0 || x >= _cells.GetLength(0) || y >= _cells.GetLength(1))
+                return null;
+            
+            return _cells[x, y];
+        }
     }   
 }
