@@ -87,13 +87,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef7545c0870083941886a0bfbb8fef56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tweenDuration: 0.12
+  _tweenDuration: 0.25
   _tweenEase: 1
   _useUnscaledTime: 1
   _startYOffset: -75
-  _endYOffset: 0
+  _endYOffset: 75
   _hoverScale: 1.07
-  _shrinkScale: 0.5
+  _shrinkScale: 0.4
   _root: {fileID: 8796931620791899240}
   _bgImage: {fileID: 8874169259796754342}
 --- !u!114 &4343303811158232146
@@ -797,7 +797,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -3, y: -11}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3740250835741855379
 CanvasRenderer:
@@ -854,11 +854,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 17.7
+  m_fontSize: 16.25
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 17
+  m_fontSizeMin: 15
   m_fontSizeMax: 31
   m_fontStyle: 1
   m_HorizontalAlignment: 2

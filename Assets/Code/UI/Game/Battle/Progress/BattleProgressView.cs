@@ -1,9 +1,9 @@
 using Code.Services.LevelConductor;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 using DG.Tweening;
+using TMPro;
 using Cysharp.Threading.Tasks;
 
 namespace Code.UI.Game.Battle.Progress
