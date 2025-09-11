@@ -24,3 +24,6 @@ MonoBehaviour:
   CardRankStaticData: {fileID: 11400000, guid: e96369a673945724cbe510ba893a5b69, type: 2}
   CardDefinitionCollectionStaticData: {fileID: 11400000, guid: 7c62815f2df45c44391fe3c7b4c3cdc5, type: 2}
   CameraShotStaticData: {fileID: 11400000, guid: 6d3eba6d2c9eb0f4fb538e0ea754ea8d, type: 2}
+  HeadRotation:
+    PlayerRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+    EnemyRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}

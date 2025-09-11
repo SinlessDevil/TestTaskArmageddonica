@@ -15,5 +15,5 @@ MonoBehaviour:
   Id: BatLord
   Prefab: {fileID: 7839633962325119934, guid: 6e7b871e19d42f9439a7ba00a4c8395e, type: 3}
   Rank: 6
-  CardDefinition: 0
+  CardDefinition: 7
   InvocationType: 1

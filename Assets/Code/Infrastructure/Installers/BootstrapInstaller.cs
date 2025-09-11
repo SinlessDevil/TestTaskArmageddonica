@@ -19,7 +19,7 @@ using Code.Services.Input;
 using Code.Services.Input.Card;
 using Code.Services.Input.Grid;
 using Code.Services.IInvocation.Factories;
-using Code.Services.IInvocation.InvocationHandle;
+using Code.Services.IInvocation.InvocationHandler;
 using Code.Services.IInvocation.Randomizer;
 using Code.Services.IInvocation.StaticData;
 using Code.Services.LevelConductor;

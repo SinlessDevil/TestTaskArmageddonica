@@ -10,7 +10,6 @@ namespace Code.UI.Game.Cards.PM
     public class CardPM : ICardPM
     {
         private readonly IStaticDataService _staticDataService;
-        private int _level = 1;
 
         public CardPM(InvocationDTO dto, IStaticDataService staticDataService)
         {
@@ -18,7 +17,7 @@ namespace Code.UI.Game.Cards.PM
             DTO = dto;
         }
         
-        public InvocationDTO DTO { get; private set; }
+        public InvocationDTO DTO { get; }
         
         public CardDefinitionStaticData? DefinitionData => DefinitionCollectionData.GetCardDefinitionByType(DTO.CardDefinition);
         

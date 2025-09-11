@@ -12,5 +12,13 @@ namespace Code.StaticData
         [InlineEditor(Expanded = true, DrawHeader = true)] public CardRankStaticData CardRankStaticData;
         [InlineEditor(Expanded = true, DrawHeader = true)] public CardDefinitionCollectionStaticData CardDefinitionCollectionStaticData;
         [InlineEditor(Expanded = true, DrawHeader = true)] public CameraShotStaticData CameraShotStaticData;
+        public HeadRotation HeadRotation;
+    }
+
+    [System.Serializable]
+    public struct HeadRotation
+    {
+        public Quaternion PlayerRotation;
+        public Quaternion EnemyRotation;
     }
 }
