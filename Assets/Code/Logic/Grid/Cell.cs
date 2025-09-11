@@ -11,6 +11,8 @@ namespace Code.Logic.Grid
             stateController?.Initialize();
         }
 
+        public TypeStateCell StateCell => stateController?.CurrentState ?? TypeStateCell.Empty;
+        
         public Invocation.Invocation Invocation { get; private set; }
         
         public void SetInvocation(Invocation.Invocation invocation)
@@ -18,7 +20,9 @@ namespace Code.Logic.Grid
             Invocation = invocation;
         }
         
-        public TypeStateCell StateCell => stateController?.CurrentState ?? TypeStateCell.Empty;
+        public bool HasFreeCell() => Invocation == null;
+        
+        public bool HasAddedAdditionalInvocation(string uniqueId) => Invocation.UniqueId == uniqueId;
         
         public void SetEmptyState()
         {
@@ -33,6 +37,11 @@ namespace Code.Logic.Grid
         public void SetSelectedState()
         {
             stateController?.SetSelectedState();
+        }
+
+        public void SetNotSelectedState()
+        {
+            stateController?.SetNotSelectedState();
         }
         
         public void SetState(TypeStateCell state)

@@ -11,7 +11,8 @@ namespace Code.StaticData.Invocation.DTO
             GameObject prefab, 
             CardRankType rank, 
             CardDefinitionType cardDefinition, 
-            InvocationType invocationType) : base(id, uniqueId, prefab, rank, cardDefinition, invocationType)
+            InvocationType invocationType,
+            int quantity = 1) : base(id, uniqueId, prefab, rank, cardDefinition, invocationType, quantity)
         {
         }
     }

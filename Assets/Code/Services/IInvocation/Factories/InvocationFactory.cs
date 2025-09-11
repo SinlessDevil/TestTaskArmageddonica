@@ -1,11 +1,15 @@
+using System;
 using Code.Logic.Grid;
+using Code.Logic.Invocation;
 using Code.Logic.Invocation.Builds;
 using Code.Logic.Invocation.Skills;
 using Code.Logic.Invocation.Units;
 using Code.Services.IInvocation.StaticData;
+using Code.StaticData.Invocation;
 using Code.StaticData.Invocation.Data;
 using Code.StaticData.Invocation.DTO;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Code.Services.IInvocation.Factories
 {
@@ -18,36 +22,59 @@ namespace Code.Services.IInvocation.Factories
             _invocationStaticDataService = invocationStaticDataService;
         }
 
-        public GameObject CreateInvocation(InvocationDTO invocationDTO, Cell targetCell)
+        public Invocation CreateInvocationByType(InvocationDTO dto, Cell targetCell, Quaternion rotation)
+        {
+            Invocation invocation;
+            
+            switch (dto.InvocationType)
+            {
+                case InvocationType.Unit:
+                    invocation = CreateUnit((UnitDTO)dto, targetCell);
+                    break;
+                case InvocationType.Build:
+                    invocation = CreateBuilding((BuildingDTO)dto, targetCell);
+                    break;
+                case InvocationType.Skill:
+                    invocation = CreateSkill((SkillDTO)dto, targetCell);
+                    break;
+                case InvocationType.Unknown:
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            
+            invocation.Initialize(dto.UniqueId);
+
+            return invocation;
+        }
+        
+        public Invocation CreateInvocationBase(InvocationDTO invocationDTO, Cell targetCell)
         {
             InvocationStaticData staticData = _invocationStaticDataService.GetInvocationData(invocationDTO.Id);
             if (staticData?.Prefab == null) 
-                return CreateFallbackObject(invocationDTO.CardDefinition.ToString(), targetCell);
+                return CreateFallbackInvocation(invocationDTO.CardDefinition.ToString(), targetCell);
             
             Vector3 spawnPosition = GetSpawnPosition(targetCell);
-            return Object.Instantiate(staticData.Prefab, spawnPosition, Quaternion.identity);
+            return Object.Instantiate(staticData.Prefab, spawnPosition, Quaternion.identity).GetComponent<Invocation>();
         }
 
         public Unit CreateUnit(UnitDTO unitDTO, Cell targetCell) => 
-            CreateInvocation(unitDTO, targetCell).GetComponent<Unit>();
+            CreateInvocationBase(unitDTO, targetCell).GetComponent<Unit>();
 
         public Build CreateBuilding(BuildingDTO buildingDTO, Cell targetCell) => 
-            CreateInvocation(buildingDTO, targetCell).GetComponent<Build>();
+            CreateInvocationBase(buildingDTO, targetCell).GetComponent<Build>();
 
         public Skill CreateSkill(SkillDTO skillDTO, Cell targetCell) => 
-            CreateInvocation(skillDTO, targetCell).GetComponent<Skill>();
+            CreateInvocationBase(skillDTO, targetCell).GetComponent<Skill>();
 
-        private GameObject CreateFallbackObject(string name, Cell targetCell)
+        private Invocation CreateFallbackInvocation(string name, Cell targetCell)
         {
             Vector3 spawnPosition = GetSpawnPosition(targetCell);
             GameObject fallbackObject = new GameObject($"Invocation_{name}");
             fallbackObject.transform.position = spawnPosition;
-            return fallbackObject;
+            Invocation invocation = fallbackObject.AddComponent<Invocation>();
+            return invocation;
         }
 
-        private Vector3 GetSpawnPosition(Cell targetCell)
-        {
-            return targetCell.transform.position + Vector3.up * 0.5f;
-        }
+        private Vector3 GetSpawnPosition(Cell targetCell) => targetCell.transform.position;
     }
 }

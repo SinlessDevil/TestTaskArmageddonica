@@ -11,6 +11,7 @@ namespace Code.StaticData.Invocation.DTO
         public CardRankType Rank;
         public CardDefinitionType CardDefinition;
         public InvocationType InvocationType;
+        public int Quantity = 1; // Количество юнитов/зданий/навыков
         
         public InvocationDTO(
             string id,
@@ -18,7 +19,8 @@ namespace Code.StaticData.Invocation.DTO
             GameObject prefab, 
             CardRankType rank, 
             CardDefinitionType cardDefinition,
-            InvocationType invocationType)
+            InvocationType invocationType,
+            int quantity = 1)
         {
             Id = id;
             UniqueId = uniqueId;
@@ -26,6 +28,7 @@ namespace Code.StaticData.Invocation.DTO
             Rank = rank;
             CardDefinition = cardDefinition;
             InvocationType = invocationType;
+            Quantity = quantity;
         }
     }
 }

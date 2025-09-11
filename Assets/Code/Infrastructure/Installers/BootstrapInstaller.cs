@@ -15,17 +15,17 @@ using Code.Services.Factories.UIFactory;
 using Code.Services.Finish;
 using Code.Services.Finish.Lose;
 using Code.Services.Finish.Win;
+using Code.Services.IInvocation.Factories;
 using Code.Services.Input;
 using Code.Services.Input.Card;
 using Code.Services.Input.Grid;
-using Code.Services.IInvocation.Factories;
-using Code.Services.IInvocation.InvocationHandler;
 using Code.Services.IInvocation.Randomizer;
 using Code.Services.IInvocation.StaticData;
 using Code.Services.LevelConductor;
 using Code.Services.Levels;
 using Code.Services.LocalProgress;
 using Code.Services.PersistenceProgress;
+using Code.Services.PowerCalculation;
 using Code.Services.Providers;
 using Code.Services.Providers.CardComposites;
 using Code.Services.Providers.Cards;
@@ -115,8 +115,9 @@ namespace Code.Infrastructure.Installers
 
         private void BindInvocationServices()
         {
-            Container.BindInterfacesTo<InvocationHandlerService>().AsSingle();
+            Container.BindInterfacesTo<InvocationFactory>().AsSingle();
             Container.BindInterfacesTo<InvocationDataRandomizerService>().AsSingle();
+            Container.BindInterfacesTo<InvocationPowerCalculationService>().AsSingle();
         }
         
         private void BindProviders()

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Code.Logic.Grid
@@ -9,6 +10,7 @@ namespace Code.Logic.Grid
         [SerializeField] private Color _emptyColor;
         [SerializeField] private Color _fulledColor;
         [SerializeField] private Color _selectedColor;
+        [SerializeField] private Color _notSelectedColor = Color.red;
         
         private TypeStateCell _currentState;
 
@@ -40,6 +42,13 @@ namespace Code.Logic.Grid
             _currentState = TypeStateCell.Selected;
         }
         
+        public void SetNotSelectedState()
+        {
+            if (_spriteRenderer != null)
+                _spriteRenderer.color = _notSelectedColor;
+            _currentState = TypeStateCell.NotSelected;
+        }
+        
         public void SetState(TypeStateCell state)
         {
             switch (state)
@@ -53,6 +62,10 @@ namespace Code.Logic.Grid
                 case TypeStateCell.Selected:
                     SetSelectedState();
                     break;
+                case TypeStateCell.NotSelected:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
         }
     }

@@ -10,7 +10,8 @@ namespace Code.Services.IInvocation.Factories
 {
     public interface IInvocationFactory
     {
-        GameObject CreateInvocation(InvocationDTO invocationDTO, Cell targetCell);
+        Invocation CreateInvocationByType(InvocationDTO dto, Cell targetCell, Quaternion rotation);
+        Invocation CreateInvocationBase(InvocationDTO invocationDTO, Cell targetCell);
         Unit CreateUnit(UnitDTO unitDTO, Cell targetCell);
         Build CreateBuilding(BuildingDTO buildingDTO, Cell targetCell);
         Skill CreateSkill(SkillDTO skillDTO, Cell targetCell);

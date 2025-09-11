@@ -2,8 +2,9 @@ namespace Code.Logic.Grid
 {
     public enum TypeStateCell
     {
-        Empty,
-        Fulled,
-        Selected
+        Empty = 0,
+        Fulled = 1,
+        Selected = 2,
+        NotSelected = 3
     }
 }

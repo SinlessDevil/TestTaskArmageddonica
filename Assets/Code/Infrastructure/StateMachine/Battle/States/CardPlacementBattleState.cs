@@ -1,10 +1,18 @@
 using Code.Infrastructure.StateMachine.Game.States;
+using Code.Logic.Grid;
+using Code.Logic.Invocation;
 using Code.Services.CameraController;
 using Code.Services.Factories.UIFactory;
-using Code.Services.IInvocation.InvocationHandler;
+using Code.Services.IInvocation.Factories;
 using Code.Services.Input.Card;
 using Code.Services.Input.Grid;
+using Code.Services.LevelConductor;
+using Code.Services.StaticData;
+using Code.StaticData;
 using Code.UI.Game.Cards.Holder;
+using Code.UI.Game.Cards.PM;
+using Code.UI.Game.Cards.View;
+using TypeInput = Code.Services.Input.Card.TypeInput;
 
 namespace Code.Infrastructure.StateMachine.Battle.States
 {
@@ -14,23 +22,29 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         private readonly ICardInputService _cardInputService;
         private readonly IUIFactory _uiFactory;
         private readonly ICameraDirector _cameraDirector;
-        private readonly IInvocationHandlerService _invocationHandlerService;
+        private readonly IInvocationFactory _invocationFactory;
+        private readonly ILevelConductor _levelConductor;
         private readonly IStateMachine<IBattleState> _stateMachine;
+        private readonly IStaticDataService _staticDataService;
 
         public CardPlacementBattleState(
             IGridInputService gridInputService,
             ICardInputService cardInputService,
             IUIFactory uiFactory,
             ICameraDirector cameraDirector,
-            IInvocationHandlerService invocationHandlerService,
-            IStateMachine<IBattleState> stateMachine)
+            IStateMachine<IBattleState> stateMachine,
+            IStaticDataService staticDataService,
+            IInvocationFactory invocationFactory,
+            ILevelConductor levelConductor)
         {
             _gridInputService = gridInputService;
             _cardInputService = cardInputService;
             _uiFactory = uiFactory;
             _cameraDirector = cameraDirector;
-            _invocationHandlerService = invocationHandlerService;
+            _invocationFactory = invocationFactory;
             _stateMachine = stateMachine;
+            _staticDataService = staticDataService;
+            _levelConductor = levelConductor;
         }
         
         public void Enter()
@@ -44,14 +58,12 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             
             CardHolder.Show();
             
-            _invocationHandlerService.Initialize();
-            _invocationHandlerService.InvocationSpawnedEvent += OnPlayBattleState;
+            _cardInputService.DroppedOnCell += OnCardDroppedOnCell;
         }
 
         public void Exit()
         {
-            _invocationHandlerService.InvocationSpawnedEvent -= OnPlayBattleState;
-            _invocationHandlerService.Dispose();
+            _cardInputService.DroppedOnCell -= OnCardDroppedOnCell;
             
             _gridInputService.Disable();
             _cardInputService.Disable();
@@ -62,11 +74,22 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             
         }
 
-        private void OnPlayBattleState()
+        private void OnCardDroppedOnCell(CardView cardView, ICardPM cardPM, Cell targetCell)
+        {
+            Invocation invocation = _invocationFactory.CreateInvocationByType(cardPM.DTO, targetCell, HeadRotation.PlayerRotation);
+            targetCell.SetInvocation(invocation);
+            _levelConductor.AddInvocationForPlayer(cardPM.DTO);
+
+            PlayBattleState();
+        }
+        
+        private void PlayBattleState()
         {
             _stateMachine.Enter<PlayBattleState>();
         }
         
         private CardHolder CardHolder => _uiFactory.GameHud.CardHolder;
+        
+        private HeadRotation HeadRotation => _staticDataService.Balance.HeadRotation;
     }
 }

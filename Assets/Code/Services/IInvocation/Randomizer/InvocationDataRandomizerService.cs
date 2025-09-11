@@ -30,10 +30,10 @@ namespace Code.Services.IInvocation.Randomizer
 
             return randomStaticData.InvocationType switch
             {
-                InvocationType.Unit => new UnitDTO(randomStaticData.Id, uniqueId, randomStaticData.Prefab, randomStaticData.Rank, randomStaticData.CardDefinition, randomStaticData.InvocationType),
-                InvocationType.Build => new BuildingDTO(randomStaticData.Id, uniqueId, randomStaticData.Prefab, randomStaticData.Rank, randomStaticData.CardDefinition, randomStaticData.InvocationType),
-                InvocationType.Skill => new SkillDTO(randomStaticData.Id, uniqueId, randomStaticData.Prefab, randomStaticData.Rank, randomStaticData.CardDefinition, randomStaticData.InvocationType),
-                _ => new InvocationDTO(randomStaticData.Id, uniqueId, randomStaticData.Prefab, randomStaticData.Rank, randomStaticData.CardDefinition, randomStaticData.InvocationType)
+                InvocationType.Unit => new UnitDTO(randomStaticData.Id, uniqueId, randomStaticData.Prefab, randomStaticData.Rank, randomStaticData.CardDefinition, randomStaticData.InvocationType, 1),
+                InvocationType.Build => new BuildingDTO(randomStaticData.Id, uniqueId, randomStaticData.Prefab, randomStaticData.Rank, randomStaticData.CardDefinition, randomStaticData.InvocationType, 1),
+                InvocationType.Skill => new SkillDTO(randomStaticData.Id, uniqueId, randomStaticData.Prefab, randomStaticData.Rank, randomStaticData.CardDefinition, randomStaticData.InvocationType, 1),
+                _ => new InvocationDTO(randomStaticData.Id, uniqueId, randomStaticData.Prefab, randomStaticData.Rank, randomStaticData.CardDefinition, randomStaticData.InvocationType, 1)
             };
         }
 
@@ -45,7 +45,7 @@ namespace Code.Services.IInvocation.Randomizer
 
             UnitStaticData randomUnit = units[UnityEngine.Random.Range(0, units.Count)];
             string uniqueId = _uniqueIdService.GenerateUniqueId("Unit");
-            return new UnitDTO(randomUnit.Id, uniqueId, randomUnit.Prefab, randomUnit.Rank, randomUnit.CardDefinition, randomUnit.InvocationType);
+            return new UnitDTO(randomUnit.Id, uniqueId, randomUnit.Prefab, randomUnit.Rank, randomUnit.CardDefinition, randomUnit.InvocationType, 1);
         }
 
         public BuildingDTO GenerateRandomBuildingDTO()
@@ -56,7 +56,7 @@ namespace Code.Services.IInvocation.Randomizer
 
             BuildStaticData randomBuilding = buildings[UnityEngine.Random.Range(0, buildings.Count)];
             string uniqueId = _uniqueIdService.GenerateUniqueId("Building");
-            return new BuildingDTO(randomBuilding.Id, uniqueId, randomBuilding.Prefab, randomBuilding.Rank, randomBuilding.CardDefinition, randomBuilding.InvocationType);
+            return new BuildingDTO(randomBuilding.Id, uniqueId, randomBuilding.Prefab, randomBuilding.Rank, randomBuilding.CardDefinition, randomBuilding.InvocationType, 1);
         }
 
         public SkillDTO GenerateRandomSkillDTO()
@@ -67,7 +67,7 @@ namespace Code.Services.IInvocation.Randomizer
 
             SkillStaticData randomSkill = skills[UnityEngine.Random.Range(0, skills.Count)];
             string uniqueId = _uniqueIdService.GenerateUniqueId("Skill");
-            return new SkillDTO(randomSkill.Id, uniqueId, randomSkill.Prefab, randomSkill.Rank, randomSkill.CardDefinition, randomSkill.InvocationType);
+            return new SkillDTO(randomSkill.Id, uniqueId, randomSkill.Prefab, randomSkill.Rank, randomSkill.CardDefinition, randomSkill.InvocationType, 1);
         }
     }
 }
