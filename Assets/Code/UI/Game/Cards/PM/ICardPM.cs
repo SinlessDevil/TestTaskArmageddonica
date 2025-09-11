@@ -1,7 +1,7 @@
-using Code.Services.IInvocation.DTO;
 using Code.StaticData.Cards;
 using Code.StaticData.Cards.Definition;
 using Code.StaticData.Cards.Rank;
+using Code.StaticData.Invocation.DTO;
 using UnityEngine;
 
 namespace Code.UI.Game.Cards.PM

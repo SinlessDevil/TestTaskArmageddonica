@@ -64,7 +64,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
 
         private void OnPlayBattleState()
         {
-            _stateMachine.Enter<CardPlacementBattleState>();
+            _stateMachine.Enter<PlayBattleState>();
         }
         
         private CardHolder CardHolder => _uiFactory.GameHud.CardHolder;

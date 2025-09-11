@@ -1,26 +1,54 @@
-using Code.Infrastructure.StateMachine;
-using Code.Infrastructure.StateMachine.Battle;
-using Code.Infrastructure.StateMachine.Battle.States;
+using System.Linq;
+using System.Collections.Generic;
+using Code.StaticData.Invocation.DTO;
 
 namespace Code.Services.LevelConductor
 {
     public class LevelConductor : ILevelConductor
     {
-        private readonly IStateMachine<IBattleState> _battleStateMachine;
+        private Dictionary<string, InvocationDTO> _playerInvocations;
         
-        public LevelConductor(IStateMachine<IBattleState> battleStateMachine)
+        private Dictionary<string, InvocationDTO> _enemyInvocations;
+        
+        public LevelConductor()
         {
-            _battleStateMachine = battleStateMachine;
+            
         }
 
-        public void Run()
+        public void RunBattle()
         {
-            _battleStateMachine.Enter<InitializeBattleState>();
+            
+        }
+        
+        public void EndBattle()
+        {
+            
         }
 
         public void Cleanup()
         {
-            _battleStateMachine.Enter<CleanupBattleState>();
+            _playerInvocations.Clear();
+            _enemyInvocations.Clear();
+        }
+        
+        public void AddInvocationForPlayer(InvocationDTO dto)
+        {
+            
+        }
+        
+        public void AddInvocationForEnemy(InvocationDTO dto)
+        {
+            
+        }
+        
+        public InvocationDTO GetInvocationForPlayer(string uniqueId)
+        {
+            return _playerInvocations.Values.FirstOrDefault(dto => dto.UniqueId == uniqueId);
+        }
+        
+        public InvocationDTO GetInvocationForEnemy(string uniqueId)
+        {
+            return _enemyInvocations.Values.FirstOrDefault(dto => dto.UniqueId == uniqueId);
         }
     }   
 }

@@ -6,6 +6,7 @@ using Code.Services.IInvocation.StaticData;
 using Code.Services.Input.Card;
 using Code.Services.StaticData;
 using Code.StaticData;
+using Code.StaticData.Invocation.DTO;
 using Code.UI.Game.Cards.PM;
 using Code.UI.Game.Cards.View;
 using UnityEngine;
@@ -52,7 +53,16 @@ namespace Code.Services.IInvocation.InvocationHandler
             invocation.transform.position = spawnPosition;
             return invocation;
         }
-
+        
+        private Invocation GetInvocation(InvocationDTO dto, Cell targetCell, Quaternion rotation)
+        {
+            Vector3 spawnPosition = GetSpawnPosition(targetCell);
+            GameObject invocationObject = Object.Instantiate(dto.Prefab, spawnPosition, rotation);
+            Invocation invocation = invocationObject.GetComponent<Invocation>();
+            invocation.transform.position = spawnPosition;
+            return invocation;
+        }
+        
         private void OnCardDroppedOnCell(CardView cardView, ICardPM cardPM, Cell targetCell)
         {
             if (targetCell == null) 

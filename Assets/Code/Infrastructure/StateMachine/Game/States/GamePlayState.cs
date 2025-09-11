@@ -1,3 +1,5 @@
+using Code.Infrastructure.StateMachine.Battle;
+using Code.Infrastructure.StateMachine.Battle.States;
 using Code.Services.CameraController;
 using Code.Services.Context;
 using Code.Services.Input;
@@ -25,6 +27,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
         private readonly ITimeService _timeService;
         private readonly ILevelConductor _levelConductor;
         private readonly IGameContext _gameContext;
+        private readonly IStateMachine<IBattleState> _battleStateMachine;
 
         public GamePlayState(
             IStateMachine<IGameState> gameStateMachine, 
@@ -35,7 +38,8 @@ namespace Code.Infrastructure.StateMachine.Game.States
             ILevelLocalProgressService levelLocalProgressService,
             ITimeService timeService,
             ILevelConductor levelConductor,
-            IGameContext gameContext)
+            IGameContext gameContext,
+            IStateMachine<IBattleState> battleStateMachine)
         {
             _gameStateMachine = gameStateMachine;
             _inputService = inputService;
@@ -46,11 +50,12 @@ namespace Code.Infrastructure.StateMachine.Game.States
             _timeService = timeService;
             _levelConductor = levelConductor;
             _gameContext = gameContext;
+            _battleStateMachine = battleStateMachine;
         }
         
         public void Enter()
         {
-            _levelConductor.Run();
+            _battleStateMachine.Enter<InitializeBattleState>();
         }
 
         public void Update()
@@ -60,7 +65,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
 
         public void Exit()
         {
-            _levelConductor.Cleanup();
+            _battleStateMachine.Enter<CleanupBattleState>();
             
             _inputService.Cleanup();
             _widgetProvider.CleanupPool();

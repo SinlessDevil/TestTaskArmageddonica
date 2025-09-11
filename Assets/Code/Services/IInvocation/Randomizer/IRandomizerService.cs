@@ -1,4 +1,4 @@
-using Code.Services.IInvocation.DTO;
+using Code.StaticData.Invocation.DTO;
 
 namespace Code.Services.IInvocation.Randomizer
 {

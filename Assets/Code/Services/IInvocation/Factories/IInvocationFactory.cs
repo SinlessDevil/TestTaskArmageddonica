@@ -3,7 +3,7 @@ using Code.Logic.Invocation;
 using Code.Logic.Invocation.Builds;
 using Code.Logic.Invocation.Skills;
 using Code.Logic.Invocation.Units;
-using Code.Services.IInvocation.DTO;
+using Code.StaticData.Invocation.DTO;
 using UnityEngine;
 
 namespace Code.Services.IInvocation.Factories

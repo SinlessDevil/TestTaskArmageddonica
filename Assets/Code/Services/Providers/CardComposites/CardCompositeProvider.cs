@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Code.Services.IInvocation.DTO;
 using Code.Services.IInvocation.Randomizer;
 using Code.Services.StaticData;
+using Code.StaticData.Invocation.DTO;
 using Code.UI.Game.Cards.PM;
 using Code.UI.Game.Cards.View;
 using UnityEngine;

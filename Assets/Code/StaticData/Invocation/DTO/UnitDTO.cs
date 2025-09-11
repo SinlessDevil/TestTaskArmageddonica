@@ -1,13 +1,17 @@
 using Code.StaticData.Cards;
-using Code.StaticData.Invocation;
 using UnityEngine;
 
-namespace Code.Services.IInvocation.DTO
+namespace Code.StaticData.Invocation.DTO
 {
     public class UnitDTO : InvocationDTO
     {
-        public UnitDTO(string id, GameObject prefab, CardRankType rank, CardDefinitionType cardDefinition, 
-            InvocationType invocationType) : base(id, prefab, rank, cardDefinition, invocationType)
+        public UnitDTO(
+            string id,
+            string uniqueId,
+            GameObject prefab, 
+            CardRankType rank, 
+            CardDefinitionType cardDefinition, 
+            InvocationType invocationType) : base(id, uniqueId, prefab, rank, cardDefinition, invocationType)
         {
         }
     }

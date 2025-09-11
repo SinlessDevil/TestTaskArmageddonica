@@ -2,9 +2,9 @@ using Code.Logic.Grid;
 using Code.Logic.Invocation.Builds;
 using Code.Logic.Invocation.Skills;
 using Code.Logic.Invocation.Units;
-using Code.Services.IInvocation.DTO;
 using Code.Services.IInvocation.StaticData;
 using Code.StaticData.Invocation.Data;
+using Code.StaticData.Invocation.DTO;
 using UnityEngine;
 
 namespace Code.Services.IInvocation.Factories

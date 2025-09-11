@@ -35,6 +35,7 @@ using Code.Services.SaveLoad;
 using Code.Services.StaticData;
 using Code.Services.Storage;
 using Code.Services.Timer;
+using Code.Services.UniqueId;
 using Code.Services.Window;
 using Code.UI;
 using Code.UI.Game.Cards.View;
@@ -82,6 +83,7 @@ namespace Code.Infrastructure.Installers
             BindWindowServices();
             
             Container.BindInterfacesTo<RandomService>().AsSingle();
+            Container.BindInterfacesTo<UniqueIdService>().AsSingle();
             Container.BindInterfacesTo<UnifiedSaveLoadFacade>().AsSingle();
             Container.BindInterfacesTo<StorageService>().AsSingle();
             Container.BindInterfacesTo<TimeService>().AsSingle();
