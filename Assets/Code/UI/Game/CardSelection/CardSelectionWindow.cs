@@ -1,6 +1,5 @@
 using System.Linq;
 using System.Collections.Generic;
-using Code.UI.Game.Cards;
 using Code.UI.Game.Cards.View;
 using UnityEngine;
 using UnityEngine.UI;
@@ -74,7 +73,8 @@ namespace Code.UI.Game.CardSelection
 
         private void OnChangedCards()
         {
-            ClearCardsRoot();
+            _cardViews.Clear();
+            
             SetCards(_cardSelectionPM.GetCards());
         }
         
@@ -95,16 +95,11 @@ namespace Code.UI.Game.CardSelection
 
         private void OnSelect(CardView view)
         {
-            StartCloseSequence(view);
-        }
-
-        private void StartCloseSequence(CardView selected)
-        {
-            OnClosed(selected);
+            OnClosed(view);
             
             _animator.Close(() => _cardSelectionPM.OnCloseWindow());
         }
-
+        
         private void OnClosed(CardView selected)
         {
             _cardSelectionPM.OnAddCardToHolder(selected);
@@ -137,14 +132,6 @@ namespace Code.UI.Game.CardSelection
                 cardRoot.localScale = Vector3.one;
                 i++;
             }
-        }
-
-        private void ClearCardsRoot()
-        {
-            foreach (CardView cardView in _cardViews)
-                Destroy(cardView.gameObject);
-            
-            _cardViews.Clear();
         }
     }
 }

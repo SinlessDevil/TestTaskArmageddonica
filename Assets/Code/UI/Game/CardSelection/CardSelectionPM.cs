@@ -40,13 +40,16 @@ namespace Code.UI.Game.CardSelection
 
         public List<CardView> GetCards()
         {
-            ReturnCurrentCards();
-            
             _currentCards = _cardCompositeProvider.CreateRandomUnitCards(CountCards);
             return _currentCards.Select(cardComposite => cardComposite.View).ToList();
         }
 
-        public void OnRollCards() => RolledCardsEvent?.Invoke();
+        public void OnRollCards()
+        {
+            ReturnCurrentCards();
+            
+            RolledCardsEvent?.Invoke();
+        }
 
         public void OnAddCardToHolder(CardView selected)
         {
