@@ -18,3 +18,4 @@ MonoBehaviour:
   GridData:
     Columns: 6
     Rows: 6
+  BattleStaticData: {fileID: 11400000, guid: 9f76a355d79de4242aa784b5b2de981b, type: 2}
