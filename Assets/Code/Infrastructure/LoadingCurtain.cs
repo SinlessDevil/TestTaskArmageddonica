@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections;
+using System.Threading;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
+using Cysharp.Threading.Tasks;
 
 namespace Code.Infrastructure
 {
@@ -12,9 +13,9 @@ namespace Code.Infrastructure
         
         [SerializeField] private RectTransform _right;
         [SerializeField] private RectTransform _left;
-        [SerializeField] private Text _loadingText;
+        [SerializeField] private TMP_Text _loadingText;
 
-        private Coroutine _loadingTextCoroutine;
+        private CancellationTokenSource _loadingTextCts;
 
         private void Awake()
         {
@@ -37,15 +38,15 @@ namespace Code.Infrastructure
             StartedShowLoadingEvent?.Invoke();
         }
 
-        public void Hide()
+        public async void Hide()
         {
-            StartCoroutine(AnimationOpen());
+            await AnimationOpenAsync();
             StartLoadingTextAnimation();
         }
 
-        private IEnumerator AnimationOpen()
+        private async UniTask AnimationOpenAsync()
         {
-            yield return new WaitForSeconds(Delay);
+            await UniTask.Delay(TimeSpan.FromSeconds(Delay));
             
             float screenWidth = Screen.width;
             float elapsedTime = 0f;
@@ -62,7 +63,7 @@ namespace Code.Infrastructure
                 float t = elapsedTime / AnimationDuration;
                 _left.anchoredPosition = Vector2.Lerp(leftStart, leftTarget, t);
                 _right.anchoredPosition = Vector2.Lerp(rightStart, rightTarget, t);
-                yield return null;
+                await UniTask.Yield();
             }
 
             FinishedShowLoadingEvent?.Invoke();
@@ -77,28 +78,30 @@ namespace Code.Infrastructure
 
         private void StartLoadingTextAnimation()
         {
-            _loadingTextCoroutine = StartCoroutine(LoadingTextEffect());
+            _loadingTextCts = new CancellationTokenSource();
+            LoadingTextEffectAsync(_loadingTextCts.Token).Forget();
         }
 
         private void StopLoadingTextAnimation()
         {
-            if (_loadingTextCoroutine != null)
-                StopCoroutine(_loadingTextCoroutine);
+            _loadingTextCts?.Cancel();
+            _loadingTextCts?.Dispose();
+            _loadingTextCts = null;
         }
 
-        private IEnumerator LoadingTextEffect()
+        private async UniTask LoadingTextEffectAsync(CancellationToken cancellationToken)
         {
             string baseText = "Loading";
-            while (true)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 _loadingText.text = baseText + "";
-                yield return new WaitForSeconds(0.15f);
+                await UniTask.Delay(TimeSpan.FromSeconds(0.15f), cancellationToken: cancellationToken);
                 _loadingText.text = baseText + ".";
-                yield return new WaitForSeconds(0.15f);
+                await UniTask.Delay(TimeSpan.FromSeconds(0.15f), cancellationToken: cancellationToken);
                 _loadingText.text = baseText + "..";
-                yield return new WaitForSeconds(0.15f);
+                await UniTask.Delay(TimeSpan.FromSeconds(0.15f), cancellationToken: cancellationToken);
                 _loadingText.text = baseText + "...";
-                yield return new WaitForSeconds(0.15f);
+                await UniTask.Delay(TimeSpan.FromSeconds(0.15f), cancellationToken: cancellationToken);
             }
         }
     }
