@@ -13,7 +13,7 @@ namespace Code.UI.Game.Cards.PM
         CardDefinitionStaticData? DefinitionData { get; }
         CardDefinitionType DefinitionType { get; }
         
-        string RankId { get; }
+        string RankText { get; }
         string CardName { get; }
         string CardDescription { get; }
         Sprite CardIcon { get; }
@@ -21,8 +21,5 @@ namespace Code.UI.Game.Cards.PM
         Sprite BackgroundSprite { get; }
         Sprite BodySprite { get; }
         Sprite LevelBackgroundSprite { get; }
-        string RankText { get; }
-        int Level { get; }
-        
     }
 }

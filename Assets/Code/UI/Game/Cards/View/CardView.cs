@@ -61,8 +61,8 @@ namespace Code.UI.Game.Cards.View
         
         private void SetupTexts()
         {
-            _nameText.text = _cardPM.CardName + $"({_cardPM.RankText})";
-            
+            _levelText.text = _cardPM.RankText;
+            _nameText.text = _cardPM.CardName;
             _infoText.text = _cardPM.CardDescription;
         }
         
@@ -75,8 +75,6 @@ namespace Code.UI.Game.Cards.View
         
         private void SetupLevel()
         {
-            _levelText.text = _cardPM.Level.ToString();
-            
             _bgLevelImage.sprite = _cardPM.LevelBackgroundSprite;
         }
         
