@@ -125,6 +125,8 @@ namespace Code.Editor
                 
                 foreach (var textInfo in _foundTexts)
                 {
+                    if (textInfo.gameObject == null) continue;
+                    
                     EditorGUILayout.BeginHorizontal();
                     
                     textInfo.isSelected = EditorGUILayout.Toggle(textInfo.isSelected, GUILayout.Width(20));
@@ -179,6 +181,8 @@ namespace Code.Editor
                 
                 foreach (var tmpInfo in _foundTMPTexts)
                 {
+                    if (tmpInfo.gameObject == null) continue;
+                    
                     EditorGUILayout.BeginHorizontal();
                     
                     tmpInfo.isSelected = EditorGUILayout.Toggle(tmpInfo.isSelected, GUILayout.Width(20));
@@ -297,28 +301,36 @@ namespace Code.Editor
             int convertedCount = 0;
             List<Object> modifiedObjects = new List<Object>();
 
-            foreach (var textInfo in _foundTexts)
-            {
-                if (!textInfo.isSelected || 
-                    textInfo.originalText == null || 
-                    textInfo.gameObject == null) 
-                    continue;
+            // Создаем копию списка для безопасной итерации
+            var textsToConvert = _foundTexts.Where(t => t.isSelected && t.originalText != null && t.gameObject != null).ToList();
 
-                if (PrefabUtility.IsPartOfPrefabAsset(textInfo.gameObject))
+            foreach (var textInfo in textsToConvert)
+            {
+                // Сохраняем данные перед уничтожением
+                string textContent = textInfo.originalTextContent;
+                int fontSize = textInfo.originalFontSize;
+                Color color = textInfo.originalColor;
+                TextAnchor alignment = textInfo.originalAlignment;
+                Font originalFont = textInfo.originalFont;
+                GameObject gameObject = textInfo.gameObject;
+
+                // Уничтожаем старый компонент
+                if (PrefabUtility.IsPartOfPrefabAsset(gameObject))
                     DestroyImmediate(textInfo.originalText, true);
                 else
                     DestroyImmediate(textInfo.originalText);
 
-                TextMeshProUGUI tmpText = textInfo.gameObject.AddComponent<TextMeshProUGUI>();
+                // Добавляем новый компонент
+                TextMeshProUGUI tmpText = gameObject.AddComponent<TextMeshProUGUI>();
+                
                 if (_copySettings)
                 {
-                    tmpText.text = textInfo.originalTextContent;
-                    tmpText.fontSize = textInfo.originalFontSize;
-                    tmpText.color = textInfo.originalColor;
+                    tmpText.text = textContent;
+                    tmpText.fontSize = fontSize;
+                    tmpText.color = color;
+                    tmpText.alignment = ConvertTextAnchorToTextAlignmentOptions(alignment);
                     
-                    tmpText.alignment = ConvertTextAnchorToTextAlignmentOptions(textInfo.originalAlignment);
-                    TMP_FontAsset tmpFont = FindTMPFontForFont(textInfo.originalFont);
-                    
+                    TMP_FontAsset tmpFont = FindTMPFontForFont(originalFont);
                     if (tmpFont != null)
                         tmpText.font = tmpFont;
                     else if (_defaultTMPFont != null) 
@@ -326,16 +338,19 @@ namespace Code.Editor
                 }
                 else
                 {
-                    tmpText.text = textInfo.originalTextContent;
+                    tmpText.text = textContent;
                     if (_defaultTMPFont != null) 
                         tmpText.font = _defaultTMPFont;
                 }
 
-                if (!modifiedObjects.Contains(textInfo.gameObject)) 
-                    modifiedObjects.Add(textInfo.gameObject);
+                if (!modifiedObjects.Contains(gameObject)) 
+                    modifiedObjects.Add(gameObject);
 
                 convertedCount++;
             }
+
+            // Очищаем список после конвертации
+            _foundTexts.Clear();
 
             foreach (Object obj in modifiedObjects)
             {
@@ -361,27 +376,36 @@ namespace Code.Editor
             int convertedCount = 0;
             List<Object> modifiedObjects = new List<Object>();
 
-            foreach (var tmpInfo in _foundTMPTexts)
-            {
-                if (!tmpInfo.isSelected || 
-                    tmpInfo.originalTMPText == null || 
-                    tmpInfo.gameObject == null) 
-                    continue;
+            // Создаем копию списка для безопасной итерации
+            var tmpTextsToConvert = _foundTMPTexts.Where(t => t.isSelected && t.originalTMPText != null && t.gameObject != null).ToList();
 
-                if (PrefabUtility.IsPartOfPrefabAsset(tmpInfo.gameObject))
+            foreach (var tmpInfo in tmpTextsToConvert)
+            {
+                // Сохраняем данные перед уничтожением
+                string textContent = tmpInfo.originalTextContent;
+                float fontSize = tmpInfo.originalFontSize;
+                Color color = tmpInfo.originalColor;
+                TextAlignmentOptions alignment = tmpInfo.originalAlignment;
+                TMP_FontAsset originalFont = tmpInfo.originalFont;
+                GameObject gameObject = tmpInfo.gameObject;
+
+                // Уничтожаем старый компонент
+                if (PrefabUtility.IsPartOfPrefabAsset(gameObject))
                     DestroyImmediate(tmpInfo.originalTMPText, true);
                 else
                     DestroyImmediate(tmpInfo.originalTMPText);
 
-                Text text = tmpInfo.gameObject.AddComponent<Text>();
+                // Добавляем новый компонент
+                Text text = gameObject.AddComponent<Text>();
+                
                 if (_copySettings)
                 {
-                    text.text = tmpInfo.originalTextContent;
-                    text.fontSize = Mathf.RoundToInt(tmpInfo.originalFontSize);
-                    text.color = tmpInfo.originalColor;
+                    text.text = textContent;
+                    text.fontSize = Mathf.RoundToInt(fontSize);
+                    text.color = color;
+                    text.alignment = ConvertTextAlignmentOptionsToTextAnchor(alignment);
                     
-                    text.alignment = ConvertTextAlignmentOptionsToTextAnchor(tmpInfo.originalAlignment);
-                    Font regularFont = FindFontForTMPFont(tmpInfo.originalFont);
+                    Font regularFont = FindFontForTMPFont(originalFont);
                     if (regularFont != null)
                         text.font = regularFont;
                     else if (_defaultFont != null) 
@@ -389,16 +413,19 @@ namespace Code.Editor
                 }
                 else
                 {
-                    text.text = tmpInfo.originalTextContent;
+                    text.text = textContent;
                     if (_defaultFont != null) 
                         text.font = _defaultFont;
                 }
 
-                if (!modifiedObjects.Contains(tmpInfo.gameObject)) 
-                    modifiedObjects.Add(tmpInfo.gameObject);
+                if (!modifiedObjects.Contains(gameObject)) 
+                    modifiedObjects.Add(gameObject);
 
                 convertedCount++;
             }
+
+            // Очищаем список после конвертации
+            _foundTMPTexts.Clear();
 
             foreach (Object obj in modifiedObjects)
             {
