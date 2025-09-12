@@ -109,6 +109,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
                         
                     enemyCell.InvocationController.AddInvocation(enemyInvocation, enemyDTO.InvocationType, enemyDTO.Id);
                     _levelConductor.AddInvocationForEnemy(enemyDTO);
+                    
+                    enemyCell.VisualController.SetFilledState();
                 }
             }
         }

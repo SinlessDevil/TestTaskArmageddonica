@@ -1,5 +1,6 @@
 using System;
 using Code.Logic.Grid;
+using Code.Services.Context;
 using Code.StaticData.Invocation.DTO;
 using UnityEngine;
 
@@ -21,10 +22,14 @@ namespace Code.Services.Input.Grid
 		private readonly Color _hitNormalColor = Color.yellow;
 		
 		private readonly IInputService _inputService;
+		private readonly IGameContext _gameContext;
 
-		public GridInputService(IInputService inputService)
+		public GridInputService(
+			IInputService inputService,
+			IGameContext gameContext)
 		{
 			_inputService = inputService;
+			_gameContext = gameContext;
 		}
 		
 		public event Action<InvocationDTO, Cell> DroppedInvocationInCellEvent;
@@ -92,7 +97,7 @@ namespace Code.Services.Input.Grid
 			{
 				DrawRayGizmos(ray, hit);
 				Cell cell = hit.collider.GetComponent<Cell>();
-				if (cell != null)
+				if (cell != null || _invocationDto != null)
 				{
 					HandleHover(cell);
 					return;
@@ -119,16 +124,17 @@ namespace Code.Services.Input.Grid
 		{
 			if (!_isDragActive)
 				return;
-				
+
 			if (CanDropInvocation())
 			{
 				DroppedInvocationInCellEvent?.Invoke(_invocationDto, _hoverCell);
+				UpdateAllCellVisual();
 			}
 			else
 			{
 				СancelledDropInvocationInCellEvent?.Invoke();
 			}
-			
+
 			ResetDragState();
 		}
 
@@ -178,10 +184,8 @@ namespace Code.Services.Input.Grid
 			if (_hoverCell == null || _invocationDto == null)
 				return false;
 
-			if (_hoverCell.InvocationController.HasFreeCell())
-				return true;
-
-			return _hoverCell.InvocationController.HasAddedAdditionalInvocation(_invocationDto.Id);
+			return _hoverCell.InvocationController.HasFreeCell() || 
+			       _hoverCell.InvocationController.HasAddedAdditionalInvocation(_invocationDto.Id);
 		}
 
 		private void ResetDragState()
@@ -193,8 +197,13 @@ namespace Code.Services.Input.Grid
 
 		private void ClearPreviousHover()
 		{
-			if (_hoverCell != null)
+			if(_hoverCell == null)
+				return;
+			
+			if (_hoverCell.InvocationController.HasFreeCell())
 				_hoverCell.VisualController.SetEmptyState();
+			else if(!_hoverCell.InvocationController.HasFreeCell())
+				_hoverCell.VisualController.SetFilledState();
 		}
 
 		private void UpdateCellVisualState()
@@ -222,6 +231,17 @@ namespace Code.Services.Input.Grid
 			else
 			{
 				_hoverCell.VisualController.SetNotSelectedState();
+			}
+		}
+
+		private void UpdateAllCellVisual()
+		{
+			foreach (var cell in _gameContext.PlayerGrid.Cells)
+			{
+				if (cell.InvocationController.HasFreeCell())
+					cell.VisualController.SetEmptyState();
+				else if(!cell.InvocationController.HasFreeCell())
+					cell.VisualController.SetFilledState();
 			}
 		}
 	}
