@@ -63,7 +63,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
 
         public void Exit()
         {
-            _battleStateMachine.Enter<CleanupBattleState>();
+            _battleStateMachine.Enter<DisposeBattleState>();
             
             _inputService.Cleanup();
             _widgetProvider.CleanupPool();

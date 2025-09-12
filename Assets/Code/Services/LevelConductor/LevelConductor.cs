@@ -45,11 +45,6 @@ namespace Code.Services.LevelConductor
             CalculationPowerOpponentsAsync().Forget();
         }
         
-        public void Cleanup()
-        {
-            _levelLocalProgressService.Cleanup();
-        }
-        
         public int GetCurrentWave => _levelLocalProgressService.CurrentWave;
         
         public int GetMaxWaves => _levelService.GetCurrentLevelStaticData().BattleStaticData.BattleDataList.Count;
@@ -94,7 +89,7 @@ namespace Code.Services.LevelConductor
                     EndedBattleEvent?.Invoke();
                     break;
                 case BattlResult.Player:
-                    _levelLocalProgressService.ClearEnemyInvocations();
+                    _levelLocalProgressService.ClearEnemyInvocationsDTO();
                     AddWave();
                     if (GetCurrentWave > GetMaxWaves)
                     {

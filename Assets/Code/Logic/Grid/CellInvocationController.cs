@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Code.StaticData.Invocation;
 using Code.Logic.Grid.Extensions;
+using UnityEditor;
 using UnityEngine;
 
 namespace Code.Logic.Grid
@@ -61,6 +62,11 @@ namespace Code.Logic.Grid
 
         public void ClearInvocations()
         {
+            foreach (Invocation.Invocation invocation in Invocations)
+            {
+                Object.Destroy(invocation);
+            }
+            
             Invocations.Clear();
             UniqueId = string.Empty;
             TargetInvocationType = InvocationType.Unknown;

@@ -79,7 +79,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
 
         private void OnNextWave()
         {
-            _stateMachine.Enter<CardSelectionBattleState>();
+            _stateMachine.Enter<CleanupBattleState>();
         }
         
         private void SpawnEnemies()

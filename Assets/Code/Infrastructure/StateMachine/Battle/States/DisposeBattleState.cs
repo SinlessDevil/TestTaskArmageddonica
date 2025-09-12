@@ -5,13 +5,13 @@ using Code.Services.LocalProgress;
 
 namespace Code.Infrastructure.StateMachine.Battle.States
 {
-    public class CleanupBattleState : IState, IBattleState, IUpdatable
+    public class DisposeBattleState : IState, IBattleState, IUpdatable
     {
         private readonly ILevelLocalProgressService _levelLocalProgressService;
         private readonly IGameContext _gameContext;
         private readonly IStateMachine<IBattleState> _stateMachine;
 
-        public CleanupBattleState(
+        public DisposeBattleState(
             ILevelLocalProgressService levelLocalProgressService, 
             IGameContext gameContext,
             IStateMachine<IBattleState> stateMachine)
@@ -23,10 +23,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
 
         void IState.Enter()
         {
-            _levelLocalProgressService.ClearEnemyInvocationsDTO();
-            CleanupEnemiesInvocations();
-            
-            _stateMachine.Enter<CardSelectionBattleState>();
+            _levelLocalProgressService.Cleanup();
+            CleanupInvocations();
         }
 
         void IExitable.Exit()
@@ -39,16 +37,25 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             
         }
 
-        private void CleanupEnemiesInvocations()
+        private void CleanupInvocations()
         {
-            Cell[,] cells = _gameContext.EnemyGird.Cells;
+            Cell[,] enemyGirdCells = _gameContext.EnemyGird.Cells;
             
-            int rows = cells.GetLength(0);
-            int columns = cells.GetLength(1);
+            int rows = enemyGirdCells.GetLength(0);
+            int columns = enemyGirdCells.GetLength(1);
     
             for (int x = 0; x < rows; x++)
             for (int y = 0; y < columns; y++) 
-                cells[x, y].CellInvocationController.ClearInvocations();
+                enemyGirdCells[x, y].CellInvocationController.ClearInvocations();
+            
+            Cell[,] playerGridCells = _gameContext.PlayerGrid.Cells;
+
+            rows = playerGridCells.GetLength(0);
+            columns = playerGridCells.GetLength(1);
+            
+            for (int x = 0; x < rows; x++)
+            for (int y = 0; y < columns; y++) 
+                playerGridCells[x, y].CellInvocationController.ClearInvocations();
         }
     }
 }

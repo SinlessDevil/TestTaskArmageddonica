@@ -161,8 +161,6 @@ namespace Code.Infrastructure.Installers
         {
             Container.BindInterfacesTo<PersistenceProgressService>().AsSingle();
             Container.BindInterfacesTo<LevelLocalProgressService>().AsSingle();
-            
-            // PM for Finish Windows are created dynamically in services
         }
         
         private void BindAudioVibrationService()
@@ -225,8 +223,8 @@ namespace Code.Infrastructure.Installers
             Container.Bind<CardSelectionBattleState>().AsSingle();
             Container.Bind<CardPlacementBattleState>().AsSingle();
             Container.Bind<PlayBattleState>().AsSingle();
-            Container.Bind<PauseBattleState>().AsSingle();
             Container.Bind<CleanupBattleState>().AsSingle();
+            Container.Bind<DisposeBattleState>().AsSingle();
         }
         
         private void BootstrapGame() => Container.Resolve<IStateMachine<IGameState>>().Enter<BootstrapState>();

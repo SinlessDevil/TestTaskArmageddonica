@@ -18,5 +18,7 @@ namespace Code.Logic.Grid
             
             return _cells[x, y];
         }
+        
+        public Cell[,] Cells => _cells;
     }   
 }

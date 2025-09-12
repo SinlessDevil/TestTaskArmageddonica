@@ -20,8 +20,8 @@ namespace Code.Infrastructure.StateMachine.Battle
                 [typeof(CardSelectionBattleState)] = container.Resolve<CardSelectionBattleState>,
                 [typeof(CardPlacementBattleState)] = container.Resolve<CardPlacementBattleState>,
                 [typeof(PlayBattleState)] = container.Resolve<PlayBattleState>,
-                [typeof(PauseBattleState)] = container.Resolve<PauseBattleState>,
                 [typeof(CleanupBattleState)] = container.Resolve<CleanupBattleState>,
+                [typeof(DisposeBattleState)] = container.Resolve<DisposeBattleState>,
             };
         }
     }
