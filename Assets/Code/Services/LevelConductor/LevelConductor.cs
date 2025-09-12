@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Code.Services.Finish;
 using Code.Services.Levels;
+using Code.Services.LocalProgress;
 using Code.Services.PowerCalculation;
 using Code.StaticData.Invocation.DTO;
 using Cysharp.Threading.Tasks;
@@ -14,23 +15,20 @@ namespace Code.Services.LevelConductor
         private readonly ILevelService _levelService;
         private readonly IInvocationPowerCalculationService _invocationPowerCalculationService;
         private readonly IFinishService _finishService;
-        
-        private Dictionary<string, InvocationDTO> _playerInvocations;
-        private Dictionary<string, InvocationDTO> _enemyInvocations;
+        private readonly ILevelLocalProgressService _levelLocalProgressService;
         
         private int _currentGetCurrentWave = 1;
         
         public LevelConductor(
             ILevelService levelService, 
             IInvocationPowerCalculationService invocationPowerCalculationService,
-            IFinishService finishService)
+            IFinishService finishService,
+            ILevelLocalProgressService levelLocalProgressService)
         {
             _levelService = levelService;
             _invocationPowerCalculationService = invocationPowerCalculationService;
             _finishService = finishService;
-
-            _playerInvocations = new Dictionary<string, InvocationDTO>();
-            _enemyInvocations = new Dictionary<string, InvocationDTO>();
+            _levelLocalProgressService = levelLocalProgressService;
         }
 
         public event Action RunnedBattleEvent;
@@ -51,9 +49,7 @@ namespace Code.Services.LevelConductor
         
         public void Cleanup()
         {
-            _playerInvocations.Clear();
-            _enemyInvocations.Clear();
-
+            _levelLocalProgressService.Cleanup();
             _currentGetCurrentWave = 1;
         }
         
@@ -69,44 +65,32 @@ namespace Code.Services.LevelConductor
         
         public void AddInvocationForPlayer(InvocationDTO dto)
         {
-            if (_playerInvocations.ContainsKey(dto.UniqueId))
-            {
-                _playerInvocations[dto.UniqueId].Quantity++;
-            }
-            else
-            {
-                _playerInvocations[dto.UniqueId] = dto;
-            }
-            
+            _levelLocalProgressService.AddInvocationForPlayer(dto);
             ChangedPowerPlayerEvent?.Invoke();
         }
         
         public void AddInvocationForEnemy(InvocationDTO dto)
         {
-            if (_enemyInvocations.ContainsKey(dto.UniqueId))
-            {
-                _enemyInvocations[dto.UniqueId].Quantity++;
-            }
-            else
-            {
-                _enemyInvocations[dto.UniqueId] = dto;
-            }
-            
+            _levelLocalProgressService.AddInvocationForEnemy(dto);
             ChangedPowerEnemyEvent?.Invoke();
         }
         
         public InvocationDTO GetInvocationForPlayer(string uniqueId) => 
-            _playerInvocations.ContainsKey(uniqueId) ? _playerInvocations[uniqueId] : null;
+            _levelLocalProgressService.GetInvocationForPlayer(uniqueId);
 
         public InvocationDTO GetInvocationForEnemy(string uniqueId) => 
-            _enemyInvocations.ContainsKey(uniqueId) ? _enemyInvocations[uniqueId] : null;
+            _levelLocalProgressService.GetInvocationForEnemy(uniqueId);
 
-        public Dictionary<string, InvocationDTO> GetPlayerInvocations() => _playerInvocations;
+        public Dictionary<string, InvocationDTO> GetPlayerInvocations() => 
+            _levelLocalProgressService.GetPlayerInvocations();
 
-        public Dictionary<string, InvocationDTO> GetEnemyInvocations() => _enemyInvocations;
+        public Dictionary<string, InvocationDTO> GetEnemyInvocations() => 
+            _levelLocalProgressService.GetEnemyInvocations();
         
         private async UniTask CalculationPowerOpponentsAsync()
         {
+            await Task.Delay(2000);
+            
             await Task.Delay(2000);
             
             switch (_invocationPowerCalculationService.ComparePowers())
@@ -115,7 +99,7 @@ namespace Code.Services.LevelConductor
                     EndedBattleEvent?.Invoke();
                     break;
                 case BattlResult.Player:
-                    _enemyInvocations.Clear();
+                    _levelLocalProgressService.ClearEnemyInvocations();
                     AddWave();
                     if (GetCurrentWave > GetMaxWaves)
                     {

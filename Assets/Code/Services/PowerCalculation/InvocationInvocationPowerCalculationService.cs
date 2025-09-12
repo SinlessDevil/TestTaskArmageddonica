@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Code.Services.IInvocation.StaticData;
-using Code.Services.LevelConductor;
+using Code.Services.LocalProgress;
 using Code.Services.StaticData;
 using Code.StaticData;
 using Code.StaticData.Invocation;
@@ -14,29 +14,29 @@ namespace Code.Services.PowerCalculation
     {
         private const float Tolerance = 0.01f;
         
-        private readonly ILevelConductor _levelConductor;
+        private readonly ILevelLocalProgressService _levelLocalProgressService;
         private readonly IStaticDataService _staticDataService;
         private readonly IInvocationStaticDataService _invocationStaticDataService;
         
         public InvocationInvocationPowerCalculationService(
-            ILevelConductor levelConductor,
+            ILevelLocalProgressService levelLocalProgressService,
             IStaticDataService staticDataService,
             IInvocationStaticDataService invocationStaticDataService)
         {
-            _levelConductor = levelConductor;
+            _levelLocalProgressService = levelLocalProgressService;
             _staticDataService = staticDataService;
             _invocationStaticDataService = invocationStaticDataService;
         }
         
         public float CalculatePlayerPower()
         {
-            Dictionary<string, InvocationDTO> playerInvocations = _levelConductor.GetPlayerInvocations();
+            Dictionary<string, InvocationDTO> playerInvocations = _levelLocalProgressService.GetPlayerInvocations();
             return CalculateTotalPower(playerInvocations);
         }
         
         public float CalculateEnemyPower()
         {
-            Dictionary<string, InvocationDTO> enemyInvocations = _levelConductor.GetEnemyInvocations();
+            Dictionary<string, InvocationDTO> enemyInvocations = _levelLocalProgressService.GetEnemyInvocations();
             return CalculateTotalPower(enemyInvocations);
         }
         
