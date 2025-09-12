@@ -104,7 +104,7 @@ namespace Code.Editor.AudioVibration
         private void GenerateEnumFileBase(string enumPath, string enumName, string nameFolder, 
             List<SoundData> soundList, TypeSound typeSound)
         {
-            var names = soundList
+            List<string> names = soundList
                 .Where(s => !string.IsNullOrWhiteSpace(s.Name))
                 .Select(s => s.Name.Replace(" ", "_").Replace("-", "_").Replace(".", "_").Trim())
                 .Distinct()
@@ -132,7 +132,7 @@ namespace Code.Editor.AudioVibration
             
             foreach (var sound in soundList)
             {
-                var enumNameSanitized = sound.Name.Replace(" ", "_").Replace("-", "_").Replace(".", "_").Trim();
+                string enumNameSanitized = sound.Name.Replace(" ", "_").Replace("-", "_").Replace(".", "_").Trim();
 
                 switch (typeSound)
                 {
@@ -169,7 +169,7 @@ namespace Code.Editor.AudioVibration
         {
             base.OnEnable();
 
-            var loaded = Resources.Load<SoundsData>(SoundsDataResourcePath);
+            SoundsData loaded = Resources.Load<SoundsData>(SoundsDataResourcePath);
 
             if (loaded != null)
             {

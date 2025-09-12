@@ -34,7 +34,8 @@ namespace Code.UI.Game.CardSelection
             SetCards(_cardSelectionPM.GetCards());
             
             _animator.Initialize();
-            _animator.Show();
+            _animator.ShowCanvas();
+            _animator.ShowButton();
         }
 
         public void Dispose()
@@ -49,7 +50,7 @@ namespace Code.UI.Game.CardSelection
             _cardSelectionPM.RolledCardsEvent += OnChangedCards;
             _cardSelectionPM.SellectedCardViewEvent += OnSelect;
             
-            _rerollButton.onClick.AddListener(OnRerollButtonClick);
+            _rerollButton.onClick.AddListener(OnReRollButtonClick);
             _toggleVisibilityButton.onClick.AddListener(OnToggleVisibilityButtonClick);
         }
         
@@ -58,7 +59,7 @@ namespace Code.UI.Game.CardSelection
             _cardSelectionPM.RolledCardsEvent -= OnChangedCards;
             _cardSelectionPM.SellectedCardViewEvent -= OnSelect;
             
-            _rerollButton.onClick.RemoveListener(OnRerollButtonClick);
+            _rerollButton.onClick.RemoveListener(OnReRollButtonClick);
             _toggleVisibilityButton.onClick.RemoveListener(OnToggleVisibilityButtonClick);
         }
         
@@ -82,7 +83,7 @@ namespace Code.UI.Game.CardSelection
             SetCards(_cardSelectionPM.GetCards());
         }
         
-        private void OnRerollButtonClick()
+        private void OnReRollButtonClick()
         {
             _cardSelectionPM.OnRollCards();
         }
@@ -94,12 +95,12 @@ namespace Code.UI.Game.CardSelection
             if (_visible)
             {
                 _visibleImage.sprite = _visibleSprite;
-                _animator.Show();
+                _animator.ShowCanvas();
             }
             else
             {
                 _visibleImage.sprite = _invisibleSprite;
-                _animator.Hide();   
+                _animator.HideCanvas();
             }
         }
 
@@ -107,7 +108,8 @@ namespace Code.UI.Game.CardSelection
         {
             OnClosed(view);
             
-            _animator.Close(() => _cardSelectionPM.OnCloseWindow());
+            _animator.HideCanvas(() => _cardSelectionPM.OnCloseWindow());
+            _animator.HideButton();
         }
         
         private void OnClosed(CardView selected)

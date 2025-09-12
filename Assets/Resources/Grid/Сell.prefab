@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3832809887433262665}
   - component: {fileID: 41624737322267107}
   - component: {fileID: 5793911658221325261}
-  - component: {fileID: 935096181852393247}
   m_Layer: 0
   m_Name: "\u0421ell"
   m_TagString: Untagged
@@ -147,28 +146,3 @@ MonoBehaviour:
   _fulledColor: {r: 1, g: 1, b: 1, a: 1}
   _selectedColor: {r: 0.9622642, g: 0.83661455, b: 0.14070843, a: 1}
   _notSelectedColor: {r: 0.9245283, g: 0.17880027, b: 0.17880027, a: 1}
---- !u!114 &935096181852393247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9041360806391297535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82fe562217bce6845b2de425e41f2b71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _objectSize: 0.15
-  _spacing: 0.02
-  _maxColumns: 3
-  _useCircularLayout: 0
-  _circularRadius: 0.5
-  _showGizmos: 1
-  _cellCenterColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  _cellBoundsColor: {r: 1, g: 1, b: 1, a: 1}
-  _positionColor: {r: 0, g: 1, b: 0, a: 1}
-  _connectionColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  _circleColor: {r: 0, g: 1, b: 1, a: 1}
-  _testObjectCount: 9
-  _showTestPositions: 1

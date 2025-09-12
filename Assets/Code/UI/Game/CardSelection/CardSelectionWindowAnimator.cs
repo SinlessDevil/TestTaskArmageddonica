@@ -33,13 +33,17 @@ namespace Code.UI.Game.CardSelection
             }
         }
         
-        public void Show() => Play(true, null);
+        public void ShowCanvas() => CanvasToggleVisible(true, null);
 
-        public void Hide() => Play(false, null);
+        public void HideCanvas() => CanvasToggleVisible(false, null);
 
-        public void Close(Action onCompleted) => Play(false, onCompleted);
+        public void HideCanvas(Action onCompleted) => CanvasToggleVisible(false, onCompleted);
 
-        private void Play(bool visible, Action onCompleted)
+        public void ShowButton() => ButtonsToggleVisible(true, null);
+        
+        public void HideButton() => ButtonsToggleVisible(false, null);
+        
+        private void CanvasToggleVisible(bool visible, Action onCompleted)
         {
             if (_canvasGroups == null || _canvasGroups.Count == 0)
             {
@@ -68,7 +72,21 @@ namespace Code.UI.Game.CardSelection
                     .DOFade(visible ? 1f : 0f, _duration)
                     .SetEase(_ease));
             }
-            
+
+            sequence.OnComplete(() =>
+            {
+                foreach (var canvasGroup in _canvasGroups.Where(canvasGroup => canvasGroup))
+                {
+                    canvasGroup.blocksRaycasts = visible;
+                    canvasGroup.interactable = visible;
+                }
+                onCompleted?.Invoke();
+                _sequence = null;
+            });
+        }
+
+        private void ButtonsToggleVisible(bool visible, Sequence sequence)
+        {
             float buttonAnimationDuration = _duration * 0.5f;
             
             if (_rollCardsButton != null)
@@ -90,17 +108,6 @@ namespace Code.UI.Game.CardSelection
                     .DOAnchorPos(targetPos, buttonAnimationDuration)
                     .SetEase(_ease));
             }
-
-            sequence.OnComplete(() =>
-            {
-                foreach (var canvasGroup in _canvasGroups.Where(canvasGroup => canvasGroup))
-                {
-                    canvasGroup.blocksRaycasts = visible;
-                    canvasGroup.interactable = visible;
-                }
-                onCompleted?.Invoke();
-                _sequence = null;
-            });
         }
     }
 }
