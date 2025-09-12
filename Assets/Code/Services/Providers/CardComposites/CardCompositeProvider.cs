@@ -56,6 +56,15 @@ namespace Code.Services.Providers.CardComposites
             _cardViewProvider.Return(cardComposite.View);
         }
         
+        public void ReturnCardComposite(CardView cardView)
+        {
+            if (cardView == null) 
+                return;
+            
+            cardView.Dispose();
+            _cardViewProvider.Return(cardView);
+        }
+        
         public void ReturnCardComposites(List<CardComposite> cardComposites)
         {
             if (cardComposites == null) 

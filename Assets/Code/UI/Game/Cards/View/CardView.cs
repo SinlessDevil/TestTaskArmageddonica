@@ -36,6 +36,12 @@ namespace Code.UI.Game.Cards.View
         public void Dispose()
         {
             _cardPM = null;
+            
+            transform.position = Vector3.zero;
+            transform.localScale = Vector3.one;
+
+            _hoverComponent.ResetState();
+            
             ResetCardComponents();
         }
 
@@ -87,7 +93,6 @@ namespace Code.UI.Game.Cards.View
             _nameText.color = Color.white;
             
             _infoText.text = string.Empty;
-            
             _levelText.text = string.Empty;
             
             _bgImage.sprite = null;

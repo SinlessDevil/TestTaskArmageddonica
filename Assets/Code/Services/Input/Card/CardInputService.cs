@@ -2,6 +2,7 @@ using System;
 using Code.Logic.Grid;
 using Code.Services.Factories.UIFactory;
 using Code.Services.Input.Grid;
+using Code.Services.Providers.CardComposites;
 using Code.UI.Game;
 using Code.UI.Game.Cards.PM;
 using Code.UI.Game.Cards.View;
@@ -23,15 +24,18 @@ namespace Code.Services.Input.Card
         private readonly IInputService _inputService;
         private readonly IGridInputService _gridInputService;
         private readonly IUIFactory _uiFactory;
-        
+        private readonly ICardCompositeProvider _cardCompositeProvider;
+
         public CardInputService(
             IInputService inputService, 
             IGridInputService gridInputService, 
-            IUIFactory uiFactory)
+            IUIFactory uiFactory,
+            ICardCompositeProvider cardCompositeProvider)
         {
             _inputService = inputService;
             _gridInputService = gridInputService;
             _uiFactory = uiFactory;
+            _cardCompositeProvider = cardCompositeProvider;
         }
 
         public event Action<CardView, ICardPM, Cell> DroppedOnCell;
@@ -102,16 +106,15 @@ namespace Code.Services.Input.Card
             switch (_inputType)
             {
                 case TypeInput.Drag:
-                {
                     if (!IsDragging)
                         BeginDrag(view);
-                    
                     view.HoverComponent.HighlightShrink();
                     break;
-                }
                 case TypeInput.Click:
                     ClickPressed?.Invoke(view);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -200,11 +203,7 @@ namespace Code.Services.Input.Card
             if (cellOrNull != null)
             {
                 DroppedOnCell?.Invoke(_dragCard, _dragCard.CardPM, cellOrNull);
-
-                _dragRT.DOKill();
-                _dragRT.DOScale(_origScale, 0.08f).SetUpdate(true);
-
-                _dragCard.gameObject.SetActive(false);
+                _cardCompositeProvider.ReturnCardComposite(_dragCard);
             }
             else
             {

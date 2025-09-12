@@ -70,7 +70,7 @@ namespace Code.UI.Game.Cards.View
 
         public void ResetState()
         {
-            AnimateLift(_startYOffset);
+            AnimateLift(0);
             SetGlow(false);
             AnimateScale(_baseScale);
         }
@@ -83,10 +83,8 @@ namespace Code.UI.Game.Cards.View
 
         private void AnimateLift(float targetY)
         {
-            if (!_root) 
-                return;
-
             _root.DOKill(true);
+            
             Tweener tweener = _root
                 .DOAnchorPos(new Vector2(_root.anchoredPosition.x, targetY), _tweenDuration)
                 .SetEase(_tweenEase);

@@ -19,6 +19,11 @@ namespace Code.Services.LocalProgress
         Dictionary<string, InvocationDTO> GetEnemyInvocations();
         void ClearEnemyInvocations();
         
+        // Wave management
+        int CurrentWave { get; }
+        void AddWave();
+        void ResetWave();
+        
         void Cleanup();
     }   
 }

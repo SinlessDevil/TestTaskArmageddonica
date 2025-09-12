@@ -17,8 +17,6 @@ namespace Code.Services.LevelConductor
         private readonly IFinishService _finishService;
         private readonly ILevelLocalProgressService _levelLocalProgressService;
         
-        private int _currentGetCurrentWave = 1;
-        
         public LevelConductor(
             ILevelService levelService, 
             IInvocationPowerCalculationService invocationPowerCalculationService,
@@ -50,16 +48,15 @@ namespace Code.Services.LevelConductor
         public void Cleanup()
         {
             _levelLocalProgressService.Cleanup();
-            _currentGetCurrentWave = 1;
         }
         
-        public int GetCurrentWave => _currentGetCurrentWave;
+        public int GetCurrentWave => _levelLocalProgressService.CurrentWave;
         
         public int GetMaxWaves => _levelService.GetCurrentLevelStaticData().BattleStaticData.BattleDataList.Count;
         
         public void AddWave()
         {
-            _currentGetCurrentWave++;
+            _levelLocalProgressService.AddWave();
             ChangedWaveEvent?.Invoke();
         }
         
@@ -89,9 +86,7 @@ namespace Code.Services.LevelConductor
         
         private async UniTask CalculationPowerOpponentsAsync()
         {
-            await Task.Delay(2000);
-            
-            await Task.Delay(2000);
+            await Task.Delay(3000);
             
             switch (_invocationPowerCalculationService.ComparePowers())
             {
@@ -103,15 +98,18 @@ namespace Code.Services.LevelConductor
                     AddWave();
                     if (GetCurrentWave > GetMaxWaves)
                     {
+                        await Task.Delay(1000);
                         _finishService.Win();
                     }
-                    EndedBattleEvent?.Invoke();
+                    else
+                    {
+                        EndedBattleEvent?.Invoke();   
+                    }
                     break;
                 case BattlResult.Enemy:
+                    await Task.Delay(1000);
                     _finishService.Lose();
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
     }   

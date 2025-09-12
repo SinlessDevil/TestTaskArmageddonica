@@ -343,7 +343,7 @@ namespace Code.Editor.Invocation
         private bool GetItemFoldoutState(string itemKey)
         {
             if (!_itemFoldoutStates.ContainsKey(itemKey))
-                _itemFoldoutStates[itemKey] = true; // Default to expanded
+                _itemFoldoutStates[itemKey] = true;
             return _itemFoldoutStates[itemKey];
         }
         

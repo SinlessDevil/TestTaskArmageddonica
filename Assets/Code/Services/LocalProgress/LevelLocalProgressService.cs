@@ -9,6 +9,7 @@ namespace Code.Services.LocalProgress
         public event Action<int> UpdateScoreEvent; 
         
         public int Score { get; private set; }
+        public int CurrentWave { get; private set; } = 1;
         
         private Dictionary<string, InvocationDTO> _playerInvocations;
         private Dictionary<string, InvocationDTO> _enemyInvocations;
@@ -64,9 +65,20 @@ namespace Code.Services.LocalProgress
             _enemyInvocations.Clear();
         }
         
+        public void AddWave()
+        {
+            CurrentWave++;
+        }
+        
+        public void ResetWave()
+        {
+            CurrentWave = 1;
+        }
+        
         public void Cleanup()
         {
             Score = 0;
+            CurrentWave = 1;
             _playerInvocations.Clear();
             _enemyInvocations.Clear();
         }
