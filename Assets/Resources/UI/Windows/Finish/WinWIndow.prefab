@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 2491952011400337389}
   - component: {fileID: 7209740717584972742}
   - component: {fileID: 5660584497593966033}
+  - component: {fileID: 7723836754959215480}
   m_Layer: 5
   m_Name: WinWIndow
   m_TagString: Untagged
@@ -168,6 +169,7 @@ MonoBehaviour:
   _buttonExitToMenu: {fileID: 8461456971734685863}
   _scoreText: {fileID: 3432318253978017856}
   _invocationContainer: {fileID: 4645066914888748817}
+  _layoutEngine: {fileID: 7723836754959215480}
 --- !u!225 &5660584497593966033
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -180,6 +182,22 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &7723836754959215480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3267468267308028194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fde2821855cfca4db55abd19bf7d499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _iconSpacing: 175
+  _verticalOffset: 0
+  _iconWidth: 150
+  _root: {fileID: 4645066914888748817}
 --- !u!1 &3464048857146754980
 GameObject:
   m_ObjectHideFlags: 0
@@ -866,10 +884,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8837533937659028499}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -3.1100006}
-  m_SizeDelta: {x: 0, y: -7.0399933}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -108.61}
+  m_SizeDelta: {x: 1600, y: 203.96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6845604374293340373
 MonoBehaviour:

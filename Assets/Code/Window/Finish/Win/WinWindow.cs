@@ -18,6 +18,7 @@ namespace Code.Window.Finish.Win
         [SerializeField] private TMP_Text _scoreText;
         [Header("Units Container")]
         [SerializeField] private Transform _invocationContainer;
+        [SerializeField] private InvocationLayoutEngine _layoutEngine;
         
         private IStateMachine<IGameState> _gameStateMachine;
         private IStaticDataService _staticDataService;
@@ -41,6 +42,9 @@ namespace Code.Window.Finish.Win
             
             SubscribeEvents();
             SetupUI();
+            
+            if (_layoutEngine != null)
+                _layoutEngine.Initialize();
         }
 
         public void Dispose()
@@ -62,8 +66,8 @@ namespace Code.Window.Finish.Win
         
         private void SetupUsedUnits()
         {
-            foreach (Transform child in _invocationContainer) 
-                Destroy(child.gameObject);
+            if (_layoutEngine != null)
+                _layoutEngine.ClearAllIcons();
             
             CreateUnitIconsWithAnimation().Forget();
         }
@@ -83,9 +87,11 @@ namespace Code.Window.Finish.Win
         
         private void InitializeInvocationIcon(float delay, InvocationIconComposite invocationIconComposite)
         {
-            invocationIconComposite.View.transform.SetParent(_invocationContainer);
             invocationIconComposite.View.Initialize(invocationIconComposite.PM);
             invocationIconComposite.View.ShowWithAnimation(delay);
+            
+            if (_layoutEngine != null)
+                _layoutEngine.AddIcon(invocationIconComposite.View);
         }
         
         protected override void OnLoadLevelButtonClick()

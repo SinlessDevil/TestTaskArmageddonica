@@ -44,7 +44,6 @@ namespace Code.UI.Game.Finish.Win
             foreach (KeyValuePair<string, InvocationDTO> invocationDto in invocationDtoCollection)
             {
                 InvocationIconView invocationIconView = _uiFactory.CreateInvocationIconView();
-                invocationIconView.transform.SetParent(_uiFactory.UIRoot);
                 IInvocationIconPM invocationIconPm = new InvocationIconPM(invocationDto.Value, _staticDataService);
                 InvocationIconComposite invocationIconComposite = new InvocationIconComposite(invocationIconView, invocationIconPm);
                 _invocationIconComposites.Add(invocationIconComposite);

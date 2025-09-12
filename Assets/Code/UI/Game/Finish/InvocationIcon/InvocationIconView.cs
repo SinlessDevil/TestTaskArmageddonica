@@ -24,22 +24,17 @@ namespace Code.UI.Game.Finish.InvocationIcon
         
         public void ShowWithAnimation(float delay = 0f)
         {
-            _rectTransform.localScale = Vector3.zero;
+            Reset();
             
             _rectTransform.DOScale(Vector3.one, _animationDuration)
                 .SetDelay(delay)
                 .SetEase(_animationEase);
         }
         
-        public void Reset()
+        private void Reset()
         {
             _rectTransform.DOKill();
-            
             _rectTransform.localScale = Vector3.one;
-            
-            _iconImage.sprite = null;
-            
-            _nameText.text = string.Empty;
         }
         
         private void OnDestroy()
