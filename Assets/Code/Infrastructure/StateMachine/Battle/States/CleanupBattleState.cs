@@ -48,7 +48,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
     
             for (int x = 0; x < rows; x++)
             for (int y = 0; y < columns; y++) 
-                cells[x, y].CellInvocationController.ClearInvocations();
+                cells[x, y].InvocationController.ClearInvocations();
         }
     }
 }

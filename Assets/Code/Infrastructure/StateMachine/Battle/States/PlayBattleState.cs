@@ -20,7 +20,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
     public class PlayBattleState : IState, IBattleState, IUpdatable
     {
         private readonly IGridInputService _gridInputService;
-        private readonly ICardInputService _cardInputService;
+        private readonly IDragCardInputService _dragCardInputService;
         private readonly ICameraDirector _cameraDirector;
         private readonly IGameContext _gameContext;
         private readonly IInvocationFactory _invocationFactory;
@@ -32,7 +32,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         
         public PlayBattleState(
             IGridInputService gridInputService,
-            ICardInputService cardInputService,
+            IDragCardInputService dragCardInputService,
             ICameraDirector cameraDirector,
             IGameContext gameContext,
             IInvocationFactory invocationFactory,
@@ -43,7 +43,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             IStateMachine<IBattleState> stateMachine)
         {
             _gridInputService = gridInputService;
-            _cardInputService = cardInputService;
+            _dragCardInputService = dragCardInputService;
             _cameraDirector = cameraDirector;
             _gameContext = gameContext;
             _invocationFactory = invocationFactory;
@@ -57,7 +57,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         void IState.Enter()
         {
             _gridInputService.Disable();
-            _cardInputService.Disable();
+            _dragCardInputService.Disable();
             
             _cameraDirector.FocusBattleShotAsync();
             
@@ -107,7 +107,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
                     if (enemyInvocation == null) 
                         continue;
                         
-                    enemyCell.CellInvocationController.AddInvocation(enemyInvocation, enemyDTO.InvocationType, enemyDTO.UniqueId);
+                    enemyCell.InvocationController.AddInvocation(enemyInvocation, enemyDTO.InvocationType, enemyDTO.UniqueId);
                     _levelConductor.AddInvocationForEnemy(enemyDTO);
                 }
             }

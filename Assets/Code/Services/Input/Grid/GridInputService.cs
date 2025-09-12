@@ -1,4 +1,6 @@
+using System;
 using Code.Logic.Grid;
+using Code.StaticData.Invocation.DTO;
 using UnityEngine;
 
 namespace Code.Services.Input.Grid
@@ -9,7 +11,9 @@ namespace Code.Services.Input.Grid
 		
 		private Camera _camera;
 		private bool _isEnabled;
+		
 		private Cell _hoverCell;
+		private InvocationDTO _invocationDto;
 		
 		private readonly Color _rayColorNoHit = Color.red;
 		private readonly Color _rayColorHit = Color.green;
@@ -21,9 +25,9 @@ namespace Code.Services.Input.Grid
 		{
 			_inputService = inputService;
 		}
-
-		public bool IsEnabled => _isEnabled;
-		public Cell HoverCell => _hoverCell; 
+		
+		public event Action<InvocationDTO, Cell> DroppedInvocationInCellEvent;
+		public event Action СancelledDropInvocationInCellEvent;
 
 		public void Enable()
 		{
@@ -45,6 +49,8 @@ namespace Code.Services.Input.Grid
 			_isEnabled = false;
 		}
 
+		public void SetInvocationDTO(InvocationDTO invocationDTO) => _invocationDto = invocationDTO;
+		
 		private void Subscribe()
 		{
 			_inputService.InputUpdateEvent += OnUpdate;
@@ -89,10 +95,22 @@ namespace Code.Services.Input.Grid
 				return;
 
 			if (_hoverCell.VisualController.StateCell != TypeStateCell.Fulled)
-				_hoverCell.VisualController.SetFulledState();
+				_hoverCell.VisualController.SetFilledState();
 		}
 
-		private void OnPointerUp() { }
+		private void OnPointerUp()
+		{
+			if (_hoverCell == null || _invocationDto == null)
+			{
+				СancelledDropInvocationInCellEvent?.Invoke();
+				return;
+			}
+			
+			DroppedInvocationInCellEvent?.Invoke(_invocationDto, _hoverCell);
+
+			_invocationDto = null;
+			_hoverCell = null;
+		}
 
 		private void HandleHover(Cell cell)
 		{

@@ -1,6 +1,7 @@
 using System;
 using Code.Services.Factories.UIFactory;
 using Code.Services.Input.Card;
+using Code.Services.Input.Card.Select;
 using Code.Services.Providers.CardComposites;
 using Code.Services.Window;
 using Code.UI.Game.Cards.View;
@@ -14,7 +15,7 @@ namespace Code.Services.CardSelection
         private readonly IWindowService _windowService;
         private readonly IUIFactory _uiFactory;
         private readonly ICardCompositeProvider _cardCompositeProvider;
-        private readonly ICardInputService _cardInputService;
+        private readonly ISelectionCardInputService _selectionCardInputService;
 
         private ICardSelectionPM _cardSelectionPM;
         private CardSelectionWindow _cardSelectionWindow;
@@ -23,12 +24,12 @@ namespace Code.Services.CardSelection
             IWindowService windowService,
             IUIFactory uiFactory,
             ICardCompositeProvider cardCompositeProvider,
-            ICardInputService cardInputService)
+            ISelectionCardInputService selectionCardInputService)
         {
             _windowService = windowService;
             _uiFactory = uiFactory;
             _cardCompositeProvider = cardCompositeProvider;
-            _cardInputService = cardInputService;
+            _selectionCardInputService = selectionCardInputService;
         }
 
         public event Action<CardView> SelectedCardEvent;
@@ -39,7 +40,7 @@ namespace Code.Services.CardSelection
         
         public void Open()
         {
-            _cardSelectionPM = new CardSelectionPM(_cardCompositeProvider, _uiFactory, _cardInputService);
+            _cardSelectionPM = new CardSelectionPM(_cardCompositeProvider, _uiFactory, _selectionCardInputService);
             _cardSelectionPM.Subscribe();
             _cardSelectionPM.SellectedCardViewEvent += OnSelectCard;
             _cardSelectionPM.ClosedWindowEvent += OnCloseWindow;

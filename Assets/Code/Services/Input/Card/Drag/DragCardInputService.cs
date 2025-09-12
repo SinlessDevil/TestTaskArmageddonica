@@ -1,17 +1,17 @@
-using System;
 using Code.Logic.Grid;
 using Code.Services.Factories.UIFactory;
 using Code.Services.Input.Grid;
 using Code.Services.Providers.CardComposites;
+using Code.StaticData.Invocation.DTO;
 using Code.UI.Game;
 using Code.UI.Game.Cards.PM;
 using Code.UI.Game.Cards.View;
 using UnityEngine;
 using DG.Tweening;
 
-namespace Code.Services.Input.Card
+namespace Code.Services.Input.Card.Drag
 {
-    public class CardInputService : ICardInputService
+    public class DragCardInputService : IDragCardInputService
     {
         private CardView _dragCard;
         private RectTransform _dragRT;
@@ -26,7 +26,7 @@ namespace Code.Services.Input.Card
         private readonly IUIFactory _uiFactory;
         private readonly ICardCompositeProvider _cardCompositeProvider;
 
-        public CardInputService(
+        public DragCardInputService(
             IInputService inputService, 
             IGridInputService gridInputService, 
             IUIFactory uiFactory,
@@ -38,23 +38,17 @@ namespace Code.Services.Input.Card
             _cardCompositeProvider = cardCompositeProvider;
         }
 
-        public event Action<CardView, ICardPM, Cell> DroppedOnCell;
-        public event Action<CardView> ClickPressed;
-        public event Action<CardView> ClickReleased;
-
-        public bool IsDragging { get; private set; }
+        public bool IsDragging {  get; private set; }
         public bool IsEnabled { get; private set; }
 
-        private TypeInput _inputType;
-
-        public void Enable(TypeInput type)
+        public void Enable()
         {
             if (IsEnabled) 
                 return;
             
-            _inputType = type;
             _inputService.InputUpdateEvent += OnUpdate;
-            _inputService.PointerUpEvent += OnGlobalPointerUp;
+            _gridInputService.DroppedInvocationInCellEvent += OnHandleFinishDrag;
+            _gridInputService.СancelledDropInvocationInCellEvent += OnHandleCancelDrag;
             
             IsEnabled = true;
         }
@@ -65,100 +59,60 @@ namespace Code.Services.Input.Card
                 return;
             
             _inputService.InputUpdateEvent -= OnUpdate;
-            _inputService.PointerUpEvent -= OnGlobalPointerUp;
-            
-            CancelDrag();
+            _gridInputService.DroppedInvocationInCellEvent -= OnHandleFinishDrag;
+            _gridInputService.СancelledDropInvocationInCellEvent -= OnHandleCancelDrag;
             
             IsEnabled = false;
         }
 
-        public void PointerEnter(CardView view, ICardPM cardPM)
+        public void PointerEnter(CardView view)
         {
-            if (!IsEnabled || view == null)
+            if (!IsEnabled)
                 return;
 
-            if (_inputType == TypeInput.Drag)
-                view.HoverComponent.HoverEnter();
-            else
-                view.HoverComponent.HighlightOn();
+            view.HoverComponent.HoverEnter();
         }
 
-        public void PointerExit(CardView view, ICardPM cardPM)
+        public void PointerExit(CardView view)
         {
-            if (!IsEnabled || view == null)
+            if (!IsEnabled)
                 return;
 
             if (IsDragging && ReferenceEquals(view, _dragCard))
                 return;
 
-            if(_inputType == TypeInput.Drag) 
-                view.HoverComponent.HoverExit();
-            else
-                view.HoverComponent.HighlightOff();
-                
+            view.HoverComponent.HoverExit();
         }
 
         public void PointerDown(CardView view, ICardPM cardPM)
         {
-            if (!IsEnabled || view == null)
+            if (!IsEnabled)
                 return;
 
-            switch (_inputType)
-            {
-                case TypeInput.Drag:
-                    if (!IsDragging)
-                        BeginDrag(view);
-                    view.HoverComponent.HighlightShrink();
-                    break;
-                case TypeInput.Click:
-                    ClickPressed?.Invoke(view);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            if (IsDragging)
+                return;
+            
+            BeginDrag(view);
+            
+            view.HoverComponent.HighlightShrink();
+            
+            _gridInputService.SetInvocationDTO(cardPM.DTO);
         }
 
-        public void PointerUp(CardView view, ICardPM cardPM)
+        public void PointerUp(CardView view)
         {
-            if (!IsEnabled || view == null) 
+            if (!IsEnabled) 
                 return;
 
             view.HoverComponent.ResetState();
-
-            switch (_inputType)
-            {
-                case TypeInput.Drag:
-                {
-                    if (IsDragging && ReferenceEquals(view, _dragCard))
-                        OnGlobalPointerUp();
-                    break;
-                }
-                case TypeInput.Click:
-                    ClickReleased?.Invoke(view);
-                    break;
-            }
         }
 
         private void OnUpdate()
         {
-            if (_inputType != TypeInput.Drag)
-                return;
-
             if (!IsDragging || _dragRT == null)
                 return;
 
             _dragRT.anchoredPosition = ScreenToCanvasLocal(_inputService.TouchPosition);
-        }
-
-        private void OnGlobalPointerUp()
-        {
-            if (_inputType != TypeInput.Drag)
-                return;
-            if (!IsDragging)
-                return;
-
-            Cell cell = _gridInputService?.HoverCell;
-            FinishDrag(cell);
         }
 
         private void BeginDrag(CardView view)
@@ -187,44 +141,37 @@ namespace Code.Services.Input.Card
 
             _dragRT.anchoredPosition = ScreenToCanvasLocal(_inputService.TouchPosition);
         }
-        
-        private void CancelDrag()
-        {
-            if (!IsDragging)
-                return;
 
-            FinishDrag(null);
-        }
-
-        private void FinishDrag(Cell cellOrNull)
+        private void OnHandleFinishDrag(InvocationDTO invocationDto, Cell cellOrNull)
         {
             IsDragging = false;
+            
+            _cardCompositeProvider.ReturnCardComposite(_dragCard);
+            
+            _dragCard = null;
+            _dragRT = null;
+            
+            IsDragging = false;
+        }
 
-            if (cellOrNull != null)
-            {
-                DroppedOnCell?.Invoke(_dragCard, _dragCard.CardPM, cellOrNull);
-                _cardCompositeProvider.ReturnCardComposite(_dragCard);
-            }
-            else
-            {
-                _dragRT.SetParent(_origParent);
-                _dragRT.SetSiblingIndex(_origSibling);
+        private void OnHandleCancelDrag()
+        {
+            _dragRT.SetParent(_origParent);
+            _dragRT.SetSiblingIndex(_origSibling);
 
-                _returnTw?.Kill();
-                _returnTw = _dragRT.DOAnchorPos(_origAnchoredPos, 0.15f)
-                    .SetEase(Ease.OutQuad)
-                    .OnComplete(() => { DroppedOnCell?.Invoke(_dragCard, _dragCard.CardPM, null); })
-                    .SetUpdate(true);
+            _returnTw?.Kill();
+            _returnTw = _dragRT.DOAnchorPos(_origAnchoredPos, 0.15f)
+                .SetEase(Ease.OutQuad)
+                .SetUpdate(true);
 
-                _dragRT.DOScale(_origScale, 0.12f).SetUpdate(true);
+            _dragRT.DOScale(_origScale, 0.12f).SetUpdate(true);
 
-                GameHud.CardHolder.AddCard(_dragCard);
-            }
-
+            GameHud.CardHolder.AddCard(_dragCard);
+            
             _dragCard = null;
             _dragRT = null;
         }
-
+        
         private Vector2 ScreenToCanvasLocal(Vector2 screenPos)
         {
             RectTransform canvasRT = (RectTransform)Canvas.transform;

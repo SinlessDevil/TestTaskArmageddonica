@@ -30,7 +30,7 @@ namespace Code.Logic.Grid
             _currentState = TypeStateCell.Empty;
         }
         
-        public void SetFulledState()
+        public void SetFilledState()
         {
             if (_spriteRenderer != null)
                 _spriteRenderer.color = _fulledColor;
@@ -59,7 +59,7 @@ namespace Code.Logic.Grid
                     SetEmptyState();
                     break;
                 case TypeStateCell.Fulled:
-                    SetFulledState();
+                    SetFilledState();
                     break;
                 case TypeStateCell.Selected:
                     SetSelectedState();

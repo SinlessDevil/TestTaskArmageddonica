@@ -1,7 +1,6 @@
 using Code.Logic.Grid;
 using Code.Logic.Points;
 using UnityEngine;
-using Grid = Code.Logic.Grid.Grid;
 
 namespace Code.Services.Context
 {

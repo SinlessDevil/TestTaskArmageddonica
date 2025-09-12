@@ -1,12 +1,15 @@
+using System;
 using Code.Logic.Grid;
+using Code.StaticData.Invocation.DTO;
 
 namespace Code.Services.Input.Grid
 {
 	public interface IGridInputService
 	{
-		bool IsEnabled { get; }
-		Cell HoverCell { get; }
+		event Action<InvocationDTO, Cell> DroppedInvocationInCellEvent;
+		event Action СancelledDropInvocationInCellEvent;
 		void Enable();
 		void Disable();
+		void SetInvocationDTO(InvocationDTO invocationDTO);
 	}
 }

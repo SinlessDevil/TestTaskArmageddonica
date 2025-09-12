@@ -28,7 +28,7 @@ namespace Code.Logic.Grid
         private void Awake()
         {
             _cellCenter = transform.position;
-            _cellInvocationController = GetComponent<Cell>()?.CellInvocationController;
+            _cellInvocationController = GetComponent<Cell>()?.InvocationController;
         }
         
         private void OnDrawGizmos()

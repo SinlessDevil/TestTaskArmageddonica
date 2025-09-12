@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Code.StaticData.Invocation;
 using Code.Logic.Grid.Extensions;
-using UnityEditor;
 using UnityEngine;
 
 namespace Code.Logic.Grid
@@ -15,7 +14,8 @@ namespace Code.Logic.Grid
         private bool _useCircularLayout = false;
         private float _circularRadius = 0.5f;
         
-        public void Initialize(Vector3 cellCenter, float objectSize = 1f, float spacing = 0.2f, int maxColumns = 3)
+        public void Initialize(Vector3 cellCenter, float objectSize = 1f, float spacing = 0.2f, 
+            int maxColumns = 3)
         {
             _cellCenter = cellCenter;
             _objectSize = objectSize;
@@ -29,7 +29,7 @@ namespace Code.Logic.Grid
         
         public InvocationType TargetInvocationType { get; private set; } = InvocationType.Unknown;
         
-        public string UniqueId { get; private set; } = string.Empty;
+        public string Id { get; private set; } = string.Empty;
         
         public void SetLayoutMode(bool useCircularLayout, float circularRadius = 0.5f)
         {
@@ -48,11 +48,12 @@ namespace Code.Logic.Grid
             UpdateInvocationPositions();
         }
         
-        public void AddInvocation(Invocation.Invocation invocation, InvocationType targetInvocationType, string uniqueId)
+        public void AddInvocation(Invocation.Invocation invocation, InvocationType targetInvocationType, 
+            string uniqueId)
         {
             if (HasFreeCell())
             {
-                UniqueId = uniqueId;
+                Id = uniqueId;
                 TargetInvocationType = targetInvocationType;   
             }
             
@@ -62,22 +63,21 @@ namespace Code.Logic.Grid
 
         public void ClearInvocations()
         {
-            foreach (Invocation.Invocation invocation in Invocations)
-            {
+            foreach (Invocation.Invocation invocation in Invocations) 
                 Object.Destroy(invocation);
-            }
             
             Invocations.Clear();
-            UniqueId = string.Empty;
+            
+            Id = string.Empty;
             TargetInvocationType = InvocationType.Unknown;
         }
         
         public bool HasFreeCell() => Invocations.Count == 0;
 
-        public bool HasAddedAdditionalInvocation(string uniqueId)
+        public bool HasAddedAdditionalInvocation(string id)
         {
             if (TargetInvocationType == InvocationType.Unit)
-                return UniqueId == uniqueId;
+                return Id == id;
 
             return false;
         }

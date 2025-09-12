@@ -5,6 +5,7 @@ using Code.Services.Context;
 using Code.Services.Factories.Grid;
 using Code.Services.Factories.UIFactory;
 using Code.Services.Input.Card;
+using Code.Services.Input.Card.Select;
 using Code.Services.Input.Grid;
 using Code.Services.Levels;
 using Code.StaticData.Levels;
@@ -23,7 +24,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         private readonly IGridFactory _gridFactory;
         private readonly ILevelService _levelService;
         private readonly IGridInputService _gridInputService;
-        private readonly ICardInputService _cardInputService;
+        private readonly IDragCardInputService _dragCardInputService;
+        private readonly ISelectionCardInputService _selectionCardInputService;
         private readonly ICameraDirector _cameraDirector;
         private readonly IGameContext _gameContext;
         private readonly IUIFactory _uiFactory;
@@ -34,7 +36,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             IGridFactory gridFactory, 
             ILevelService levelService,
             IGridInputService gridInputService,
-            ICardInputService cardInputService,
+            IDragCardInputService dragCardInputService,
+            ISelectionCardInputService selectionCardInputService,
             ICameraDirector cameraDirector,
             IGameContext gameContext,
             IUIFactory uiFactory,
@@ -44,7 +47,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             _gridFactory = gridFactory;
             _levelService = levelService;
             _gridInputService = gridInputService;
-            _cardInputService = cardInputService;
+            _dragCardInputService = dragCardInputService;
+            _selectionCardInputService = selectionCardInputService;
             _cameraDirector = cameraDirector;
             _gameContext = gameContext;
             _uiFactory = uiFactory;
@@ -55,7 +59,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         public void Enter()
         {
             _gridInputService.Disable();
-            _cardInputService.Disable();
+            _dragCardInputService.Disable();
+            _selectionCardInputService.Disable();
 
             _cameraDirector.FocusBattleShotAsync();
             

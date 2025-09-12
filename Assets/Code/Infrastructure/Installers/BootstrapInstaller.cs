@@ -22,6 +22,8 @@ using Code.Services.Input.Card;
 using Code.Services.Input.Grid;
 using Code.Services.IInvocation.Randomizer;
 using Code.Services.IInvocation.StaticData;
+using Code.Services.Input.Card.Drag;
+using Code.Services.Input.Card.Select;
 using Code.Services.LevelConductor;
 using Code.Services.Levels;
 using Code.Services.LocalProgress;
@@ -141,8 +143,9 @@ namespace Code.Infrastructure.Installers
         private void BindInputServices()
         {
             Container.BindInterfacesTo<InputService>().AsSingle();
+            Container.BindInterfacesTo<SelectionCardInputService>().AsSingle();
+            Container.BindInterfacesTo<DragCardInputService>().AsSingle();
             Container.BindInterfacesTo<GridInputService>().AsSingle();
-            Container.BindInterfacesTo<CardInputService>().AsSingle();
         }
         
         private void BindWindowServices()

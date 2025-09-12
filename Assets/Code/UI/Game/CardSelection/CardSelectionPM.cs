@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Code.Services.Factories.UIFactory;
 using Code.Services.Input.Card;
+using Code.Services.Input.Card.Select;
 using Code.Services.Providers.CardComposites;
 using Code.UI.Game.Cards.View;
 
@@ -16,16 +17,16 @@ namespace Code.UI.Game.CardSelection
         
         private readonly ICardCompositeProvider _cardCompositeProvider;
         private readonly IUIFactory _uiFactory;
-        private readonly ICardInputService _cardInputService;
+        private readonly ISelectionCardInputService _selectionCardInputService;
 
         public CardSelectionPM(
             ICardCompositeProvider cardCompositeProvider,
             IUIFactory uiFactory,
-            ICardInputService cardInputService)
+            ISelectionCardInputService selectionCardInputService)
         {
             _cardCompositeProvider = cardCompositeProvider;
             _uiFactory = uiFactory;
-            _cardInputService = cardInputService;
+            _selectionCardInputService = selectionCardInputService;
         }
 
         public event Action RolledCardsEvent;
@@ -34,9 +35,9 @@ namespace Code.UI.Game.CardSelection
 
         public void Dispose() => ReturnCurrentCards();
         
-        public void Subscribe() => _cardInputService.ClickReleased += OnSelectCardView;
+        public void Subscribe() => _selectionCardInputService.ClickReleased += OnSelectCardView;
 
-        public void Unsubscribe() => _cardInputService.ClickReleased -= OnSelectCardView;
+        public void Unsubscribe() => _selectionCardInputService.ClickReleased -= OnSelectCardView;
 
         public List<CardView> GetCards()
         {

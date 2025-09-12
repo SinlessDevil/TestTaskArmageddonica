@@ -46,7 +46,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
     
             for (int x = 0; x < rows; x++)
             for (int y = 0; y < columns; y++) 
-                enemyGirdCells[x, y].CellInvocationController.ClearInvocations();
+                enemyGirdCells[x, y].InvocationController.ClearInvocations();
             
             Cell[,] playerGridCells = _gameContext.PlayerGrid.Cells;
 
@@ -55,7 +55,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             
             for (int x = 0; x < rows; x++)
             for (int y = 0; y < columns; y++) 
-                playerGridCells[x, y].CellInvocationController.ClearInvocations();
+                playerGridCells[x, y].InvocationController.ClearInvocations();
         }
     }
 }

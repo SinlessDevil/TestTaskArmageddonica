@@ -1,6 +1,7 @@
 ﻿using Code.Infrastructure.StateMachine.Game.States;
 using Code.Services.CardSelection;
 using Code.Services.Input.Card;
+using Code.Services.Input.Card.Select;
 
 namespace Code.Infrastructure.StateMachine.Battle.States
 {
@@ -8,21 +9,21 @@ namespace Code.Infrastructure.StateMachine.Battle.States
     {
         private readonly ICardSelectionService _cardSelectionWindowService;
         private readonly IStateMachine<IBattleState> _stateMachine;
-        private readonly ICardInputService _cardInputService;
+        private readonly ISelectionCardInputService _selectionCardInputService;
 
         public CardSelectionBattleState(
             ICardSelectionService cardSelectionWindowService,
             IStateMachine<IBattleState> stateMachine,
-            ICardInputService cardInputService)
+            ISelectionCardInputService selectionCardInputService)
         {
             _cardSelectionWindowService = cardSelectionWindowService;
             _stateMachine = stateMachine;
-            _cardInputService = cardInputService;
+            _selectionCardInputService = selectionCardInputService;
         }
 
         void IState.Enter()
         {
-            _cardInputService.Enable(TypeInput.Click);
+            _selectionCardInputService.Enable();
             
             _cardSelectionWindowService.Open();
             _cardSelectionWindowService.ClosedWindowEvent += OnClosedWindow;
@@ -30,6 +31,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
 
         void IExitable.Exit()
         {
+            _selectionCardInputService.Disable();
+            
             _cardSelectionWindowService.ClosedWindowEvent -= OnClosedWindow;
             _cardSelectionWindowService.Close();
         }

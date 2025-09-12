@@ -25,7 +25,7 @@ namespace Code.Logic.Grid
             _invocationController.SetLayoutMode(_useCircularLayout, _circularRadius);
         }
 
-        public CellInvocationController CellInvocationController => _invocationController;
+        public CellInvocationController InvocationController => _invocationController;
 
         public CellVisualController VisualController  => _visualController;
     }

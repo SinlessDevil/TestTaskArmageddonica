@@ -1,4 +1,5 @@
 using Code.Services.Input.Card;
+using Code.Services.Input.Card.Select;
 using Code.UI.Game.Cards.PM;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,12 +12,17 @@ namespace Code.UI.Game.Cards.View
     {
         private CardView _view;
         private ICardPM _cardPM;
-        private ICardInputService _cardInputService;
+        
+        private IDragCardInputService _dragCardInputService;
+        private ISelectionCardInputService _selectionCardInputService;
         
         [Inject]
-        public void Constructor(ICardInputService cardInputService)
+        public void Constructor(
+            IDragCardInputService dragCardInputService,
+            ISelectionCardInputService selectionCardInputService)
         {
-            _cardInputService = cardInputService;
+            _dragCardInputService = dragCardInputService;
+            _selectionCardInputService = selectionCardInputService;
         }
 
         public void Initialize(CardView view, ICardPM cardPM)
@@ -27,22 +33,26 @@ namespace Code.UI.Game.Cards.View
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            _cardInputService.PointerEnter(_view, _cardPM);
+            _dragCardInputService.PointerEnter(_view);
+            _selectionCardInputService.PointerEnter(_view);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            _cardInputService.PointerExit(_view, _cardPM);
+            _dragCardInputService.PointerExit(_view);
+            _selectionCardInputService.PointerExit(_view);
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            _cardInputService.PointerDown(_view, _cardPM);
+            _dragCardInputService.PointerDown(_view, _cardPM);
+            _selectionCardInputService.PointerDown(_view);
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            _cardInputService.PointerUp(_view, _cardPM);
+            _dragCardInputService.PointerUp(_view);
+            _selectionCardInputService.PointerUp(_view);
         }
     }
 }
