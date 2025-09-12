@@ -55,8 +55,6 @@ namespace Code.Infrastructure.Installers
 
         public override void InstallBindings()
         {
-            Debug.Log("Installer");
-
             BindMonoServices();
             BindServices();
             BindGameStateMachine();
