@@ -1,9 +1,14 @@
+using Code.Services.Factories.UIFactory;
 using Code.Services.Levels;
+using Code.Services.LocalProgress;
 using Code.Services.PersistenceProgress;
 using Code.Services.PersistenceProgress.Player;
+using Code.Services.PowerCalculation;
 using Code.Services.SaveLoad;
+using Code.Services.StaticData;
 using Code.Services.Timer;
 using Code.Services.Window;
+using Code.UI.Game.Finish.Win;
 using Code.Window;
 using Code.Window.Finish.Win;
 using UnityEngine;
@@ -12,24 +17,39 @@ namespace Code.Services.Finish.Win
 {
     public class WinService : IWinService
     {
+        private IWinWindowPM _winWindowPM;
+        private WinWindow _winWindow;
+        
         private readonly IWindowService _windowService;
         private readonly ILevelService _levelService;
         private readonly ISaveLoadFacade _saveLoadFacade;
         private readonly IPersistenceProgressService _persistenceProgressService;
         private readonly ITimeService _timeService;
+        private readonly ILevelLocalProgressService _levelLocalProgressService;
+        private readonly IInvocationPowerCalculationService _invocationPowerCalculationService;
+        private readonly IUIFactory _uiFactory;
+        private readonly IStaticDataService _staticDataService;
 
         public WinService(
             IWindowService windowService, 
             ILevelService levelService,
             ISaveLoadFacade saveLoadFacade,
             IPersistenceProgressService persistenceProgressService,
-            ITimeService timeService)
+            ITimeService timeService,
+            ILevelLocalProgressService levelLocalProgressService,
+            IInvocationPowerCalculationService invocationPowerCalculationService,
+            IUIFactory uiFactory,
+            IStaticDataService staticDataService)
         {
             _windowService = windowService;
             _levelService = levelService;
             _saveLoadFacade = saveLoadFacade;
             _persistenceProgressService = persistenceProgressService;
             _timeService = timeService;
+            _levelLocalProgressService = levelLocalProgressService;
+            _invocationPowerCalculationService = invocationPowerCalculationService;
+            _uiFactory = uiFactory;
+            _staticDataService = staticDataService;
         }
         
         public void Win()
@@ -39,9 +59,14 @@ namespace Code.Services.Finish.Win
             SetRecordText();
             SaveProgress();
             
+            _winWindowPM = new WinWindowPM(_levelLocalProgressService, _invocationPowerCalculationService,
+                _uiFactory, _staticDataService);
+            
             RectTransform window = _windowService.Open(WindowTypeId.Win);
-            WinWindow winWindow = window.GetComponent<WinWindow>();
-            winWindow.Initialize();
+            _winWindow = window.GetComponent<WinWindow>();
+            _winWindow.Initialize(_winWindowPM);
+
+            _winWindowPM.ClosedWindowEvent += OnCleanup;
         }
         
         private void CompleteLevel() => _levelService.LevelsComplete();
@@ -75,5 +100,15 @@ namespace Code.Services.Finish.Win
         }
         
         private void SaveProgress() => _saveLoadFacade.SaveProgress(SaveMethod.PlayerPrefs);
+
+        private void OnCleanup()
+        {
+            _winWindow.Dispose();
+            _winWindow = null;
+            
+            _winWindowPM.ClosedWindowEvent -= OnCleanup;
+            _winWindowPM.Cleanup();
+            _winWindowPM = null;
+        }
     }
 }

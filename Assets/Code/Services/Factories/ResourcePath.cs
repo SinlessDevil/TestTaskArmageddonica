@@ -8,6 +8,7 @@ namespace Code.Services.Factories
         public const string WidgetPath = "UI/Widget";
         public const string CardViewPath = "UI/Windows/Cards/CardView";
         public const string ItemLevelPath = "UI/Menu/ItemLevel";
+        public const string InvocationIconViewPath = "UI/Windows/Finish/InvocationImage";
         
         public const string GameConfigPath = "StaticData/Balance/GameConfig";
         public const string GameBalancePath = "StaticData/Balance/Balance";

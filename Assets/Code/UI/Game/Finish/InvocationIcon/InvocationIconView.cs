@@ -1,0 +1,50 @@
+using DG.Tweening;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace Code.UI.Game.Finish.InvocationIcon
+{
+    public class InvocationIconView : MonoBehaviour
+    {
+        [Header("Components")]
+        [SerializeField] private Image _iconImage;
+        [SerializeField] private TMP_Text _nameText;
+        [SerializeField] private RectTransform _rectTransform;
+        [Header("Animation")]
+        [SerializeField] private float _animationDuration = 0.3f;
+        [SerializeField] private Ease _animationEase = Ease.OutBack;
+        [SerializeField] private float _delayBetweenIcons = 0.1f;
+        
+        public void Initialize(IInvocationIconPM invocationIconPm)
+        {
+            _nameText.text = invocationIconPm.GetName();
+            _iconImage.sprite = invocationIconPm.GetSprite();
+        }
+        
+        public void ShowWithAnimation(float delay = 0f)
+        {
+            _rectTransform.localScale = Vector3.zero;
+            
+            _rectTransform.DOScale(Vector3.one, _animationDuration)
+                .SetDelay(delay)
+                .SetEase(_animationEase);
+        }
+        
+        public void Reset()
+        {
+            _rectTransform.DOKill();
+            
+            _rectTransform.localScale = Vector3.one;
+            
+            _iconImage.sprite = null;
+            
+            _nameText.text = string.Empty;
+        }
+        
+        private void OnDestroy()
+        {
+            _rectTransform.DOKill();
+        }
+    }
+}

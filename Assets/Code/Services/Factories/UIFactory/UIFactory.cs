@@ -4,6 +4,8 @@ using Code.UI;
 using Code.UI.Game;
 using Code.UI.Game.Cards;
 using Code.UI.Game.Cards.View;
+using Code.UI.Game.Finish;
+using Code.UI.Game.Finish.InvocationIcon;
 using Code.UI.Menu;
 using Code.UI.Menu.Windows.Map;
 using Code.Window;
@@ -69,6 +71,12 @@ namespace Code.Services.Factories.UIFactory
             CardView cardView = Instantiate(ResourcePath.CardViewPath, position, rotation, null)
                 .GetComponent<CardView>();
             return cardView;
+        }
+
+        public InvocationIconView CreateInvocationIconView()
+        {
+            GameObject invocationIcon = Instantiate(ResourcePath.InvocationIconViewPath);
+            return invocationIcon.GetComponent<InvocationIconView>();
         }
     }
 }

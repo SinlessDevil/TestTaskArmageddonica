@@ -161,6 +161,8 @@ namespace Code.Infrastructure.Installers
         {
             Container.BindInterfacesTo<PersistenceProgressService>().AsSingle();
             Container.BindInterfacesTo<LevelLocalProgressService>().AsSingle();
+            
+            // PM for Finish Windows are created dynamically in services
         }
         
         private void BindAudioVibrationService()

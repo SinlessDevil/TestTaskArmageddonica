@@ -1,7 +1,7 @@
 ﻿using Code.UI;
 using Code.UI.Game;
-using Code.UI.Game.Cards;
 using Code.UI.Game.Cards.View;
+using Code.UI.Game.Finish.InvocationIcon;
 using Code.UI.Menu;
 using Code.UI.Menu.Windows.Map;
 using Code.Window;
@@ -22,5 +22,6 @@ namespace Code.Services.Factories.UIFactory
         public Widget CreateWidget(Vector3 position, Quaternion rotation);
         public ItemLevel CreateItemLevel(Transform parent);
         public CardView CreateCardView(Vector3 position, Quaternion rotation);
+        public InvocationIconView CreateInvocationIconView();
     }
 } 
