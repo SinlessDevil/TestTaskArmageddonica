@@ -50,6 +50,8 @@ namespace Code.UI.Game
             _playerScoreView.Dispose();
             _enemyScoreView.Dispose();
             _battleProgressView.Dispose();
+            
+            Destroy(this.gameObject);
         }
         
         public CardHolder CardHolder => _cardHolder;

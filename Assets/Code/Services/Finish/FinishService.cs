@@ -1,4 +1,5 @@
 using System;
+using Code.Services.Factories.UIFactory;
 using Code.Services.Finish.Lose;
 using Code.Services.Finish.Win;
 using Code.Services.Levels;
@@ -11,19 +12,24 @@ namespace Code.Services.Finish
         private readonly IWinService _winService;
         private readonly ILoseService _loseService;
         private readonly ILevelService _levelService;
+        private readonly IUIFactory _uiFactory;
 
         public FinishService(
             IWinService winService, 
             ILoseService loseService,
-            ILevelService levelService)
+            ILevelService levelService,
+            IUIFactory uiFactory)
         {
             _winService = winService;
             _loseService = loseService;
             _levelService = levelService;
+            _uiFactory = uiFactory;
         }
 
         public void Win()
         {
+            _uiFactory.GameHud?.Dispose();
+            
             switch (_levelService.GetCurrentLevelStaticData().LevelTypeId)
             {
                 case LevelTypeId.Regular:
@@ -36,6 +42,8 @@ namespace Code.Services.Finish
 
         public void Lose()
         {
+            _uiFactory.GameHud?.Dispose();
+            
             _loseService.Lose();
         }
     }

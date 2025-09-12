@@ -27,7 +27,6 @@ namespace Code.Infrastructure.StateMachine.Game.States
         private readonly ILevelLocalProgressService _levelLocalProgressService;
         private readonly ITimeService _timeService;
         private readonly IGameContext _gameContext;
-        private readonly IUIFactory _uiFactory;
         private readonly IStateMachine<IBattleState> _battleStateMachine;
 
         public GamePlayState(
@@ -39,7 +38,6 @@ namespace Code.Infrastructure.StateMachine.Game.States
             ILevelLocalProgressService levelLocalProgressService,
             ITimeService timeService,
             IGameContext gameContext,
-            IUIFactory uiFactory,
             IStateMachine<IBattleState> battleStateMachine)
         {
             _gameStateMachine = gameStateMachine;
@@ -50,7 +48,6 @@ namespace Code.Infrastructure.StateMachine.Game.States
             _levelLocalProgressService = levelLocalProgressService;
             _timeService = timeService;
             _gameContext = gameContext;
-            _uiFactory = uiFactory;
             _battleStateMachine = battleStateMachine;
         }
         
@@ -67,8 +64,6 @@ namespace Code.Infrastructure.StateMachine.Game.States
         public void Exit()
         {
             _battleStateMachine.Enter<CleanupBattleState>();
-            
-            _uiFactory.GameHud?.Dispose();
             
             _inputService.Cleanup();
             _widgetProvider.CleanupPool();
