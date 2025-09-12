@@ -62,6 +62,9 @@ namespace Code.Services.Input.Card.Drag
             _gridInputService.DroppedInvocationInCellEvent -= OnHandleFinishDrag;
             _gridInputService.СancelledDropInvocationInCellEvent -= OnHandleCancelDrag;
             
+            if (IsDragging) 
+                _gridInputService.CancelDrag();
+            
             IsEnabled = false;
         }
 
@@ -105,6 +108,7 @@ namespace Code.Services.Input.Card.Drag
                 return;
 
             view.HoverComponent.ResetState();
+            view.HoverComponent.HoverExit();
         }
 
         private void OnUpdate()
@@ -144,29 +148,40 @@ namespace Code.Services.Input.Card.Drag
 
         private void OnHandleFinishDrag(InvocationDTO invocationDto, Cell cellOrNull)
         {
+            if (!IsDragging)
+                return;
+                
             IsDragging = false;
             
             _cardCompositeProvider.ReturnCardComposite(_dragCard);
             
             _dragCard = null;
             _dragRT = null;
-            
-            IsDragging = false;
         }
 
         private void OnHandleCancelDrag()
         {
+            if (!IsDragging)
+                return;
+                
+            IsDragging = false;
+            
+            if (_dragRT == null || _dragCard == null)
+                return;
+            
             _dragRT.SetParent(_origParent);
             _dragRT.SetSiblingIndex(_origSibling);
-
+            
             _returnTw?.Kill();
             _returnTw = _dragRT.DOAnchorPos(_origAnchoredPos, 0.15f)
                 .SetEase(Ease.OutQuad)
+                .OnComplete(() => {
+                    if (_dragCard != null) 
+                        GameHud.CardHolder.AddCard(_dragCard);
+                })
                 .SetUpdate(true);
 
             _dragRT.DOScale(_origScale, 0.12f).SetUpdate(true);
-
-            GameHud.CardHolder.AddCard(_dragCard);
             
             _dragCard = null;
             _dragRT = null;

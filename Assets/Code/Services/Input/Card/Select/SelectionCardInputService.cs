@@ -57,6 +57,7 @@ namespace Code.Services.Input.Card.Select
                 return;
 
             view.HoverComponent.ResetState();
+            view.HoverComponent.HoverExit();
             
             ClickReleased?.Invoke(view);
         }

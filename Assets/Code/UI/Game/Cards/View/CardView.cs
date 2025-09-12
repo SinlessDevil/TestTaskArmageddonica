@@ -49,8 +49,6 @@ namespace Code.UI.Game.Cards.View
         
         public CardViewHover HoverComponent => _hoverComponent;
         
-        public ICardPM CardPM => _cardPM;
-        
         private void SetupCardComponents()
         {
             SetupIcon();

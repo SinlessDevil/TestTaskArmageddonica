@@ -49,11 +49,11 @@ namespace Code.Logic.Grid
         }
         
         public void AddInvocation(Invocation.Invocation invocation, InvocationType targetInvocationType, 
-            string uniqueId)
+            string id)
         {
             if (HasFreeCell())
             {
-                Id = uniqueId;
+                Id = id;
                 TargetInvocationType = targetInvocationType;   
             }
             
@@ -76,10 +76,10 @@ namespace Code.Logic.Grid
 
         public bool HasAddedAdditionalInvocation(string id)
         {
-            if (TargetInvocationType == InvocationType.Unit)
-                return Id == id;
+            if (TargetInvocationType != InvocationType.Unit)
+                return false;
 
-            return false;
+            return Id == id;
         }
         
         public Vector3[] GetInvocationPositions()

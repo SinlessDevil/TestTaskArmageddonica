@@ -107,7 +107,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
                     if (enemyInvocation == null) 
                         continue;
                         
-                    enemyCell.InvocationController.AddInvocation(enemyInvocation, enemyDTO.InvocationType, enemyDTO.UniqueId);
+                    enemyCell.InvocationController.AddInvocation(enemyInvocation, enemyDTO.InvocationType, enemyDTO.Id);
                     _levelConductor.AddInvocationForEnemy(enemyDTO);
                 }
             }

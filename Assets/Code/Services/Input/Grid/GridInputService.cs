@@ -14,6 +14,7 @@ namespace Code.Services.Input.Grid
 		
 		private Cell _hoverCell;
 		private InvocationDTO _invocationDto;
+		private bool _isDragActive;
 		
 		private readonly Color _rayColorNoHit = Color.red;
 		private readonly Color _rayColorHit = Color.green;
@@ -49,7 +50,23 @@ namespace Code.Services.Input.Grid
 			_isEnabled = false;
 		}
 
-		public void SetInvocationDTO(InvocationDTO invocationDTO) => _invocationDto = invocationDTO;
+		public void SetInvocationDTO(InvocationDTO invocationDTO) 
+		{
+			_invocationDto = invocationDTO;
+			_isDragActive = invocationDTO != null;
+		}
+		
+		public void CancelDrag()
+		{
+			if (_isDragActive)
+			{
+				СancelledDropInvocationInCellEvent?.Invoke();
+				
+				_invocationDto = null;
+				_hoverCell = null;
+				_isDragActive = false;
+			}
+		}
 		
 		private void Subscribe()
 		{
@@ -100,16 +117,19 @@ namespace Code.Services.Input.Grid
 
 		private void OnPointerUp()
 		{
-			if (_hoverCell == null || _invocationDto == null)
+			if (!_isDragActive)
+				return;
+				
+			if (CanDropInvocation())
+			{
+				DroppedInvocationInCellEvent?.Invoke(_invocationDto, _hoverCell);
+			}
+			else
 			{
 				СancelledDropInvocationInCellEvent?.Invoke();
-				return;
 			}
 			
-			DroppedInvocationInCellEvent?.Invoke(_invocationDto, _hoverCell);
-
-			_invocationDto = null;
-			_hoverCell = null;
+			ResetDragState();
 		}
 
 		private void HandleHover(Cell cell)
@@ -117,22 +137,24 @@ namespace Code.Services.Input.Grid
 			if (_hoverCell == cell)
 				return;
 			
-			if (_hoverCell != null && _hoverCell.VisualController.StateCell != TypeStateCell.Fulled)
-				_hoverCell.VisualController.SetEmptyState();
-
+			ClearPreviousHover();
 			_hoverCell = cell;
-
-			if (_hoverCell.VisualController.StateCell != TypeStateCell.Fulled)
-				_hoverCell.VisualController.SetSelectedState();
+			UpdateCellVisualState();
 		}
 
 		private void ClearHover()
 		{
 			if (_hoverCell == null)
 				return;
-
-			if (_hoverCell.VisualController.StateCell != TypeStateCell.Fulled)
+			
+			if (_hoverCell.InvocationController.Invocations.Count > 0)
+			{
+				_hoverCell.VisualController.SetFilledState();
+			}
+			else
+			{
 				_hoverCell.VisualController.SetEmptyState();
+			}
 
 			_hoverCell = null;
 		}
@@ -148,6 +170,58 @@ namespace Code.Services.Input.Grid
 			else
 			{
 				Debug.DrawRay(ray.origin, ray.direction * MaxRayDistance, _rayColorNoHit, 0f, false);
+			}
+		}
+
+		private bool CanDropInvocation()
+		{
+			if (_hoverCell == null || _invocationDto == null)
+				return false;
+
+			if (_hoverCell.InvocationController.HasFreeCell())
+				return true;
+
+			return _hoverCell.InvocationController.HasAddedAdditionalInvocation(_invocationDto.Id);
+		}
+
+		private void ResetDragState()
+		{
+			_invocationDto = null;
+			_hoverCell = null;
+			_isDragActive = false;
+		}
+
+		private void ClearPreviousHover()
+		{
+			if (_hoverCell != null)
+				_hoverCell.VisualController.SetEmptyState();
+		}
+
+		private void UpdateCellVisualState()
+		{
+			if (_hoverCell == null)
+				return;
+
+			if (_hoverCell.InvocationController.HasFreeCell())
+			{
+				_hoverCell.VisualController.SetSelectedState();
+				return;
+			}
+			
+			if (_isDragActive && _invocationDto != null)
+			{
+				if (_hoverCell.InvocationController.HasAddedAdditionalInvocation(_invocationDto.Id))
+				{
+					_hoverCell.VisualController.SetSelectedState();
+				}
+				else
+				{
+					_hoverCell.VisualController.SetNotSelectedState();
+				}
+			}
+			else
+			{
+				_hoverCell.VisualController.SetNotSelectedState();
 			}
 		}
 	}

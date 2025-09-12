@@ -11,5 +11,6 @@ namespace Code.Services.Input.Grid
 		void Enable();
 		void Disable();
 		void SetInvocationDTO(InvocationDTO invocationDTO);
+		void CancelDrag();
 	}
 }
