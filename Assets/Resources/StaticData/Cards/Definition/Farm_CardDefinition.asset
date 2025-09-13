@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62db079a6287478c987df1deddbee942, type: 3}
+  m_Name: Farm_CardDefinition
+  m_EditorClassIdentifier: 
+  Name: Farm
+  Description: A fertile land that shelters creatures and expands the capacity of
+    your unit pen. Provides basic protection from enemy raids.
+  Icon: {fileID: 21300000, guid: 7d5160cf739040b46ae9f942215660dd, type: 3}
+  Type: 27

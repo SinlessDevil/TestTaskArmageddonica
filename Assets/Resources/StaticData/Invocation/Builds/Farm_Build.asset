@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 192fd505512c4f39931c758bc2ec3640, type: 3}
+  m_Name: Farm_Build
+  m_EditorClassIdentifier: 
+  Id: Farm
+  Prefab: {fileID: 3748767297151997877, guid: d793dbe3ac3283640b84274c40b52dee, type: 3}
+  Rank: 4
+  CardDefinition: 27
+  InvocationType: 2
+  Defense: 20
+  Damage: 0
+  Skill:
+    Value: 1
+    SkillType: 1

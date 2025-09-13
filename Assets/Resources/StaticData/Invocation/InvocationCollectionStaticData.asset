@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: InvocationCollectionStaticData
   m_EditorClassIdentifier: 
   UnitCollectionData:
-  - {fileID: 11400000, guid: 6c1aaaed6f4e6a74885dddf931744ea3, type: 2}
   - {fileID: 11400000, guid: 187fd3f4f7c4e8b4fb457a18f60084d4, type: 2}
   - {fileID: 11400000, guid: b44afb3f53ba7114d96f206cf3209109, type: 2}
   - {fileID: 11400000, guid: 01e824aeeab6ca1498af0c8b897f62c4, type: 2}
@@ -39,6 +38,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a0e69f5ff934fab46af0999cfbd523ea, type: 2}
   - {fileID: 11400000, guid: 1936d94caf909594db8b2e951ba5f740, type: 2}
   BuildCollectionData:
-  - {fileID: 11400000, guid: 6f287fbdc4be6ac4687362b8ce0804e8, type: 2}
+  - {fileID: 11400000, guid: db802e30be79c7d47bd3589914116199, type: 2}
+  - {fileID: 11400000, guid: 1a5cb1f86e134be4c97edb651eae5071, type: 2}
+  - {fileID: 11400000, guid: 576bb673cd867834ea369ea881a5dbab, type: 2}
   SkillCollectionData:
-  - {fileID: 11400000, guid: e5989defa20f4c948b6d3ac366e28235, type: 2}
+  - {fileID: 11400000, guid: 6684abdb097f5644fa46c7c8ab258d4f, type: 2}
+  - {fileID: 11400000, guid: f4608666da2562c47b2df0b58d52d822, type: 2}
+  - {fileID: 11400000, guid: e4a7ea5a2a43f1f44ba227bdfed5b4f7, type: 2}
+  - {fileID: 11400000, guid: 99a3666f8e513c74782175dab41336e2, type: 2}

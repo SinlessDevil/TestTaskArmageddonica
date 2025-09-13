@@ -32,6 +32,10 @@ namespace Code.Editor.Invocation
         private int _unitSpeed = 5;
         
         private float _buildingDefense = 5f;
+        private float _buildingDamage = 10f;
+        private SkillData _buildingSkill = new SkillData();
+        
+        private SkillData _skillData = new SkillData();
         
         private Vector2 _scrollPosition;
         private int _currentStep = 1;
@@ -42,7 +46,7 @@ namespace Code.Editor.Invocation
         private List<InvocationStaticData> _allInvocationData = new();
         private List<UnitStaticData> _unitData = new();
         private List<BuildStaticData> _buildData = new();
-        private List<SkillStaticData> _skillData = new();
+        private List<SkillStaticData> _skillDataList = new();
         private Vector2 _existingObjectsScrollPosition;
         private bool _dataLoaded = false;
         
@@ -66,7 +70,7 @@ namespace Code.Editor.Invocation
             _allInvocationData.Clear();
             _unitData.Clear();
             _buildData.Clear();
-            _skillData.Clear();
+            _skillDataList.Clear();
             
             string[] guids = AssetDatabase.FindAssets("t:InvocationStaticData");
             foreach (string guid in guids)
@@ -86,7 +90,7 @@ namespace Code.Editor.Invocation
                             _buildData.Add(buildData);
                             break;
                         case SkillStaticData skillData:
-                            _skillData.Add(skillData);
+                            _skillDataList.Add(skillData);
                             break;
                     }
                 }
@@ -176,7 +180,7 @@ namespace Code.Editor.Invocation
             
             DrawCollectionSection("Units", _unitData);
             DrawCollectionSection("Builds", _buildData);
-            DrawCollectionSection("Skills", _skillData);
+            DrawCollectionSection("Skills", _skillDataList);
             
             EditorGUILayout.EndScrollView();
         }
@@ -442,11 +446,21 @@ namespace Code.Editor.Invocation
                 case InvocationType.Build:
                     EditorGUILayout.LabelField("Building Parameters", EditorStyles.boldLabel);
                     _buildingDefense = EditorGUILayout.FloatField("Defense", _buildingDefense);
-                    EditorGUILayout.HelpBox("Damage and Skill will be set to default values. You can edit them later in the asset.", MessageType.Info);
+                    _buildingDamage = EditorGUILayout.FloatField("Damage", _buildingDamage);
+                    
+                    EditorGUILayout.Space();
+                    EditorGUILayout.LabelField("Skill:", EditorStyles.boldLabel);
+                    if (_buildingSkill == null)
+                        _buildingSkill = new SkillData();
+                    _buildingSkill.Value = EditorGUILayout.FloatField("Skill Value:", _buildingSkill.Value);
+                    _buildingSkill.SkillType = (SkillType)EditorGUILayout.EnumPopup("Skill Type:", _buildingSkill.SkillType);
                     break;
                 case InvocationType.Skill:
                     EditorGUILayout.LabelField("Skill Parameters", EditorStyles.boldLabel);
-                    EditorGUILayout.HelpBox("Skill will be set to default values. You can edit it later in the asset.", MessageType.Info);
+                    if (_skillData == null)
+                        _skillData = new SkillData();
+                    _skillData.Value = EditorGUILayout.FloatField("Skill Value:", _skillData.Value);
+                    _skillData.SkillType = (SkillType)EditorGUILayout.EnumPopup("Skill Type:", _skillData.SkillType);
                     break;
                 case InvocationType.Unknown:
                     break;
@@ -680,14 +694,14 @@ namespace Code.Editor.Invocation
                     if (invocationData is BuildStaticData buildData)
                     {
                         buildData.Defense = _buildingDefense;
-                        buildData.Damage = 5f; // Default damage value
-                        buildData.Skill = new SkillData(); // Default skill
+                        buildData.Damage = _buildingDamage;
+                        buildData.Skill = _buildingSkill ?? new SkillData();
                     }
                     break;
                 case InvocationType.Skill:
                     if (invocationData is SkillStaticData skillData)
                     {
-                        skillData.Skill = new SkillData(); // Default skill
+                        skillData.Skill = _skillData ?? new SkillData();
                     }
                     break;
                 case InvocationType.Unknown:
@@ -713,6 +727,9 @@ namespace Code.Editor.Invocation
             _unitDamage = 10;
             _unitSpeed = 5;
             _buildingDefense = 5f;
+            _buildingDamage = 10f;
+            _buildingSkill = new SkillData();
+            _skillData = new SkillData();
         }
         
         public void UpdateCardDefinitionsAfterReload()

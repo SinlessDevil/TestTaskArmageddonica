@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 192fd505512c4f39931c758bc2ec3640, type: 3}
+  m_Name: House_Build
+  m_EditorClassIdentifier: 
+  Id: House
+  Prefab: {fileID: 2699542269448179204, guid: feb11a639d52f4849831c1e8f8b2c487, type: 3}
+  Rank: 0
+  CardDefinition: 25
+  InvocationType: 2
+  Defense: 20
+  Damage: 0
