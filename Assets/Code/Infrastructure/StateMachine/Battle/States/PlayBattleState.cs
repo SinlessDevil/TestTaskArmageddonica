@@ -3,6 +3,7 @@ using Code.Logic.Grid;
 using Code.Logic.Invocation;
 using Code.Services.CameraController;
 using Code.Services.Context;
+using Code.Services.Factories.UIFactory;
 using Code.Services.IInvocation.Creator;
 using Code.Services.IInvocation.Factories;
 using Code.Services.Input.Card;
@@ -14,6 +15,7 @@ using Code.StaticData;
 using Code.StaticData.Battle;
 using Code.StaticData.Invocation.DTO;
 using Code.StaticData.Levels;
+using Code.UI.Game.Cards.Holder;
 
 namespace Code.Infrastructure.StateMachine.Battle.States
 {
@@ -29,7 +31,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         private readonly ILevelService _levelService;
         private readonly IStaticDataService _staticDataService;
         private readonly IStateMachine<IBattleState> _stateMachine;
-        
+        private readonly IUIFactory _uiFactory;
+
         public PlayBattleState(
             IGridInputService gridInputService,
             IDragCardInputService dragCardInputService,
@@ -40,7 +43,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             ILevelConductor levelConductor,
             ILevelService levelService,
             IStaticDataService staticDataService,
-            IStateMachine<IBattleState> stateMachine)
+            IStateMachine<IBattleState> stateMachine,
+            IUIFactory uiFactory)
         {
             _gridInputService = gridInputService;
             _dragCardInputService = dragCardInputService;
@@ -52,6 +56,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             _levelService = levelService;
             _staticDataService = staticDataService;
             _stateMachine = stateMachine;
+            _uiFactory = uiFactory;
         }
 
         void IState.Enter()
@@ -65,6 +70,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             
             _levelConductor.RunBattle();
             _levelConductor.EndedBattleEvent += OnNextWave;
+            
+            CardHolder.Hide();
         }
 
         void IExitable.Exit()
@@ -125,5 +132,6 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         private LevelStaticData LevelStaticData => _levelService.GetCurrentLevelStaticData();
         private int CurrentWave => _levelConductor.GetCurrentWave;
         private BattleData BattleData => LevelStaticData.BattleStaticData.BattleDataList[CurrentWave - 1];
+        private CardHolder CardHolder => _uiFactory.GameHud.CardHolder;
     }
 }

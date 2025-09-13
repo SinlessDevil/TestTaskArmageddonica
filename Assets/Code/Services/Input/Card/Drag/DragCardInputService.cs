@@ -73,6 +73,9 @@ namespace Code.Services.Input.Card.Drag
             if (!IsEnabled)
                 return;
 
+            if (IsDragging)
+                return;
+            
             view.HoverComponent.HoverEnter();
         }
 
@@ -176,15 +179,13 @@ namespace Code.Services.Input.Card.Drag
             _returnTw = _dragRT.DOAnchorPos(_origAnchoredPos, 0.15f)
                 .SetEase(Ease.OutQuad)
                 .OnComplete(() => {
-                    if (_dragCard != null) 
-                        GameHud.CardHolder.AddCard(_dragCard);
+                    GameHud.CardHolder.AddCard(_dragCard);
+                    _dragCard = null;
+                    _dragRT = null;
                 })
                 .SetUpdate(true);
 
             _dragRT.DOScale(_origScale, 0.12f).SetUpdate(true);
-            
-            _dragCard = null;
-            _dragRT = null;
         }
         
         private Vector2 ScreenToCanvasLocal(Vector2 screenPos)
