@@ -263,7 +263,7 @@ MonoBehaviour:
   _iconImage: {fileID: 8661396551400270413}
   _nameText: {fileID: 6538142149429073014}
   _quantityText: {fileID: 5595422094020113265}
-  _rectTransform: {fileID: 3941433064597914069}
+  _rectTransform: {fileID: 6981353802381369306}
   _animationDuration: 0.3
   _animationEase: 27
   _delayBetweenIcons: 0.1
