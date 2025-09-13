@@ -6,7 +6,7 @@ namespace Code.Services.IInvocation.Randomizer
     {
         InvocationDTO GenerateRandomInvocationDTO();
         UnitDTO GenerateRandomUnitDTO();
-        BuildingDTO GenerateRandomBuildingDTO();
+        BuildDTO GenerateRandomBuildingDTO();
         SkillDTO GenerateRandomSkillDTO();
     }
 }

@@ -65,10 +65,10 @@ namespace Code.Services.Providers.CardComposites
                 Debug.LogError("[CardCompositeProvider] Failed to generate random unit DTO");
             }
             
-            BuildingDTO buildingDTO = _randomizerService.GenerateRandomBuildingDTO();
-            if (buildingDTO != null)
+            BuildDTO buildDto = _randomizerService.GenerateRandomBuildingDTO();
+            if (buildDto != null)
             {
-                CardPM buildingCardPM = new CardPM(buildingDTO, _staticDataService);
+                CardPM buildingCardPM = new CardPM(buildDto, _staticDataService);
                 CardView buildingCardView = _cardViewProvider.Get(Vector3.zero, Quaternion.identity);
                 buildingCardView.Initialize(buildingCardPM);
                 CardComposite buildingCardComposite = new CardComposite(buildingCardView, buildingCardPM);

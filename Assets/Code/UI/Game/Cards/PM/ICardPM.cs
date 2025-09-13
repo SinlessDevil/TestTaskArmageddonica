@@ -16,6 +16,7 @@ namespace Code.UI.Game.Cards.PM
         string RankText { get; }
         string CardName { get; }
         string CardDescription { get; }
+        string CardMainInfo { get;}
         Sprite CardIcon { get; }
         Color RankColor { get; }
         Sprite BackgroundSprite { get; }

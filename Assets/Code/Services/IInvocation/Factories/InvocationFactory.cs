@@ -32,7 +32,7 @@ namespace Code.Services.IInvocation.Factories
                     invocation = CreateUnit((UnitDTO)dto, targetCell, rotation);
                     break;
                 case InvocationType.Build:
-                    invocation = CreateBuilding((BuildingDTO)dto, targetCell, rotation);
+                    invocation = CreateBuilding((BuildDTO)dto, targetCell, rotation);
                     break;
                 case InvocationType.Skill:
                     invocation = CreateSkill((SkillDTO)dto, targetCell, rotation);
@@ -64,8 +64,8 @@ namespace Code.Services.IInvocation.Factories
             return unit;
         }
 
-        public Build CreateBuilding(BuildingDTO buildingDTO, Cell targetCell, Quaternion rotation) => 
-            CreateInvocationBase(buildingDTO, targetCell, rotation).GetComponent<Build>();
+        public Build CreateBuilding(BuildDTO buildDto, Cell targetCell, Quaternion rotation) => 
+            CreateInvocationBase(buildDto, targetCell, rotation).GetComponent<Build>();
 
         public Skill CreateSkill(SkillDTO skillDTO, Cell targetCell, Quaternion rotation) => 
             CreateInvocationBase(skillDTO, targetCell, rotation).GetComponent<Skill>();

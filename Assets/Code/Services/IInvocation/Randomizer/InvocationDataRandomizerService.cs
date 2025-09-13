@@ -38,7 +38,7 @@ namespace Code.Services.IInvocation.Randomizer
             return _invocationCreatorDtoService.GetUnitDTO(randomUnit.Id);
         }
 
-        public BuildingDTO GenerateRandomBuildingDTO()
+        public BuildDTO GenerateRandomBuildingDTO()
         {
             List<BuildStaticData> buildings = _invocationStaticDataService.GetBuildCollection();
             if (buildings.Count == 0) 

@@ -13,7 +13,7 @@ namespace Code.Services.IInvocation.Factories
         Invocation CreateInvocationByType(InvocationDTO dto, Cell targetCell, Quaternion rotation);
         Invocation CreateInvocationBase(InvocationDTO invocationDTO, Cell targetCell, Quaternion rotation);
         Unit CreateUnit(UnitDTO unitDTO, Cell targetCell, Quaternion rotation);
-        Build CreateBuilding(BuildingDTO buildingDTO, Cell targetCell, Quaternion rotation);
+        Build CreateBuilding(BuildDTO buildDto, Cell targetCell, Quaternion rotation);
         Skill CreateSkill(SkillDTO skillDTO, Cell targetCell, Quaternion rotation);
     }
 }

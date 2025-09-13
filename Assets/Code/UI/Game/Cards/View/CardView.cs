@@ -1,3 +1,4 @@
+using Code.StaticData.Invocation.Data.Skill;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -12,6 +13,7 @@ namespace Code.UI.Game.Cards.View
         [SerializeField] private TMP_Text _nameText;
         [SerializeField] private TMP_Text _infoText;
         [SerializeField] private TMP_Text _levelText;
+        [SerializeField] private TMP_Text _mainInfoText;
         [Header("BG")]
         [SerializeField] private Image _bgImage;
         [SerializeField] private Image _BodyImage;
@@ -68,6 +70,7 @@ namespace Code.UI.Game.Cards.View
             _levelText.text = _cardPM.RankText;
             _nameText.text = _cardPM.CardName;
             _infoText.text = _cardPM.CardDescription;
+            _mainInfoText.text = _cardPM.CardMainInfo;
         }
         
         private void SetupBackgrounds()
@@ -92,6 +95,7 @@ namespace Code.UI.Game.Cards.View
             
             _infoText.text = string.Empty;
             _levelText.text = string.Empty;
+            _mainInfoText.text = string.Empty;
             
             _bgImage.sprite = null;
             _bgImage.color = Color.white;

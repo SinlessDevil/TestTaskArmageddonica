@@ -6,7 +6,7 @@ namespace Code.Services.IInvocation.Creator
     {
         InvocationDTO GetInvocationDTO(string invocationId);
         UnitDTO GetUnitDTO(string unitId);
-        BuildingDTO GetBuildingDTO(string buildingId);
+        BuildDTO GetBuildingDTO(string buildingId);
         SkillDTO GetSkillDTO(string skillId);
     }
 }

@@ -29,6 +29,14 @@ namespace Code.UI.Game.Cards.PM
         
         public string CardDescription => DefinitionData?.Description ?? "No description available";
         
+        public string CardMainInfo => DTO switch
+        {
+            UnitDTO unitDto => $"Attack: {unitDto.Damage}, Health: {unitDto.Health}, Speed: {unitDto.Speed}",
+            BuildDTO buildDto => $"Defence: {buildDto.Defense}, Attack: {buildDto.Damage}, Skill{buildDto.Skill.SkillType}: {buildDto.Skill?.Value ?? 0}",
+            SkillDTO skillDto => $"Skill{skillDto.Skill.SkillType}: {skillDto.Skill?.Value ?? 0}",
+            _ => "Unknown type"
+        };
+
         public Sprite CardIcon => DefinitionData?.Icon;
         
         public Color RankColor => RankData?.Color ?? Color.white;

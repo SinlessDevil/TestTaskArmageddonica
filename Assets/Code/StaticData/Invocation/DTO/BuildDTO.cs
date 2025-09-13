@@ -4,16 +4,20 @@ using UnityEngine;
 
 namespace Code.StaticData.Invocation.DTO
 {
-    public class SkillDTO : InvocationDTO
+    public class BuildDTO : InvocationDTO
     {
+        public float Defense = 5f;
+        public float Damage = 5f;
         public SkillData Skill;
         
-        public SkillDTO(string id, string uniqueId, GameObject prefab, CardRankType rank, 
+        public BuildDTO(string id, string uniqueId, GameObject prefab, CardRankType rank, 
             CardDefinitionType cardDefinition, InvocationType invocationType, int quantity,
-            SkillData skillData) : 
+            float defense, float damage, SkillData skill) : 
             base(id, uniqueId, prefab, rank, cardDefinition, invocationType, quantity)
         {
-            Skill = skillData;
+            Defense = defense;
+            Damage = damage;
+            Skill = skill;
         }
     }
 }

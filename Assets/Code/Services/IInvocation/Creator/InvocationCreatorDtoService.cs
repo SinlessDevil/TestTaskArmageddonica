@@ -33,10 +33,11 @@ namespace Code.Services.IInvocation.Creator
 
             return staticData.InvocationType switch
             {
-                InvocationType.Unit => new UnitDTO(staticData.Id, uniqueId, staticData.Prefab, staticData.Rank, staticData.CardDefinition, staticData.InvocationType, 1),
-                InvocationType.Build => new BuildingDTO(staticData.Id, uniqueId, staticData.Prefab, staticData.Rank, staticData.CardDefinition, staticData.InvocationType, 1),
-                InvocationType.Skill => new SkillDTO(staticData.Id, uniqueId, staticData.Prefab, staticData.Rank, staticData.CardDefinition, staticData.InvocationType, 1),
-                _ => new InvocationDTO(staticData.Id, uniqueId, staticData.Prefab, staticData.Rank, staticData.CardDefinition, staticData.InvocationType, 1)
+                InvocationType.Unit => CreateUnitDTO(staticData as UnitStaticData, uniqueId),
+                InvocationType.Build => CreateBuildDTO(staticData as BuildStaticData, uniqueId),
+                InvocationType.Skill => CreateSkillDTO(staticData as SkillStaticData, uniqueId),
+                _ => new InvocationDTO(staticData.Id, uniqueId, staticData.Prefab, staticData.Rank, 
+                    staticData.CardDefinition, staticData.InvocationType, 1)
             };
         }
 
@@ -50,10 +51,10 @@ namespace Code.Services.IInvocation.Creator
             }
 
             string uniqueId = _uniqueIdService.GenerateUniqueId("Unit");
-            return new UnitDTO(unitStaticData.Id, uniqueId, unitStaticData.Prefab, unitStaticData.Rank, unitStaticData.CardDefinition, unitStaticData.InvocationType, 1);
+            return CreateUnitDTO(unitStaticData, uniqueId);
         }
 
-        public BuildingDTO GetBuildingDTO(string buildingId)
+        public BuildDTO GetBuildingDTO(string buildingId)
         {
             var buildingStaticData = _invocationStaticDataService.GetInvocationData(buildingId) as BuildStaticData;
             if (buildingStaticData == null)
@@ -63,7 +64,7 @@ namespace Code.Services.IInvocation.Creator
             }
 
             string uniqueId = _uniqueIdService.GenerateUniqueId("Building");
-            return new BuildingDTO(buildingStaticData.Id, uniqueId, buildingStaticData.Prefab, buildingStaticData.Rank, buildingStaticData.CardDefinition, buildingStaticData.InvocationType, 1);
+            return CreateBuildDTO(buildingStaticData, uniqueId);
         }
 
         public SkillDTO GetSkillDTO(string skillId)
@@ -76,7 +77,28 @@ namespace Code.Services.IInvocation.Creator
             }
 
             string uniqueId = _uniqueIdService.GenerateUniqueId("Skill");
-            return new SkillDTO(skillStaticData.Id, uniqueId, skillStaticData.Prefab, skillStaticData.Rank, skillStaticData.CardDefinition, skillStaticData.InvocationType, 1);
+            return CreateSkillDTO(skillStaticData, uniqueId);
+        }
+        
+        private UnitDTO CreateUnitDTO(UnitStaticData unitStaticData, string uniqueId)
+        {
+            return new UnitDTO(unitStaticData.Id, uniqueId, unitStaticData.Prefab, unitStaticData.Rank, 
+                unitStaticData.CardDefinition, unitStaticData.InvocationType, 1,
+                unitStaticData.Health, unitStaticData.Damage, unitStaticData.Speed);
+        }
+        
+        private BuildDTO CreateBuildDTO(BuildStaticData buildStaticData, string uniqueId)
+        {
+            return new BuildDTO(buildStaticData.Id, uniqueId, buildStaticData.Prefab, buildStaticData.Rank, 
+                buildStaticData.CardDefinition, buildStaticData.InvocationType, 1,
+                buildStaticData.Defense, buildStaticData.Damage, buildStaticData.Skill);
+        }
+        
+        private SkillDTO CreateSkillDTO(SkillStaticData skillStaticData, string uniqueId)
+        {
+            return new SkillDTO(skillStaticData.Id, uniqueId, skillStaticData.Prefab, skillStaticData.Rank, 
+                skillStaticData.CardDefinition, skillStaticData.InvocationType, 1,
+                skillStaticData.Skill);
         }
     }
 }
