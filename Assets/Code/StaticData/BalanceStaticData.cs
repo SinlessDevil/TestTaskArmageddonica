@@ -16,5 +16,7 @@ namespace Code.StaticData
         public HeadRotation HeadRotation = new();
         [Space(10)]
         public UnitCharacteristicsMultiplier UnitCharacteristicsMultiplier = new();
+        [Space(10)]
+        public BuildingCharacteristicsMultiplier BuildingCharacteristicsMultiplier = new();
     }
 }

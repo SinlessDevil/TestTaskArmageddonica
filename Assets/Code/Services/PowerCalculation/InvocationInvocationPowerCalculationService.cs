@@ -42,19 +42,41 @@ namespace Code.Services.PowerCalculation
         
         public float CalculateInvocationPower(InvocationDTO invocation)
         {
-            if (invocation.InvocationType != InvocationType.Unit)
-                return 0f;
+            BalanceStaticData balance = _staticDataService.Balance;
             
+            return invocation.InvocationType switch
+            {
+                InvocationType.Unit => CalculateUnitPower(invocation, balance),
+                InvocationType.Build => CalculateBuildingPower(invocation, balance),
+                _ => 0f
+            };
+        }
+        
+        private float CalculateUnitPower(InvocationDTO invocation, BalanceStaticData balance)
+        {
             UnitStaticData unitStaticData = GetUnitStaticData(invocation.Id);
             if (unitStaticData == null)
                 return 0f;
             
-            BalanceStaticData balance = _staticDataService.Balance;
             UnitCharacteristicsMultiplier multipliers = balance.UnitCharacteristicsMultiplier;
             
             float power = (unitStaticData.Damage * multipliers.AttackMultiplier + 
                           unitStaticData.Speed * multipliers.SpeedMultiplier + 
                           unitStaticData.Health * multipliers.HealthMultiplier) * invocation.Quantity;
+            
+            return power;
+        }
+        
+        private float CalculateBuildingPower(InvocationDTO invocation, BalanceStaticData balance)
+        {
+            BuildStaticData buildStaticData = GetBuildStaticData(invocation.Id);
+            if (buildStaticData == null)
+                return 0f;
+            
+            BuildingCharacteristicsMultiplier multipliers = balance.BuildingCharacteristicsMultiplier;
+            
+            float power = (buildStaticData.Defense * multipliers.DefenseMultiplier + 
+                          buildStaticData.Damage * multipliers.AttackMultiplier) * invocation.Quantity;
             
             return power;
         }
@@ -70,12 +92,19 @@ namespace Code.Services.PowerCalculation
             return playerPower > enemyPower ? BattlResult.Player : BattlResult.Enemy;
         }
         
-        private float CalculateTotalPower(Dictionary<string, InvocationDTO> invocations) => invocations.Values.Sum(invocation => CalculateInvocationPower(invocation));
+        private float CalculateTotalPower(Dictionary<string, InvocationDTO> invocations) => 
+            invocations.Values.Sum(invocation => CalculateInvocationPower(invocation));
 
         private UnitStaticData GetUnitStaticData(string unitId)
         {
             InvocationStaticData invocationData = _invocationStaticDataService.GetInvocationData(unitId);
             return invocationData as UnitStaticData;
+        }
+        
+        private BuildStaticData GetBuildStaticData(string buildId)
+        {
+            InvocationStaticData invocationData = _invocationStaticDataService.GetInvocationData(buildId);
+            return invocationData as BuildStaticData;
         }
     }
 }
