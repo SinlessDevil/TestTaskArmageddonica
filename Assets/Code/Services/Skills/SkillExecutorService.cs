@@ -106,19 +106,29 @@ namespace Code.Services.Skills
         
         private void ApplySkillToUnit(SkillData skill, UnitDTO unitDTO, Cell targetCell)
         {
+            Invocation targetInvocation = targetCell.InvocationController.Invocations
+                .FirstOrDefault(inv => inv != null && inv.UniqueId == unitDTO.UniqueId);
+            
+            if (targetInvocation == null)
+                return;
+            
             switch (skill.SkillType)
             {
                 case SkillType.Attack:
                     unitDTO.Damage += (int)skill.Value;
+                    targetInvocation.PlayAttackBuffEffect();
                     break;
                 case SkillType.Health:
                     unitDTO.Health += (int)skill.Value;
+                    targetInvocation.PlayHealthBuffEffect();
                     break;
                 case SkillType.Speed:
                     unitDTO.Speed += (int)skill.Value;
+                    targetInvocation.PlaySpeedBuffEffect();
                     break;
                 case SkillType.Capacity:
                     SpawnUnitFromCapacity(unitDTO, targetCell);
+                    targetInvocation.PlayCapacityEffect();
                     break;
                 case SkillType.Unknown:
                     break;

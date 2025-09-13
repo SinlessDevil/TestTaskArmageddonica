@@ -1,4 +1,3 @@
-using System;
 using Code.Infrastructure.StateMachine.Game.States;
 using Code.Logic.Grid;
 using Code.Logic.Invocation;
@@ -8,12 +7,11 @@ using Code.Services.IInvocation.Factories;
 using Code.Services.Input.Card;
 using Code.Services.Input.Grid;
 using Code.Services.LevelConductor;
+using Code.Services.Skills;
 using Code.Services.StaticData;
 using Code.StaticData;
 using Code.StaticData.Invocation.DTO;
 using Code.UI.Game.Cards.Holder;
-using Code.UI.Game.Cards.PM;
-using Code.UI.Game.Cards.View;
 
 namespace Code.Infrastructure.StateMachine.Battle.States
 {
@@ -25,6 +23,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         private readonly ICameraDirector _cameraDirector;
         private readonly IInvocationFactory _invocationFactory;
         private readonly ILevelConductor _levelConductor;
+        private readonly ISkillExecutorService _skillExecutorService;
         private readonly IStateMachine<IBattleState> _stateMachine;
         private readonly IStaticDataService _staticDataService;
 
@@ -36,7 +35,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             IStateMachine<IBattleState> stateMachine,
             IStaticDataService staticDataService,
             IInvocationFactory invocationFactory,
-            ILevelConductor levelConductor)
+            ILevelConductor levelConductor,
+            ISkillExecutorService skillExecutorService)
         {
             _gridInputService = gridInputService;
             _dragCardInputService = dragCardInputService;
@@ -46,6 +46,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             _stateMachine = stateMachine;
             _staticDataService = staticDataService;
             _levelConductor = levelConductor;
+            _skillExecutorService = skillExecutorService;
         }
         
         public void Enter()
@@ -73,13 +74,26 @@ namespace Code.Infrastructure.StateMachine.Battle.States
 
         private void OnDroppedInvocationInCell(InvocationDTO dto, Cell targetCell)
         {
-            Invocation invocation = _invocationFactory.CreateInvocationByType(dto, targetCell, HeadRotation.PlayerRotation);
-            targetCell.InvocationController.AddInvocation(invocation, dto.InvocationType, dto.Id, dto.UniqueId);
-            _levelConductor.AddInvocationForPlayer(dto);
+            if (dto is SkillDTO skillDTO)
+                ExecuteSkill(skillDTO, targetCell);
+            else
+                CreateUnitOrBuild(dto, targetCell);
 
             PlayBattleState();
         }
+
+        private void ExecuteSkill(SkillDTO skillDTO, Cell targetCell)
+        {
+            _skillExecutorService.SkillExecute(skillDTO, targetCell);
+        }
         
+        private void CreateUnitOrBuild(InvocationDTO dto, Cell targetCell)
+        {
+            Invocation invocation = _invocationFactory.CreateInvocationByType(dto, targetCell, HeadRotation.PlayerRotation);
+            targetCell.InvocationController.AddInvocation(invocation, dto.InvocationType, dto.Id, dto.UniqueId);
+            _levelConductor.AddInvocationForPlayer(dto);
+        }
+
         private void PlayBattleState()
         {
             _stateMachine.Enter<PlayBattleState>();

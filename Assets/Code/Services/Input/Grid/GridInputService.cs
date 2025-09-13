@@ -1,6 +1,8 @@
 using System;
 using Code.Logic.Grid;
+using Code.Logic.Invocation;
 using Code.Services.Context;
+using Code.StaticData.Invocation;
 using Code.StaticData.Invocation.DTO;
 using UnityEngine;
 
@@ -89,7 +91,7 @@ namespace Code.Services.Input.Grid
 
 		private void OnUpdate()
 		{
-			if (!_isEnabled || _camera == null)
+			if (!_isEnabled)
 				return;
 
 			Ray ray = _camera.ScreenPointToRay(_inputService.TouchPosition);
@@ -187,9 +189,26 @@ namespace Code.Services.Input.Grid
 		{
 			if (_hoverCell == null || _invocationDto == null)
 				return false;
+			
+			if (_invocationDto is SkillDTO)
+			{
+				return HasUnitInCell(_hoverCell);
+			}
 
 			return _hoverCell.InvocationController.HasFreeCell() || 
 			       _hoverCell.InvocationController.HasAddedAdditionalInvocation(_invocationDto.Id);
+		}
+
+		private bool HasUnitInCell(Cell cell)
+		{
+			if (cell?.InvocationController?.Invocations == null)
+				return false;
+
+			if (cell.InvocationController.Invocations.Count > 0 && 
+			    cell.InvocationController.TargetInvocationType == InvocationType.Unit)
+				return true;
+
+			return false;
 		}
 
 		private void ResetDragState()
@@ -214,6 +233,19 @@ namespace Code.Services.Input.Grid
 		{
 			if (_hoverCell == null)
 				return;
+			
+			if (_isDragActive && _invocationDto is SkillDTO)
+			{
+				if (HasUnitInCell(_hoverCell))
+				{
+					_hoverCell.VisualController.SetSelectedState();
+				}
+				else
+				{
+					_hoverCell.VisualController.SetNotSelectedState();
+				}
+				return;
+			}
 
 			if (_hoverCell.InvocationController.HasFreeCell())
 			{

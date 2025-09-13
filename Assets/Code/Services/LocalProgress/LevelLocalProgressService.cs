@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Code.StaticData.Invocation.DTO;
 
@@ -14,8 +13,6 @@ namespace Code.Services.LocalProgress
             _playerInvocations = new Dictionary<string, InvocationDTO>();
             _enemyInvocations = new Dictionary<string, InvocationDTO>();
         }
-        
-        public event Action<int> UpdateScoreEvent; 
         
         public int CurrentWave { get; private set; } = 1;
         public bool HasFirstOpenCardSelection { get; private set; } = false;
