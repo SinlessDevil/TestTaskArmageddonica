@@ -137,9 +137,13 @@ namespace Code.UI.Game.CardSelection
             await UniTask.Delay(1500);
             
             _rootCanvasGroup.blocksRaycasts = true;
-            
-            foreach (var cardView in _cardViews.Where(cardView => cardView != null)) 
+
+            foreach (CardView cardView in _cardViews.Where(cardView => cardView != null))
+            {
                 _cardSelectionPM.OnAddCardToHolder(cardView);
+                cardView.HoverComponent.ResetState();
+                cardView.HoverComponent.HoverExit();
+            }
 
             _animator.HideCanvas(() => _cardSelectionPM.OnCloseWindow());
         }
