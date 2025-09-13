@@ -11,7 +11,7 @@ namespace Code.StaticData.Invocation.DTO
         public CardRankType Rank;
         public CardDefinitionType CardDefinition;
         public InvocationType InvocationType;
-        public int Quantity = 1; // Количество юнитов/зданий/навыков
+        public int Quantity = 1;
         
         public InvocationDTO(
             string id,
