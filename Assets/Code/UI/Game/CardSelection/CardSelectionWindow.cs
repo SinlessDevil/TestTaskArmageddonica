@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Code.UI.Game.Cards.View;
 using UnityEngine;
 using UnityEngine.UI;
+using Cysharp.Threading.Tasks;
 
 namespace Code.UI.Game.CardSelection
 {
@@ -13,6 +14,7 @@ namespace Code.UI.Game.CardSelection
         [SerializeField] private Button _toggleVisibilityButton;
         [SerializeField] private Image _visibleImage;
         [SerializeField] private CardSelectionWindowAnimator _animator;
+        [SerializeField] private CanvasGroup _rootCanvasGroup;
         [Header("Sprites")]
         [SerializeField] private Sprite _visibleSprite;
         [SerializeField] private Sprite _invisibleSprite;
@@ -35,7 +37,18 @@ namespace Code.UI.Game.CardSelection
             
             _animator.Initialize();
             _animator.ShowCanvas();
-            _animator.ShowButton();
+            
+            if (_cardSelectionPM.HasFirstOpenWindow())
+            {
+                _animator.ShowButton();
+            }
+            else
+            {
+                _rerollButton.gameObject.SetActive(false);
+                _toggleVisibilityButton.gameObject.SetActive(false);
+                
+                AutoSelectAllCards().Forget();
+            }
         }
 
         public void Dispose()
@@ -61,19 +74,6 @@ namespace Code.UI.Game.CardSelection
             
             _rerollButton.onClick.RemoveListener(OnReRollButtonClick);
             _toggleVisibilityButton.onClick.RemoveListener(OnToggleVisibilityButtonClick);
-        }
-        
-        private void SetCards(IReadOnlyList<CardView> cards)
-        {
-            foreach (CardView cardView in cards)
-            {
-                if (cardView == null) 
-                    continue;
-                
-                cardView.transform.SetParent(_cardsRoot, false);
-            }
-            _cardViews = cards.ToList();
-            LayoutCards(cards);
         }
 
         private void OnChangedCards()
@@ -115,6 +115,33 @@ namespace Code.UI.Game.CardSelection
         private void OnClosed(CardView selected)
         {
             _cardSelectionPM.OnAddCardToHolder(selected);
+        }
+        
+        private void SetCards(IReadOnlyList<CardView> cards)
+        {
+            foreach (CardView cardView in cards)
+            {
+                if (cardView == null) 
+                    continue;
+                
+                cardView.transform.SetParent(_cardsRoot, false);
+            }
+            _cardViews = cards.ToList();
+            LayoutCards(cards);
+        }
+        
+        private async UniTask AutoSelectAllCards()
+        {
+            _rootCanvasGroup.blocksRaycasts = false;
+            
+            await UniTask.Delay(1500);
+            
+            _rootCanvasGroup.blocksRaycasts = true;
+            
+            foreach (var cardView in _cardViews.Where(cardView => cardView != null)) 
+                _cardSelectionPM.OnAddCardToHolder(cardView);
+
+            _animator.HideCanvas(() => _cardSelectionPM.OnCloseWindow());
         }
 
         private void LayoutCards(IReadOnlyList<CardView> cards)
