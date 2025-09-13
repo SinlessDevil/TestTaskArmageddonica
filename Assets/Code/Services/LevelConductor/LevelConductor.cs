@@ -41,6 +41,7 @@ namespace Code.Services.LevelConductor
         
         public event Action ChangedPowerEnemyEvent;
         public event Action ChangedWaveEvent;
+        public event Action UpdateStatsEvent;
 
         public void RunBattle()
         {
@@ -82,6 +83,18 @@ namespace Code.Services.LevelConductor
 
         public Dictionary<string, InvocationDTO> GetEnemyInvocations() => 
             _levelLocalProgressService.GetEnemyInvocations();
+        
+        public void UpdateUnitStats(string uniqueId, int damageBonus, int healthBonus, int speedBonus)
+        {
+            InvocationDTO playerInvocation = GetInvocationForPlayer(uniqueId);
+            if (playerInvocation is UnitDTO playerUnit)
+            {
+                playerUnit.Damage += damageBonus;
+                playerUnit.Health += healthBonus;
+                playerUnit.Speed += speedBonus;
+                UpdateStatsEvent?.Invoke();
+            }
+        }
         
         private async UniTask CalculationPowerOpponentsAsync()
         {

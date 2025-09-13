@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Code.Logic.Grid;
 using Code.Logic.Invocation;
+using Code.Logic.Invocation.Units;
 using Code.Services.Context;
 using Code.Services.IInvocation.Factories;
 using Code.Services.LevelConductor;
@@ -88,8 +89,6 @@ namespace Code.Services.Skills
         
         private void ApplySkillToCell(SkillData skill, Cell targetCell)
         {
-            Debug.Log("ApplySkillToCell");
-            
             if (skill == null || targetCell == null) 
                 return;
             
@@ -106,29 +105,35 @@ namespace Code.Services.Skills
         
         private void ApplySkillToUnit(SkillData skill, UnitDTO unitDTO, Cell targetCell)
         {
-            Invocation targetInvocation = targetCell.InvocationController.Invocations
-                .FirstOrDefault(inv => inv != null && inv.UniqueId == unitDTO.UniqueId);
+            Debug.Log("ApplySkillToCell");
             
-            if (targetInvocation == null)
+            List<Unit> units = targetCell.InvocationController.Invocations
+                .Where(inv => inv is Unit)
+                .Cast<Unit>()
+                .ToList();
+            
+            if (units.Count == 0)
                 return;
             
             switch (skill.SkillType)
             {
                 case SkillType.Attack:
-                    unitDTO.Damage += (int)skill.Value;
-                    targetInvocation.PlayAttackBuffEffect();
+                    _levelConductor.UpdateUnitStats(unitDTO.UniqueId, (int)skill.Value, 0, 0);
+                    foreach (Unit unit in units) 
+                        unit.UnitAnimation.PlayAttackBuf();
                     break;
                 case SkillType.Health:
-                    unitDTO.Health += (int)skill.Value;
-                    targetInvocation.PlayHealthBuffEffect();
+                    _levelConductor.UpdateUnitStats(unitDTO.UniqueId, 0, (int)skill.Value, 0);
+                    foreach (Unit unit in units) 
+                        unit.UnitAnimation.PlayHealthBuf();
                     break;
                 case SkillType.Speed:
-                    unitDTO.Speed += (int)skill.Value;
-                    targetInvocation.PlaySpeedBuffEffect();
+                    _levelConductor.UpdateUnitStats(unitDTO.UniqueId, 0, 0, (int)skill.Value);
+                    foreach (Unit unit in units) 
+                        unit.UnitAnimation.PlaySpeedBuf();
                     break;
                 case SkillType.Capacity:
                     SpawnUnitFromCapacity(unitDTO, targetCell);
-                    targetInvocation.PlayCapacityEffect();
                     break;
                 case SkillType.Unknown:
                     break;

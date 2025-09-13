@@ -1,5 +1,6 @@
 using Code.Services.LevelConductor;
 using Code.Services.PowerCalculation;
+using Code.StaticData.Invocation.DTO;
 using TMPro;
 using UnityEngine;
 using Zenject;
@@ -36,13 +37,15 @@ namespace Code.UI.Game.Battle.Score
             _currentScore = 0;
             
             _levelConductor.ChangedPowerEnemyEvent += OnChangedPowerEnemy;
+            _levelConductor.UpdateStatsEvent += OnChangedPowerEnemy;
         }
 
         public void Dispose()
         {
             _levelConductor.ChangedPowerEnemyEvent -= OnChangedPowerEnemy;
+            _levelConductor.UpdateStatsEvent += OnChangedPowerEnemy;
         }
-        
+
         private void OnChangedPowerEnemy()
         {
             int newScore = Mathf.RoundToInt(_powerCalculationService.CalculateEnemyPower());

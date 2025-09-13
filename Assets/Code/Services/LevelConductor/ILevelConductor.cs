@@ -11,6 +11,7 @@ namespace Code.Services.LevelConductor
         event Action ChangedPowerPlayerEvent;
         event Action ChangedPowerEnemyEvent;
         event Action ChangedWaveEvent;
+        event Action UpdateStatsEvent;
         
         void RunBattle();
         
@@ -26,5 +27,7 @@ namespace Code.Services.LevelConductor
         
         Dictionary<string, InvocationDTO> GetPlayerInvocations();
         Dictionary<string, InvocationDTO> GetEnemyInvocations();
+        
+        void UpdateUnitStats(string uniqueId, int damageBonus, int healthBonus, int speedBonus);
     }
 }

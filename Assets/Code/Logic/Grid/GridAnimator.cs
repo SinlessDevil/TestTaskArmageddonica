@@ -23,7 +23,7 @@ namespace Code.Logic.Grid
         public async UniTask PlayBattleAnimation()
         {
             _battleParticleSystem.Play();
-            await UniTask.Delay(1500);
+            await UniTask.Delay(1000);
             await AnimateObjectsInCircle();
         }
         
@@ -58,15 +58,18 @@ namespace Code.Logic.Grid
             if (cellsToAnimate.Count == 0)
                 return;
             
-            List<UniTask> animationTasks = new List<UniTask>();
-            
-            for (int i = 0; i < cellsToAnimate.Count; i++)
+            Dictionary<int, List<Cell>> rings = GroupCellsByRings(cellsToAnimate);
+            for (int ringIndex = 0; ringIndex < rings.Count; ringIndex++)
             {
-                Cell cell = cellsToAnimate[i];
-                animationTasks.Add(AnimateCellLiftAndDrop(cell));
+                List<Cell> ringCells = rings[ringIndex];
+                List<UniTask> ringAnimations = new List<UniTask>();
+                foreach (Cell cell in ringCells) 
+                    ringAnimations.Add(AnimateCellLiftAndDrop(cell));
+                
+                await UniTask.WhenAll(ringAnimations);
+                if (ringIndex < rings.Count - 1) 
+                    await UniTask.Delay(100);
             }
-            
-            await UniTask.WhenAll(animationTasks);
         }
         
         private List<Cell> GetCellsToAnimate()
@@ -82,6 +85,22 @@ namespace Code.Logic.Grid
             }
             
             return cells;
+        }
+        
+        private Dictionary<int, List<Cell>> GroupCellsByRings(List<Cell> cells)
+        {
+            Dictionary<int, List<Cell>> rings = new Dictionary<int, List<Cell>>();
+            
+            foreach (Cell cell in cells)
+            {
+                float distance = Vector3.Distance(_gridCenter, cell.transform.position);
+                int ringIndex = Mathf.RoundToInt(distance / 2f);
+                if (!rings.ContainsKey(ringIndex))
+                    rings[ringIndex] = new List<Cell>();
+                rings[ringIndex].Add(cell);
+            }
+            
+            return rings;
         }
         
         private async UniTask AnimateCellLiftAndDrop(Cell cell)

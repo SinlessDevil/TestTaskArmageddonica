@@ -15,14 +15,17 @@ namespace Code.UI.Game.Battle.Score
         [SerializeField] private float _scaleMultiplier = 1.2f;
         [SerializeField] private Color _highlightColor = Color.green;
         
-        private ILevelConductor _levelConductor;
-        private IInvocationPowerCalculationService _powerCalculationService;
         private Color _originalColor;
         private Vector3 _originalScale;
         private int _currentScore = 0;
         
+        private ILevelConductor _levelConductor;
+        private IInvocationPowerCalculationService _powerCalculationService;
+        
         [Inject]
-        public void Constructor(ILevelConductor levelConductor, IInvocationPowerCalculationService powerCalculationService)
+        public void Constructor(
+            ILevelConductor levelConductor, 
+            IInvocationPowerCalculationService powerCalculationService)
         {
             _levelConductor = levelConductor;
             _powerCalculationService = powerCalculationService;
@@ -36,11 +39,13 @@ namespace Code.UI.Game.Battle.Score
             _currentScore = 0;
             
             _levelConductor.ChangedPowerPlayerEvent += OnChangedPowerPlayer;
+            _levelConductor.UpdateStatsEvent += OnChangedPowerPlayer;
         }
 
         public void Dispose()
         {
             _levelConductor.ChangedPowerPlayerEvent -= OnChangedPowerPlayer;
+            _levelConductor.UpdateStatsEvent -= OnChangedPowerPlayer;
         }
         
         private void OnChangedPowerPlayer()
