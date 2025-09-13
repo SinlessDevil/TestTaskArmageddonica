@@ -1,26 +1,43 @@
-# WAVE BATTLE - TestTaskArmageddonica
+🎮 Clone 9 Kings — TestTaskArmageddonica
+<p align="center"> <a href="https://www.youtube.com/watch?v=8jINENfk4yA" target="_blank"> <img src="https://img.youtube.com/vi/8jINENfk4yA/0.jpg" alt="Watch the demo" /> </a> </p> <p align="center"> <a href="https://www.youtube.com/watch?v=8jINENfk4yA" target="_blank"> <img src="https://img.shields.io/badge/Watch%20on-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch on YouTube" /> </a> </p>
+📖 Overview
 
-![WAVE BATTLE](https://github.com/yourusername/TestTaskArmageddonica/assets/wave-battle-preview.png)
+Highlights
+Grid-based placement (6×6)
+Summon units & buildings, cast skills
+Distinct parameters per type (e.g., Unit: HP / Damage / Speed; Building: Attack / Defense; Skill: effect)
+Progress & saves
 
-**WAVE BATTLE** - A strategic game with tactical elements, developed in Unity using modern architecture and advanced development tools.
+🏗️ Architecture
+🎯 Game State Machine (high-level flow)
 
-## 🎮 Game Description
+BootstrapState
+Sets up DI, loads static data, registers services.
 
-WAVE BATTLE is a tactical strategy game with card game elements where players control an army of diverse units and buildings on a 6x6 grid. The game includes an Invocation system for summoning various entities, including units, buildings, and skills.
+- LoadProgressState
+Loads player progress from persistence (creates defaults if none).
+- LoadMenuState
+Brings up the main menu / meta UI.
+- LoadLevelState
+Loads scene, initializes grid and battle context, wires UI/HUD.
+- GamePlayState
+Runs gameplay loop and hosts Battle State Machine. Handles pause/end, saves progress on exit.
 
-### Key Features:
-- **6x6 Tactical Grid** for unit and building placement
-- **Card System** with various ranks (Common, Rare, Epic, Legendary)
-- **Diverse Units** with unique characteristics
-- **Buildings** with defensive abilities
-- **Skills** for strategic advantage
-- **Progression System** and save functionality
+Transitions (simplified)
+Bootstrap → LoadProgress → LoadMenu → LoadLevel → GamePlay → (Menu|Next Level|Exit)
 
-## 🏗️ Project Architecture
+⚔️ Battle State Machine (combat loop)
+PrepareBattleState
+Reads selected BattleData (matrix), spawns grid cells, places predefined invocations (units/buildings) from matrix.
+PlayerTurnState
+Card selection, placement, skill usage, resource checks, UI hints.
+EnemyTurnState (if enabled)
+Simple AI/sequence processing, counter-actions.
+ResolveCombatState
+Movement/attacks resolution, damage, deaths, win/lose conditions.
 
-The project is built on **Clean Architecture** principles with clear separation of concerns and design pattern usage.
-
-### Core Architecture Components:
+VictoryState / DefeatState
+Rewards/summary or retry/back to menu.
 
 #### 🎯 State Machine Architecture
 - **GameStateMachine** - manages main game states
@@ -34,48 +51,54 @@ The project is built on **Clean Architecture** principles with clear separation 
   - `LoadLevelState` - game level loading and setup
   - `GamePlayState` - main gameplay state
 
-#### 🏭 Service Layer
-- **StaticDataService** - static data management
-- **PersistenceProgressService** - save system
-- **InputService** - input handling (PC/Mobile)
-- **AudioVibrationService** - sound and vibration
-- **TimeService** - time management
-- **CameraDirector** - camera control
+🎨 UI Pattern
 
-#### 🎨 UI System
-- **UIFactory** - UI element factory
-- **Window System** - window system with settings
-- **HUD System** - game user interface
-- **Card System** - card system with drag&drop
+MVPM (Model–View–Presenter–Model):
+Views stay dumb; Presenters handle input & state; Models hold data.
 
-## 🛠️ Technology Stack
+🔧 Editor Tools (RedTulZ)
+1) Battle Matrix Editor — build battle layouts
+Interactive editor for creating and editing BattleData with a visual grid.
+What it does
+Displays a 6×6 (or custom) grid to place invocations on specific cells
+Assigns any defined Invocation ID (Unit/Building/Skill) to a cell
+Validates matrix size; prevents out-of-range edits
+Persists changes to static data assets
+Controls (from the window)
+Add New Battle — creates a new BattleData entry
+Refresh Invocation IDs — refreshes the ID catalog shown below the grid
+Force Save — forces asset save
+Debug Data — quick inspection for validation/debug
 
-### Unity Packages:
-- **Unity 2022.3+** - main engine
-- **Universal Render Pipeline (URP) 17.0.4** - modern rendering
-- **Addressables 2.7.2** - asset system
-- **Input System 1.14.2** - new input system
-- **2D Animation 10.2.1** - 2D animation
-- **Timeline 1.8.9** - timeline system
-- **Visual Scripting 1.9.8** - visual programming
+UI Hints
+Left panel lists all battles with their matrix sizes
+The grid shows current placements; click a cell to assign/clear an ID
+Bottom panel lists Available Invocation IDs
 
-### Third-party Libraries:
-- **Zenject** - Dependency Injection container
-- **DOTween Pro** - animations and tweens
-- **UniTask** - async programming
-- **Odin Inspector** - enhanced Inspector
-- **TextMeshPro** - improved typography
-- **SRDebugger** - debugging tools
-- **ParticleEffectForUGUI** - UI effects
+Menu: Tools ▸ RedTulZ ▸ Battle Matrix Editor
+Requires: Odin Inspector
 
-### Development Tools:
-- **Odin Inspector** - for creating custom editors
-- **Unity Test Framework** - testing
-- **Newtonsoft.Json** - JSON handling
+2) Invocation Data Creator — guided data wizard
+A 5-step wizard to create Units, Buildings, and Skills consistently.
+Steps
+Type Selection — Unit / Building / Skill
+Basics — ID, prefab, rank
+Card Definition — name, description, icon
+Type-specific parameters
+Unit: Health, Damage, Speed (and other combat stats)
+Building: Attack, Defense, special traits
+Skill: effect type, value, duration, targets
+Review & Create — validation + asset generation
 
-## 🔧 RedTulZ - Development Tools
+Extra
+Auto-generates/updates CardDefinitionType enum
+Batch edit for existing entries
+Built-in validation before creation
+Menu: Tools ▸ RedTulZ ▸ Invocation Creator
+Requires: Odin Inspector
 
-The project includes a set of specialized tools to accelerate development:
+3) Text ↔ TextMeshPro Converter — migrate UI safely
+Bidirectional converter between UnityEngine.UI.Text and TMP components.
 
 ### 1. 🎯 Battle Static Data Editor
 **Interactive Battle Matrix Editor**
@@ -89,7 +112,14 @@ Custom Inspector for `BattleStaticData` ScriptableObject:
 - **Force Save** functionality for data persistence
 - **Debug Data** tools for troubleshooting
 
-![Battle Matrix Editor](https://github.com/yourusername/TestTaskArmageddonica/assets/battle-matrix-editor.png)
+🧰 Tech Stack (essentials only)
+Unity 6 / 2022.3 LTS compatible
+Zenject — dependency injection
+UniTask — async/await for Unity
+DOTween — tweening/animation
+Odin Inspector — editor tooling
+TextMeshPro — typography
+(Optional) Addressables — asset management
 
 ### 2. 📋 Invocation Static Data Window Editor
 **Step-by-step Invocation Data Creation Wizard**
@@ -140,101 +170,16 @@ Utility for migrating between text components:
 ```
 Assets/
 ├── Code/
-│   ├── Infrastructure/          # Core infrastructure
-│   │   ├── StateMachine/        # State system
-│   │   ├── Installers/          # Zenject installers
-│   │   └── Services/            # Application services
-│   ├── Logic/                   # Game logic
-│   │   ├── Grid/               # Grid system
-│   │   └── Points/             # Points system
-│   ├── UI/                     # User interface
-│   ├── StaticData/             # Static data
-│   ├── Editor/                 # Editor tools
-│   └── Window/                 # Window system
-├── Resources/                   # Game resources
-├── Scenes/                     # Unity scenes
-└── Plugins/                    # External plugins
-```
+│   ├── Infrastructure/    # State machines, installers, services
+│   ├── Logic/             # Gameplay (Grid, Battle, Points, etc.)
+│   ├── UI/                # Views/Presenters (MVPM)
+│   ├── StaticData/        # ScriptableObjects (Invocations, Battles)
+│   ├── Editor/            # RedTulZ tools
+│   └── Window/            # Window system
+├── Scenes/
+└── Plugins/
 
-## 🎮 Game Systems
+<img width="757" height="1055" alt="image" src="https://github.com/user-attachments/assets/5b6ee5f3-b3f6-4b67-b53e-4f17f27cb970" />
+<img width="587" height="894" alt="image" src="https://github.com/user-attachments/assets/4eb9429d-98e1-4170-aab1-14d25006859c" />
+<img width="758" height="836" alt="image" src="https://github.com/user-attachments/assets/4a88a998-43e2-49c4-a843-d720073810ab" />
 
-### 🃏 Card System
-- **CardView** - visual card representation
-- **CardSelection** - card selection system
-- **CardDrag** - drag & drop functionality
-- **CardRankType** - card ranks (Common, Rare, Epic, Legendary)
-
-### ⚔️ Battle System
-- **BattleMatrix** - 6x6 tactical grid
-- **Invocation System** - unit summoning system
-- **Power Calculation** - army strength calculation
-- **Turn-based** game mechanics
-
-### 🏰 Invocation Types
-- **Units** - mobile combat units
-- **Buildings** - stationary structures
-- **Skills** - magical abilities
-
-## 🚀 Running the Project
-
-### Requirements:
-- Unity 2022.3 LTS or newer
-- Visual Studio 2022 or Rider
-- Git LFS for large files
-
-### Installation:
-1. Clone the repository
-2. Open the project in Unity
-3. Unity will automatically import all packages
-4. Run the `Initial` scene
-
-### Build:
-- **PC Build** - ready for Windows build
-- **Mobile Build** - Android/iOS support
-- **WebGL** - web version available
-
-## 🎥 Demo
-
-Watch the project demo video:
-[![WAVE BATTLE Demo](https://img.youtube.com/vi/8jINENfk4yA/0.jpg)](https://www.youtube.com/watch?v=8jINENfk4yA)
-
-## 👨‍💻 Development
-
-### Architectural Principles:
-- **SOLID** design principles
-- **Dependency Injection** via Zenject
-- **Separation of Concerns** - clear responsibility separation
-- **State Machine Pattern** - for state management
-- **Service Layer Pattern** - for business logic
-
-### Code Style:
-- **C# 9.0+** syntax
-- **Async/Await** for async operations
-- **UniTask** instead of coroutines
-- **Nullable reference types**
-- **Clean Code** principles
-
-## 📊 Project Statistics
-
-- **~50,000+** lines of code
-- **100+** classes and interfaces
-- **25+** units and buildings
-- **6** different battles
-- **3** specialized editors
-- **Multi-platform** - PC/Mobile/Web
-
-## 🤝 Project Contribution
-
-The project demonstrates modern approaches to Unity game development:
-- Modular architecture
-- High-performance development tools
-- Quality user code
-- Intuitive editors for designers
-
-## 📄 License
-
-This project was created as part of a test assignment and demonstrates Unity game development skills.
-
----
-
-**WAVE BATTLE** - where strategy meets tactics! 🎮⚔️
