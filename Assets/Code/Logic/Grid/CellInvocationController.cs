@@ -31,6 +31,8 @@ namespace Code.Logic.Grid
         
         public string Id { get; private set; } = string.Empty;
         
+        public string UniqueId { get; private set; } = string.Empty;
+        
         public void SetLayoutMode(bool useCircularLayout, float circularRadius = 0.5f)
         {
             _useCircularLayout = useCircularLayout;
@@ -49,11 +51,12 @@ namespace Code.Logic.Grid
         }
         
         public void AddInvocation(Invocation.Invocation invocation, InvocationType targetInvocationType, 
-            string id)
+            string id, string uniqueId)
         {
             if (HasFreeCell())
             {
                 Id = id;
+                UniqueId = uniqueId;
                 TargetInvocationType = targetInvocationType;   
             }
             

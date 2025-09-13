@@ -103,11 +103,13 @@ namespace Code.Infrastructure.StateMachine.Battle.States
                     if (enemyDTO == null) 
                         continue;
                     
-                    Invocation enemyInvocation = _invocationFactory.CreateInvocationByType(enemyDTO, enemyCell, HeadRotation.EnemyRotation);
+                    Invocation enemyInvocation = _invocationFactory.CreateInvocationByType(enemyDTO, enemyCell, 
+                        HeadRotation.EnemyRotation);
                     if (enemyInvocation == null) 
                         continue;
                         
-                    enemyCell.InvocationController.AddInvocation(enemyInvocation, enemyDTO.InvocationType, enemyDTO.Id);
+                    enemyCell.InvocationController.AddInvocation(enemyInvocation, enemyDTO.InvocationType, enemyDTO.Id, 
+                        enemyDTO.UniqueId);
                     _levelConductor.AddInvocationForEnemy(enemyDTO);
                     
                     enemyCell.VisualController.SetFilledState();

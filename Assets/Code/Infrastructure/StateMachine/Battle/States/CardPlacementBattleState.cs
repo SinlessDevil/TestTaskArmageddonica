@@ -74,7 +74,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         private void OnDragCardDroppedOnCell(InvocationDTO dto, Cell targetCell)
         {
             Invocation invocation = _invocationFactory.CreateInvocationByType(dto, targetCell, HeadRotation.PlayerRotation);
-            targetCell.InvocationController.AddInvocation(invocation, dto.InvocationType, dto.Id);
+            targetCell.InvocationController.AddInvocation(invocation, dto.InvocationType, dto.Id, dto.UniqueId);
             _levelConductor.AddInvocationForPlayer(dto);
 
             PlayBattleState();

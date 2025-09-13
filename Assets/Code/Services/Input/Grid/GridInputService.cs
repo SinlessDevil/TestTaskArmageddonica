@@ -127,6 +127,10 @@ namespace Code.Services.Input.Grid
 
 			if (CanDropInvocation())
 			{
+				if (_hoverCell.InvocationController.HasAddedAdditionalInvocation(_invocationDto.Id))
+				{
+					_invocationDto.UniqueId = _hoverCell.InvocationController.UniqueId;
+				}
 				DroppedInvocationInCellEvent?.Invoke(_invocationDto, _hoverCell);
 				UpdateAllCellVisual();
 			}

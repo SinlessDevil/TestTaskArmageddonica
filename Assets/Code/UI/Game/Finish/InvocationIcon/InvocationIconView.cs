@@ -10,6 +10,7 @@ namespace Code.UI.Game.Finish.InvocationIcon
         [Header("Components")]
         [SerializeField] private Image _iconImage;
         [SerializeField] private TMP_Text _nameText;
+        [SerializeField] private TMP_Text _quantityText;
         [SerializeField] private RectTransform _rectTransform;
         [Header("Animation")]
         [SerializeField] private float _animationDuration = 0.3f;
@@ -20,6 +21,7 @@ namespace Code.UI.Game.Finish.InvocationIcon
         {
             _nameText.text = invocationIconPm.GetName();
             _iconImage.sprite = invocationIconPm.GetSprite();
+            _quantityText.text = invocationIconPm.GetQuantity().ToString();
         }
         
         public void ShowWithAnimation(float delay = 0f)

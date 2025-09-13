@@ -6,5 +6,6 @@ namespace Code.UI.Game.Finish.InvocationIcon
     {
         string GetName();
         Sprite GetSprite();
+        int GetQuantity();
     }
 }
