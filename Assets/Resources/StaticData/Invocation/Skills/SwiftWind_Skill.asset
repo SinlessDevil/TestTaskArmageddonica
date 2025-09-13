@@ -18,5 +18,5 @@ MonoBehaviour:
   CardDefinition: 31
   InvocationType: 3
   Skill:
-    Value: 30
+    Value: 50
     SkillType: 3

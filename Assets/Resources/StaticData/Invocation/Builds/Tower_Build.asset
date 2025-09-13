@@ -18,7 +18,7 @@ MonoBehaviour:
   CardDefinition: 26
   InvocationType: 2
   Defense: 50
-  Damage: 20
+  Damage: 35
   Skill:
     Value: 0
     SkillType: 0

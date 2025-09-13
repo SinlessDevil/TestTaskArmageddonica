@@ -54,29 +54,27 @@ namespace Code.Services.PowerCalculation
         
         private float CalculateUnitPower(InvocationDTO invocation, BalanceStaticData balance)
         {
-            UnitStaticData unitStaticData = GetUnitStaticData(invocation.Id);
-            if (unitStaticData == null)
+            if (invocation is not UnitDTO unitDTO)
                 return 0f;
             
             UnitCharacteristicsMultiplier multipliers = balance.UnitCharacteristicsMultiplier;
             
-            float power = (unitStaticData.Damage * multipliers.AttackMultiplier + 
-                          unitStaticData.Speed * multipliers.SpeedMultiplier + 
-                          unitStaticData.Health * multipliers.HealthMultiplier) * invocation.Quantity;
+            float power = (unitDTO.Damage * multipliers.AttackMultiplier + 
+                          unitDTO.Speed * multipliers.SpeedMultiplier + 
+                          unitDTO.Health * multipliers.HealthMultiplier) * invocation.Quantity;
             
             return power;
         }
         
         private float CalculateBuildingPower(InvocationDTO invocation, BalanceStaticData balance)
         {
-            BuildStaticData buildStaticData = GetBuildStaticData(invocation.Id);
-            if (buildStaticData == null)
+            if (invocation is not BuildDTO buildDTO)
                 return 0f;
             
             BuildingCharacteristicsMultiplier multipliers = balance.BuildingCharacteristicsMultiplier;
             
-            float power = (buildStaticData.Defense * multipliers.DefenseMultiplier + 
-                          buildStaticData.Damage * multipliers.AttackMultiplier) * invocation.Quantity;
+            float power = (buildDTO.Defense * multipliers.DefenseMultiplier + 
+                          buildDTO.Damage * multipliers.AttackMultiplier) * invocation.Quantity;
             
             return power;
         }

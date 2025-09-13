@@ -67,7 +67,7 @@ namespace Code.Logic.Grid
         public void ClearInvocations()
         {
             foreach (Invocation.Invocation invocation in Invocations) 
-                Object.Destroy(invocation);
+                Object.Destroy(invocation.gameObject);
             
             Invocations.Clear();
             

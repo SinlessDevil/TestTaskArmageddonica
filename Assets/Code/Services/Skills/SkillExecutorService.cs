@@ -105,8 +105,6 @@ namespace Code.Services.Skills
         
         private void ApplySkillToUnit(SkillData skill, UnitDTO unitDTO, Cell targetCell)
         {
-            Debug.Log("ApplySkillToCell");
-            
             List<Unit> units = targetCell.InvocationController.Invocations
                 .Where(inv => inv is Unit)
                 .Cast<Unit>()

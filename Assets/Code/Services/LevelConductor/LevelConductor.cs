@@ -8,6 +8,7 @@ using Code.Services.LocalProgress;
 using Code.Services.PowerCalculation;
 using Code.StaticData.Invocation.DTO;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace Code.Services.LevelConductor
 {
@@ -86,21 +87,36 @@ namespace Code.Services.LevelConductor
         
         public void UpdateUnitStats(string uniqueId, int damageBonus, int healthBonus, int speedBonus)
         {
+            Debug.Log(_invocationPowerCalculationService.CalculatePlayerPower());
+            
             InvocationDTO playerInvocation = GetInvocationForPlayer(uniqueId);
             if (playerInvocation is UnitDTO playerUnit)
             {
+                Debug.Log($"[UpdateUnitStats] ДО обновления - Unit {uniqueId}: Damage={playerUnit.Damage}, Health={playerUnit.Health}, Speed={playerUnit.Speed}");
+                Debug.Log($"[UpdateUnitStats] Бонусы: Damage+{damageBonus}, Health+{healthBonus}, Speed+{speedBonus}");
+                
                 playerUnit.Damage += damageBonus;
                 playerUnit.Health += healthBonus;
                 playerUnit.Speed += speedBonus;
+                
+                Debug.Log($"[UpdateUnitStats] ПОСЛЕ обновления - Unit {uniqueId}: Damage={playerUnit.Damage}, Health={playerUnit.Health}, Speed={playerUnit.Speed}");
+                
                 UpdateStatsEvent?.Invoke();
             }
+            else
+            {
+                Debug.LogWarning($"[UpdateUnitStats] Не найден UnitDTO с uniqueId: {uniqueId}");
+            }
+            
+            Debug.Log(_invocationPowerCalculationService.CalculatePlayerPower());
         }
         
         private async UniTask CalculationPowerOpponentsAsync()
         {
             await Task.Delay(3000);
             
-            switch (_invocationPowerCalculationService.ComparePowers())
+            BattlResult result = _invocationPowerCalculationService.ComparePowers();
+            switch (result)
             {
                 case BattlResult.Draw:
                     EndedBattleEvent?.Invoke();

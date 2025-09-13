@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ce5558177264c34d887d50ac34ccbff, type: 3}
-  m_Name: BattleData_1
+  m_Name: BattleData_3
   m_EditorClassIdentifier: 
   _battleDataList:
   - _battleName: Battle_1
@@ -32,7 +32,7 @@ MonoBehaviour:
       _isOccupied: 0
     - _invocationId: 
       _isOccupied: 0
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
     - _invocationId: 
       _isOccupied: 0
@@ -109,9 +109,9 @@ MonoBehaviour:
       _isOccupied: 0
     - _invocationId: 
       _isOccupied: 0
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
     - _invocationId: 
       _isOccupied: 0
@@ -186,11 +186,11 @@ MonoBehaviour:
       _isOccupied: 0
     - _invocationId: 
       _isOccupied: 0
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
     - _invocationId: 
       _isOccupied: 0
@@ -263,13 +263,13 @@ MonoBehaviour:
       _isOccupied: 0
     - _invocationId: 
       _isOccupied: 0
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
     - _invocationId: 
       _isOccupied: 0
@@ -340,19 +340,19 @@ MonoBehaviour:
       _isOccupied: 0
     - _invocationId: 
       _isOccupied: 0
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
     - _invocationId: 
       _isOccupied: 0
     - _invocationId: 
       _isOccupied: 0
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
     - _invocationId: 
       _isOccupied: 0
@@ -417,13 +417,13 @@ MonoBehaviour:
       _isOccupied: 0
     - _invocationId: 
       _isOccupied: 0
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
     - _invocationId: 
       _isOccupied: 0
@@ -431,9 +431,9 @@ MonoBehaviour:
       _isOccupied: 0
     - _invocationId: 
       _isOccupied: 0
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
-    - _invocationId: Seed
+    - _invocationId: Chicken
       _isOccupied: 1
     - _invocationId: 
       _isOccupied: 0
