@@ -25,12 +25,14 @@ The project is built on **Clean Architecture** principles with clear separation 
 #### 🎯 State Machine Architecture
 - **GameStateMachine** - manages main game states
 - **BattleStateMachine** - manages battle states
-- **Game States:**
-  - `BootstrapState` - system initialization
-  - `LoadProgressState` - player progress loading
-  - `LoadMenuState` - main menu state
-  - `LoadLevelState` - level loading
-  - `GamePlayState` - main gameplay
+- **Game States (Execution Order):**
+  - `BootstrapState` - system initialization and initial scene loading
+  - `LoadProgressState` - player progress loading and data initialization
+  - `BootstrapAnalyticState` - analytics system bootstrap
+  - `PreLoadGameState` - determines first scene based on tutorial completion
+  - `LoadMenuState` - main menu state loading
+  - `LoadLevelState` - game level loading and setup
+  - `GamePlayState` - main gameplay state
 
 #### 🏭 Service Layer
 - **StaticDataService** - static data management
@@ -75,21 +77,25 @@ The project is built on **Clean Architecture** principles with clear separation 
 
 The project includes a set of specialized tools to accelerate development:
 
-### 1. 🎯 Battle Matrix Editor
+### 1. 🎯 Battle Static Data Editor
 **Interactive Battle Matrix Editor**
 
-Tool for creating and editing tactical battle layouts:
+Custom Inspector for `BattleStaticData` ScriptableObject:
 - **Interactive 6x6 Grid** with visual editor
 - **Drag & Drop** unit and building placement
 - **Automatic ID Generation** for battles
 - **Preview** of available invocation IDs
-- **Matrix Size Validation**
-- **Export/Import** battle configurations
+- **Matrix Size Validation** and dynamic resizing
+- **Force Save** functionality for data persistence
+- **Debug Data** tools for troubleshooting
 
 ![Battle Matrix Editor](https://github.com/yourusername/TestTaskArmageddonica/assets/battle-matrix-editor.png)
 
-### 2. 📋 Invocation Data Creator
+### 2. 📋 Invocation Static Data Window Editor
 **Step-by-step Invocation Data Creation Wizard**
+
+**Menu Path:** `Tools/Invocation Static Data Window Editor`
+**Window Title:** "Invocation Creator"
 
 Intuitive editor for creating game entities:
 - **5-Step Creation Wizard**
@@ -108,8 +114,11 @@ Intuitive editor for creating game entities:
 
 ![Invocation Creator](https://github.com/yourusername/TestTaskArmageddonica/assets/invocation-creator.png)
 
-### 3. 📝 Text to TextMeshPro Converter
+### 3. 📝 Text to TMP Converter
 **Bidirectional Text Converter**
+
+**Menu Path:** `Tools/Text to TMP Converter`
+**Window Title:** "Text to TMP Converter"
 
 Utility for migrating between text components:
 - **Text ↔ TextMeshPro** bidirectional conversion
@@ -120,6 +129,11 @@ Utility for migrating between text components:
 - **Prefab and Regular Object Support**
 
 ![Text Converter](https://github.com/yourusername/TestTaskArmageddonica/assets/text-converter.png)
+
+### Additional Development Tools:
+- **Audio Vibration Window/Sound Library** - Audio system management
+- **Tests Tool Window** - Automated testing interface
+- **Save Window** - Save system management tools
 
 ## 📁 Project Structure
 
