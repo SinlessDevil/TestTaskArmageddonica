@@ -24,6 +24,7 @@ namespace Code.Window.Setting
         [SerializeField] private Button _continueButton;
         [SerializeField] private Button _quitToMenuButton;
         [SerializeField] private Button _restartLevelButton;
+        [SerializeField] private Button _exitButton;
         [Space(10)]
         [SerializeField] private Color _enabledColor;
         [SerializeField] private Color _disabledColor;
@@ -63,6 +64,7 @@ namespace Code.Window.Setting
             _continueButton.onClick.AddListener(OnHideWindow);
             _quitToMenuButton.onClick.AddListener(OnQuitToMenu);
             _restartLevelButton.onClick.AddListener(OnRestartLevel);
+            _exitButton.onClick.AddListener(OnExit);
         }
         private void OnDisable()
         {
@@ -72,6 +74,7 @@ namespace Code.Window.Setting
             _continueButton.onClick.RemoveListener(OnHideWindow);
             _quitToMenuButton.onClick.RemoveListener(OnQuitToMenu);
             _restartLevelButton.onClick.RemoveListener(OnRestartLevel);
+            _exitButton.onClick.RemoveListener(OnExit);
         }
 
         private void OnHideWindow()
@@ -96,6 +99,12 @@ namespace Code.Window.Setting
             _timeService.SimpleMode();
             
             _gameStateMachine.Enter<LoadLevelState, string>(_staticDataService.GameConfig.GameScene);
+        }
+        
+        private void OnExit()
+        {
+            _soundService.PlaySound(Sound2DType.Click);
+            Application.Quit();
         }
 
         private void UpdateSetting(TypeSFX typeSfx, bool setting)
