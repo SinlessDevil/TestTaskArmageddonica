@@ -11,15 +11,18 @@ namespace Code.Infrastructure.StateMachine.Game.States
         private readonly IStateMachine<IGameState> _stateMachine;
         private readonly IPersistenceProgressService _persistenceProgressService;
         private readonly IStaticDataService _staticData;
+        private readonly ILoadingCurtain _loadingCurtain;
 
         public PreLoadGameState(
             IStateMachine<IGameState> stateMachine,
             IPersistenceProgressService persistenceProgressService,
-            IStaticDataService staticData)
+            IStaticDataService staticData,
+            ILoadingCurtain loadingCurtain)
         {
             _stateMachine = stateMachine;
             _persistenceProgressService = persistenceProgressService;
             _staticData = staticData;
+            _loadingCurtain = loadingCurtain;
         }
         
         public void Enter(TypeLoad payload)
@@ -30,7 +33,7 @@ namespace Code.Infrastructure.StateMachine.Game.States
                 return;
             }
             
-            var hasCompletedFirstLevel = _persistenceProgressService.PlayerData.PlayerTutorialData.HasFirstCompleteLevel;
+            bool hasCompletedFirstLevel = _persistenceProgressService.PlayerData.PlayerTutorialData.HasFirstCompleteLevel;
             _firstSceneName = FirstSceneName(hasCompletedFirstLevel);
 
             if (hasCompletedFirstLevel)

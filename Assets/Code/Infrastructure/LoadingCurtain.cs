@@ -40,8 +40,8 @@ namespace Code.Infrastructure
 
         public async void Hide()
         {
-            await AnimationOpenAsync();
             StartLoadingTextAnimation();
+            await AnimationOpenAsync();
         }
 
         private async UniTask AnimationOpenAsync()
