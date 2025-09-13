@@ -6,10 +6,6 @@ namespace Code.Services.LocalProgress
 {
     public class LevelLocalProgressService : ILevelLocalProgressService
     {
-        public event Action<int> UpdateScoreEvent; 
-        
-        public int CurrentWave { get; private set; } = 1;
-        
         private Dictionary<string, InvocationDTO> _playerInvocations;
         private Dictionary<string, InvocationDTO> _enemyInvocations;
         
@@ -18,6 +14,13 @@ namespace Code.Services.LocalProgress
             _playerInvocations = new Dictionary<string, InvocationDTO>();
             _enemyInvocations = new Dictionary<string, InvocationDTO>();
         }
+        
+        public event Action<int> UpdateScoreEvent; 
+        
+        public int CurrentWave { get; private set; } = 1;
+        public bool HasFirstOpenCardSelection { get; private set; } = false;
+
+        public void SetFirstOpenCardSelection() => HasFirstOpenCardSelection = true;
         
         public void AddInvocationForPlayer(InvocationDTO dto)
         {
@@ -54,6 +57,7 @@ namespace Code.Services.LocalProgress
         public void Cleanup()
         {
             CurrentWave = 1;
+            HasFirstOpenCardSelection = false;
             
             _playerInvocations.Clear();
             _enemyInvocations.Clear();

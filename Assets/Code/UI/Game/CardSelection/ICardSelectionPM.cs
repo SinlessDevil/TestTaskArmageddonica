@@ -16,5 +16,6 @@ namespace Code.UI.Game.CardSelection
         void OnAddCardToHolder(CardView selected);
         void OnCloseWindow();
         void Dispose();
+        bool HasFirstOpenWindow();
     }
 }

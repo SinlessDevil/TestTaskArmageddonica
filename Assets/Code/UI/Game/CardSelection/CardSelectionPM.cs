@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Code.Services.Factories.UIFactory;
-using Code.Services.Input.Card;
 using Code.Services.Input.Card.Select;
+using Code.Services.LocalProgress;
 using Code.Services.Providers.CardComposites;
 using Code.UI.Game.Cards.View;
 
@@ -18,15 +18,18 @@ namespace Code.UI.Game.CardSelection
         private readonly ICardCompositeProvider _cardCompositeProvider;
         private readonly IUIFactory _uiFactory;
         private readonly ISelectionCardInputService _selectionCardInputService;
+        private readonly ILevelLocalProgressService _levelLocalProgressService;
 
         public CardSelectionPM(
             ICardCompositeProvider cardCompositeProvider,
             IUIFactory uiFactory,
-            ISelectionCardInputService selectionCardInputService)
+            ISelectionCardInputService selectionCardInputService,
+            ILevelLocalProgressService levelLocalProgressService)
         {
             _cardCompositeProvider = cardCompositeProvider;
             _uiFactory = uiFactory;
             _selectionCardInputService = selectionCardInputService;
+            _levelLocalProgressService = levelLocalProgressService;
         }
 
         public event Action RolledCardsEvent;
@@ -39,6 +42,8 @@ namespace Code.UI.Game.CardSelection
 
         public void Unsubscribe() => _selectionCardInputService.ClickReleased -= OnSelectCardView;
 
+        public bool HasFirstOpenWindow() => _levelLocalProgressService.HasFirstOpenCardSelection;
+        
         public List<CardView> GetCards()
         {
             _currentCards = _cardCompositeProvider.CreateRandomUnitCards(CountCards);

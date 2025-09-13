@@ -57,8 +57,12 @@ namespace Code.Services.IInvocation.Factories
             return Object.Instantiate(staticData.Prefab, spawnPosition, rotation).GetComponent<Invocation>();
         }
 
-        public Unit CreateUnit(UnitDTO unitDTO, Cell targetCell, Quaternion rotation) => 
-            CreateInvocationBase(unitDTO, targetCell, rotation).GetComponent<Unit>();
+        public Unit CreateUnit(UnitDTO unitDTO, Cell targetCell, Quaternion rotation)
+        {
+            Unit unit = CreateInvocationBase(unitDTO, targetCell, rotation).GetComponent<Unit>();
+            unit.Initialize();
+            return unit;
+        }
 
         public Build CreateBuilding(BuildingDTO buildingDTO, Cell targetCell, Quaternion rotation) => 
             CreateInvocationBase(buildingDTO, targetCell, rotation).GetComponent<Build>();

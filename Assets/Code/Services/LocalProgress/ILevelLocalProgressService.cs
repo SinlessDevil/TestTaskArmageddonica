@@ -14,9 +14,11 @@ namespace Code.Services.LocalProgress
         void ClearEnemyInvocationsDTO();
         
         int CurrentWave { get; }
+        bool HasFirstOpenCardSelection { get; }
         void AddWave();
         void ResetWave();
         
         void Cleanup();
+        void SetFirstOpenCardSelection();
     }   
 }

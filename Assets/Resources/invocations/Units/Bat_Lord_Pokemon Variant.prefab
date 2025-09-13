@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2156180079196142817, guid: 925d3151938a8f94fb61678f556ba81e, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2156180079196364993, guid: 925d3151938a8f94fb61678f556ba81e, type: 3}
       propertyPath: m_Name
       value: Bat Lord
@@ -86,6 +90,10 @@ PrefabInstance:
     - target: {fileID: 375121690343412259, guid: ff5e4dca40a2fcf41911ecef6877331b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1554334704046476890, guid: ff5e4dca40a2fcf41911ecef6877331b, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1879423425736570296, guid: ff5e4dca40a2fcf41911ecef6877331b, type: 3}
       propertyPath: m_Name

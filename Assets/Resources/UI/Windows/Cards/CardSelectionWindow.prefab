@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 4357212033438853437}
   - component: {fileID: 5856411493645670378}
   - component: {fileID: 1359283882066936282}
+  - component: {fileID: 7481809019741091509}
   m_Layer: 5
   m_Name: VisibleGameSceneButton
   m_TagString: Untagged
@@ -246,6 +247,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7481809019741091509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2783322531956594207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92d67a88276d0af46ad591b6491e0e41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 5856411493645670378}
+  ScaleAmount: 0.8
+  ScaleDuration: 0.2
 --- !u!1 &3011343301851052375
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,6 +589,7 @@ GameObject:
   - component: {fileID: 2254999340770617620}
   - component: {fileID: 1704934697094501107}
   - component: {fileID: 3201829488349472164}
+  - component: {fileID: 5309788925534652308}
   m_Layer: 5
   m_Name: RollCardsButton
   m_TagString: Untagged
@@ -682,6 +699,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5309788925534652308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7065056257371457473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92d67a88276d0af46ad591b6491e0e41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 1704934697094501107}
+  ScaleAmount: 0.8
+  ScaleDuration: 0.2
 --- !u!1 &7725980547822881884
 GameObject:
   m_ObjectHideFlags: 0
