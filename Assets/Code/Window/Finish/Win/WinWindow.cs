@@ -5,10 +5,12 @@ using Code.Services.AudioVibrationFX.Sound;
 using Code.Services.StaticData;
 using Code.UI.Game.Finish.InvocationIcon;
 using Code.UI.Game.Finish.Win;
+using Coffee.UIExtensions;
 using UnityEngine;
 using Zenject;
 using TMPro;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 
 namespace Code.Window.Finish.Win
 {
@@ -19,11 +21,28 @@ namespace Code.Window.Finish.Win
         [Header("Units Container")]
         [SerializeField] private Transform _invocationContainer;
         [SerializeField] private InvocationLayoutEngine _layoutEngine;
+        [Header("Animation Components")]
+        [SerializeField] private List<UIParticle> _uiParticles;
+        [SerializeField] private CanvasGroup _backgroundFade;
+        [SerializeField] private RectTransform _mainBackground;
+        [SerializeField] private RectTransform _header;
+        [SerializeField] private RectTransform _leftButton;
+        [SerializeField] private RectTransform _rightButton;
+        [Header("Animation Settings")]
+        [SerializeField] private float _fadeDuration = 0.5f;
+        [SerializeField] private float _scaleDuration = 0.4f;
+        [SerializeField] private float _scoreCountDuration = 1.0f;
+        [SerializeField] private float _buttonSlideDuration = 0.6f;
+        [SerializeField] private float _buttonSlideDistance = 200f;
         
         private IStateMachine<IGameState> _gameStateMachine;
         private IStaticDataService _staticDataService;
         private ISoundService _soundService;
         private IWinWindowPM _winWindowPM;
+        
+        private Vector2 _leftButtonOriginalPosition;
+        private Vector2 _rightButtonOriginalPosition;
+        private bool _isAnimating = false;
         
         [Inject]
         public void Constructor(
@@ -43,8 +62,11 @@ namespace Code.Window.Finish.Win
             SubscribeEvents();
             SetupUI();
             
-            if (_layoutEngine != null)
-                _layoutEngine.Initialize();
+            InitializeAnimation();
+            
+            _layoutEngine.Initialize();
+            
+            PlayShowAnimation().Forget();
         }
 
         public void Dispose()
@@ -56,7 +78,6 @@ namespace Code.Window.Finish.Win
         private void SetupUI()
         {
             SetupScore();
-            SetupUsedUnits();
         }
         
         private void SetupScore()
@@ -64,13 +85,22 @@ namespace Code.Window.Finish.Win
             _scoreText.text = $"Score: {_winWindowPM.PlayerScore}";
         }
         
-        private void SetupUsedUnits()
+        private void InitializeAnimation()
         {
-            if (_layoutEngine != null)
-                _layoutEngine.ClearAllIcons();
+            _leftButtonOriginalPosition = _leftButton.anchoredPosition;
+            _rightButtonOriginalPosition = _rightButton.anchoredPosition;
+            _backgroundFade.alpha = 0f;
+            _mainBackground.localScale = Vector3.zero;
+            _header.localScale = new Vector3(0f, 1f, 1f);
+            _leftButton.anchoredPosition = _leftButtonOriginalPosition + Vector2.left * _buttonSlideDistance;
+            _rightButton.anchoredPosition = _rightButtonOriginalPosition + Vector2.right * _buttonSlideDistance;
+            _leftButton.gameObject.SetActive(false);
+            _rightButton.gameObject.SetActive(false);
+
             
-            CreateUnitIconsWithAnimation().Forget();
+            SetInteractable(false);
         }
+        
         
         private async UniTask CreateUnitIconsWithAnimation()
         {
@@ -92,6 +122,98 @@ namespace Code.Window.Finish.Win
             
             if (_layoutEngine != null)
                 _layoutEngine.AddIcon(invocationIconComposite.View);
+        }
+        
+        private async UniTask PlayShowAnimation()
+        {
+            if (_isAnimating) 
+                return;
+            
+            _isAnimating = true;
+            
+            try
+            {
+                await AnimateBackgroundFade();
+                await AnimateMainBackground();
+                await AnimateHeader();
+                await PlayUIParticle();
+                await AnimateScoreText();
+                await CreateUnitIconsWithAnimation();
+                await AnimateButtons();
+                SetInteractable(true);
+            }
+            finally
+            {
+                _isAnimating = false;
+            }
+        }
+        
+        private async UniTask AnimateBackgroundFade() =>
+            await _backgroundFade.DOFade(1f, _fadeDuration)
+                .SetEase(Ease.OutQuad)
+                .ToUniTask();
+
+        private async UniTask AnimateMainBackground() =>
+            await _mainBackground.DOScale(Vector3.one, _scaleDuration)
+                .SetEase(Ease.OutBack)
+                .ToUniTask();
+        
+        private async UniTask AnimateHeader() =>
+            await _header.DOScaleX(1f, _scaleDuration)
+                .SetEase(Ease.OutBack)
+                .ToUniTask();
+
+        private async UniTask PlayUIParticle()
+        {
+            foreach (UIParticle uiParticle in _uiParticles) 
+                uiParticle.Play();
+        }
+        
+        private async UniTask AnimateScoreText()
+        {
+            float targetScore = _winWindowPM.PlayerScore;
+            _scoreText.text = "Score: 0";
+            
+            float currentScore = 0f;
+            float elapsedTime = 0f;
+            
+            while (elapsedTime < _scoreCountDuration)
+            {
+                elapsedTime += Time.unscaledDeltaTime;
+                float progress = elapsedTime / _scoreCountDuration;
+                progress = DOVirtual.EasedValue(0f, 1f, progress, Ease.OutQuad);
+                
+                currentScore = Mathf.Lerp(0f, targetScore, progress);
+                _scoreText.text = $"Score: {Mathf.RoundToInt(currentScore)}";
+                
+                await UniTask.Yield();
+            }
+            
+            _scoreText.text = $"Score: {targetScore}";
+        }
+        
+        private async UniTask AnimateButtons()
+        {
+            List<UniTask> tasks = new List<UniTask>();
+            
+            _leftButton.gameObject.SetActive(true);
+            _rightButton.gameObject.SetActive(true);
+            
+            tasks.Add(_leftButton.DOAnchorPos(_leftButtonOriginalPosition, _buttonSlideDuration)
+                .SetEase(Ease.OutBack)
+                .ToUniTask());
+            
+            tasks.Add(_rightButton.DOAnchorPos(_rightButtonOriginalPosition, _buttonSlideDuration)
+                .SetEase(Ease.OutBack)
+                .ToUniTask());
+            
+            await UniTask.WhenAll(tasks);
+        }
+        
+        private void SetInteractable(bool interactable)
+        {
+            _buttonLoadLevel.interactable = interactable;
+            _buttonExitToMenu.interactable = interactable;
         }
         
         protected override void OnLoadLevelButtonClick()

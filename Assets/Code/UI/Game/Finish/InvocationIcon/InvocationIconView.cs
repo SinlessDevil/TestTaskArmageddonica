@@ -28,20 +28,14 @@ namespace Code.UI.Game.Finish.InvocationIcon
         {
             Reset();
             
-            _rectTransform.DOScale(Vector3.one, _animationDuration)
-                .SetDelay(delay)
-                .SetEase(_animationEase);
+            // _rectTransform.DOScale(Vector3.one, _animationDuration)
+            //     .SetDelay(delay)
+            //     .SetEase(_animationEase);
         }
         
         private void Reset()
         {
-            _rectTransform.DOKill();
-            _rectTransform.localScale = Vector3.one;
-        }
-        
-        private void OnDestroy()
-        {
-            _rectTransform.DOKill();
+            _rectTransform.localScale = Vector3.zero;
         }
     }
 }

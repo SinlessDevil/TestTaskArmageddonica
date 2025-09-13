@@ -284,7 +284,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6948046414437827506}
-  - {fileID: 6314831094894214616}
   - {fileID: 4077466934370409836}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -310,6 +309,16 @@ MonoBehaviour:
   _scoreText: {fileID: 594124279335169338}
   _invocationContainer: {fileID: 5188317796368562469}
   _layoutEngine: {fileID: 1981478856481093853}
+  _backgroundFade: {fileID: 3372806333083283999}
+  _mainBackground: {fileID: 4077466934370409836}
+  _header: {fileID: 4698592712029762234}
+  _leftButton: {fileID: 5423513188211420250}
+  _rightButton: {fileID: 4193222349369552088}
+  _fadeDuration: 0.5
+  _scaleDuration: 0.4
+  _scoreCountDuration: 1
+  _buttonSlideDuration: 0.6
+  _buttonSlideDistance: 1000
 --- !u!225 &5660584497593966033
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1058,6 +1067,7 @@ GameObject:
   - component: {fileID: 6948046414437827506}
   - component: {fileID: 2156307925435262544}
   - component: {fileID: 3664184416072596074}
+  - component: {fileID: 3372806333083283999}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -1076,7 +1086,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6314831094894214616}
   m_Father: {fileID: 2491952011400337389}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1122,6 +1133,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &3372806333083283999
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7288791066551709417}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7416923510360971530
 GameObject:
   m_ObjectHideFlags: 0
@@ -1424,12 +1447,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2491952011400337389}
+  m_Father: {fileID: 6948046414437827506}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2450467589541735757
 CanvasRenderer:
