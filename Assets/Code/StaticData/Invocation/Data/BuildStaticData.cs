@@ -1,3 +1,4 @@
+using Code.StaticData.Invocation.Data.Skill;
 using UnityEngine;
 
 namespace Code.StaticData.Invocation.Data
@@ -7,7 +8,7 @@ namespace Code.StaticData.Invocation.Data
     {
         [Header("Building Specific Stats")]
         public float Defense = 5f;
-        public float Range = 10f;
-        public float BuildTime = 5f;
+        public float Damage = 5f;
+        public SkillData Skill = new();
     }
 }

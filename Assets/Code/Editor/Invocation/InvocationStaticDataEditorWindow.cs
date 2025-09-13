@@ -4,6 +4,7 @@ using System.IO;
 using Code.StaticData.Cards;
 using Code.StaticData.Invocation;
 using Code.StaticData.Invocation.Data;
+using Code.StaticData.Invocation.Data.Skill;
 using UnityEditor;
 using UnityEngine;
 
@@ -30,13 +31,7 @@ namespace Code.Editor.Invocation
         private int _unitDamage = 10;
         private int _unitSpeed = 5;
         
-        private float _buildingHealth = 200f;
         private float _buildingDefense = 5f;
-        private float _buildingRange = 10f;
-        
-        private float _skillCooldown = 5f;
-        private float _skillManaCost = 10f;
-        private float _skillRange = 8f;
         
         private Vector2 _scrollPosition;
         private int _currentStep = 1;
@@ -308,26 +303,30 @@ namespace Code.Editor.Invocation
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Defense:", GUILayout.Width(60));
                     buildData.Defense = EditorGUILayout.FloatField(buildData.Defense);
-                    EditorGUILayout.LabelField("Range:", GUILayout.Width(50));
-                    buildData.Range = EditorGUILayout.FloatField(buildData.Range);
-                    EditorGUILayout.LabelField("Build Time:", GUILayout.Width(70));
-                    buildData.BuildTime = EditorGUILayout.FloatField(buildData.BuildTime);
+                    EditorGUILayout.LabelField("Damage:", GUILayout.Width(50));
+                    buildData.Damage = EditorGUILayout.FloatField(buildData.Damage);
+                    EditorGUILayout.EndHorizontal();
+                    
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Skill:", GUILayout.Width(50));
+                    if (buildData.Skill == null)
+                        buildData.Skill = new SkillData();
+                    EditorGUILayout.BeginVertical();
+                    buildData.Skill.Value = EditorGUILayout.FloatField("Value:", buildData.Skill.Value);
+                    buildData.Skill.SkillType = (SkillType)EditorGUILayout.EnumPopup("Type:", buildData.Skill.SkillType);
+                    EditorGUILayout.EndVertical();
                     EditorGUILayout.EndHorizontal();
                     break;
                 case SkillStaticData skillData:
                     EditorGUILayout.LabelField("Skill Stats:", EditorStyles.miniBoldLabel);
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Cooldown:", GUILayout.Width(60));
-                    skillData.Cooldown = EditorGUILayout.FloatField(skillData.Cooldown);
-                    EditorGUILayout.LabelField("Mana Cost:", GUILayout.Width(70));
-                    skillData.ManaCost = EditorGUILayout.FloatField(skillData.ManaCost);
-                    EditorGUILayout.LabelField("Range:", GUILayout.Width(50));
-                    skillData.Range = EditorGUILayout.FloatField(skillData.Range);
-                    EditorGUILayout.EndHorizontal();
-                
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Duration:", GUILayout.Width(60));
-                    skillData.Duration = EditorGUILayout.FloatField(skillData.Duration);
+                    EditorGUILayout.LabelField("Skill:", GUILayout.Width(50));
+                    if (skillData.Skill == null)
+                        skillData.Skill = new SkillData();
+                    EditorGUILayout.BeginVertical();
+                    skillData.Skill.Value = EditorGUILayout.FloatField("Value:", skillData.Skill.Value);
+                    skillData.Skill.SkillType = (SkillType)EditorGUILayout.EnumPopup("Type:", skillData.Skill.SkillType);
+                    EditorGUILayout.EndVertical();
                     EditorGUILayout.EndHorizontal();
                     break;
             }
@@ -442,15 +441,12 @@ namespace Code.Editor.Invocation
                     break;
                 case InvocationType.Build:
                     EditorGUILayout.LabelField("Building Parameters", EditorStyles.boldLabel);
-                    _buildingHealth = EditorGUILayout.FloatField("Health", _buildingHealth);
                     _buildingDefense = EditorGUILayout.FloatField("Defense", _buildingDefense);
-                    _buildingRange = EditorGUILayout.FloatField("Range", _buildingRange);
+                    EditorGUILayout.HelpBox("Damage and Skill will be set to default values. You can edit them later in the asset.", MessageType.Info);
                     break;
                 case InvocationType.Skill:
                     EditorGUILayout.LabelField("Skill Parameters", EditorStyles.boldLabel);
-                    _skillCooldown = EditorGUILayout.FloatField("Cooldown", _skillCooldown);
-                    _skillManaCost = EditorGUILayout.FloatField("Mana Cost", _skillManaCost);
-                    _skillRange = EditorGUILayout.FloatField("Range", _skillRange);
+                    EditorGUILayout.HelpBox("Skill will be set to default values. You can edit it later in the asset.", MessageType.Info);
                     break;
                 case InvocationType.Unknown:
                     break;
@@ -684,17 +680,14 @@ namespace Code.Editor.Invocation
                     if (invocationData is BuildStaticData buildData)
                     {
                         buildData.Defense = _buildingDefense;
-                        buildData.Range = _buildingRange;
-                        buildData.BuildTime = 5f;
+                        buildData.Damage = 5f; // Default damage value
+                        buildData.Skill = new SkillData(); // Default skill
                     }
                     break;
                 case InvocationType.Skill:
                     if (invocationData is SkillStaticData skillData)
                     {
-                        skillData.Cooldown = _skillCooldown;
-                        skillData.ManaCost = _skillManaCost;
-                        skillData.Range = _skillRange;
-                        skillData.Duration = 0f;
+                        skillData.Skill = new SkillData(); // Default skill
                     }
                     break;
                 case InvocationType.Unknown:
@@ -719,12 +712,7 @@ namespace Code.Editor.Invocation
             _unitHealth = 100;
             _unitDamage = 10;
             _unitSpeed = 5;
-            _buildingHealth = 200f;
             _buildingDefense = 5f;
-            _buildingRange = 10f;
-            _skillCooldown = 5f;
-            _skillManaCost = 10f;
-            _skillRange = 8f;
         }
         
         public void UpdateCardDefinitionsAfterReload()
