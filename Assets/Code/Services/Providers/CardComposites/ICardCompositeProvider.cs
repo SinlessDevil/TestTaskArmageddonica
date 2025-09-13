@@ -6,6 +6,7 @@ namespace Code.Services.Providers.CardComposites
     public interface ICardCompositeProvider
     {
         List<CardComposite> CreateRandomUnitCards(int count);
+        List<CardComposite> CreateMixedTypeCards();
         
         void ReturnCardComposite(CardComposite cardComposite);
         

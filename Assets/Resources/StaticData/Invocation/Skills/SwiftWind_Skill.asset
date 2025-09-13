@@ -15,7 +15,7 @@ MonoBehaviour:
   Id: SwiftWind
   Prefab: {fileID: 2313988520204430207, guid: c83df16e92bd74a4c9a10d4066d17d68, type: 3}
   Rank: 3
-  CardDefinition: 0
+  CardDefinition: 31
   InvocationType: 3
   Skill:
     Value: 30

@@ -11,8 +11,6 @@ namespace Code.UI.Game.CardSelection
 {
     public class CardSelectionPM : ICardSelectionPM
     {
-        private const int CountCards = 3;
-        
         private List<CardComposite> _currentCards = new(3);
         
         private readonly ICardCompositeProvider _cardCompositeProvider;
@@ -46,7 +44,7 @@ namespace Code.UI.Game.CardSelection
         
         public List<CardView> GetCards()
         {
-            _currentCards = _cardCompositeProvider.CreateRandomUnitCards(CountCards);
+            _currentCards = _cardCompositeProvider.CreateMixedTypeCards();
             return _currentCards.Select(cardComposite => cardComposite.View).ToList();
         }
 
