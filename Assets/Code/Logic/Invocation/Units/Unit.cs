@@ -12,5 +12,7 @@ namespace Code.Logic.Invocation.Units
             _unitAnimation.Initialize();
             _unitAnimation.PlaySpawn();
         }
+
+        public UnitAnimation UnitAnimation => _unitAnimation;
     }
 }

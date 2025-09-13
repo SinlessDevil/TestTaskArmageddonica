@@ -1,4 +1,5 @@
-﻿using Code.Infrastructure.StateMachine.Game.States;
+﻿using System.Threading.Tasks;
+using Code.Infrastructure.StateMachine.Game.States;
 using Code.Logic.Grid;
 using Code.Logic.Invocation;
 using Code.Services.CameraController;
@@ -10,12 +11,14 @@ using Code.Services.Input.Card;
 using Code.Services.Input.Grid;
 using Code.Services.LevelConductor;
 using Code.Services.Levels;
+using Code.Services.Skills;
 using Code.Services.StaticData;
 using Code.StaticData;
 using Code.StaticData.Battle;
 using Code.StaticData.Invocation.DTO;
 using Code.StaticData.Levels;
 using Code.UI.Game.Cards.Holder;
+using Cysharp.Threading.Tasks;
 
 namespace Code.Infrastructure.StateMachine.Battle.States
 {
@@ -32,6 +35,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         private readonly IStaticDataService _staticDataService;
         private readonly IStateMachine<IBattleState> _stateMachine;
         private readonly IUIFactory _uiFactory;
+        private readonly ISkillExecutorService _skillExecutorService;
 
         public PlayBattleState(
             IGridInputService gridInputService,
@@ -44,7 +48,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             ILevelService levelService,
             IStaticDataService staticDataService,
             IStateMachine<IBattleState> stateMachine,
-            IUIFactory uiFactory)
+            IUIFactory uiFactory,
+            ISkillExecutorService skillExecutorService)
         {
             _gridInputService = gridInputService;
             _dragCardInputService = dragCardInputService;
@@ -57,6 +62,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             _staticDataService = staticDataService;
             _stateMachine = stateMachine;
             _uiFactory = uiFactory;
+            _skillExecutorService = skillExecutorService;
         }
 
         void IState.Enter()
@@ -68,10 +74,11 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             
             SpawnEnemies();
             
-            _levelConductor.RunBattle();
-            _levelConductor.EndedBattleEvent += OnNextWave;
-            
             CardHolder.Hide();
+            
+            ExecuteBuildSkillAsync();
+            
+            _levelConductor.EndedBattleEvent += OnNextWave;
         }
 
         void IExitable.Exit()
@@ -83,10 +90,19 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         {
             
         }
-
+        
         private void OnNextWave()
         {
             _stateMachine.Enter<CleanupBattleState>();
+        }
+        
+        private async UniTask ExecuteBuildSkillAsync()
+        {
+            await Task.Delay(1000);
+            
+            _skillExecutorService.ExecuteBuildsSkill();
+            
+            _levelConductor.RunBattle();
         }
         
         private void SpawnEnemies()

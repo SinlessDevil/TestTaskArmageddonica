@@ -17,6 +17,7 @@ using Code.Services.Finish.Lose;
 using Code.Services.Finish.Win;
 using Code.Services.IInvocation.Creator;
 using Code.Services.IInvocation.Factories;
+using Code.Services.Skills;
 using Code.Services.Input;
 using Code.Services.Input.Card;
 using Code.Services.Input.Grid;
@@ -78,6 +79,7 @@ namespace Code.Infrastructure.Installers
         {
             BindStaticDataService();
             BindInvocationServices();
+            BindSkillsServices();
             BindProviders();
             BindFactories();
             BindInputServices();
@@ -119,6 +121,11 @@ namespace Code.Infrastructure.Installers
             Container.BindInterfacesTo<InvocationCreatorDtoService>().AsSingle();
             Container.BindInterfacesTo<InvocationDataRandomizerService>().AsSingle();
             Container.BindInterfacesTo<InvocationInvocationPowerCalculationService>().AsSingle();
+        }
+
+        private void BindSkillsServices()
+        {
+            Container.BindInterfacesTo<SkillExecutorService>().AsSingle();
         }
         
         private void BindProviders()

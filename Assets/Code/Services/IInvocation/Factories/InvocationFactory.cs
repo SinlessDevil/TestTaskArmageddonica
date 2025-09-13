@@ -61,11 +61,16 @@ namespace Code.Services.IInvocation.Factories
         {
             Unit unit = CreateInvocationBase(unitDTO, targetCell, rotation).GetComponent<Unit>();
             unit.Initialize();
+            unit.transform.SetParent(targetCell.transform);
             return unit;
         }
 
-        public Build CreateBuilding(BuildDTO buildDto, Cell targetCell, Quaternion rotation) => 
-            CreateInvocationBase(buildDto, targetCell, rotation).GetComponent<Build>();
+        public Build CreateBuilding(BuildDTO buildDto, Cell targetCell, Quaternion rotation)
+        {
+            Build build = CreateInvocationBase(buildDto, targetCell, rotation).GetComponent<Build>();
+            build.transform.SetParent(targetCell.transform);
+            return build;
+        }
 
         public Skill CreateSkill(SkillDTO skillDTO, Cell targetCell, Quaternion rotation) => 
             CreateInvocationBase(skillDTO, targetCell, rotation).GetComponent<Skill>();

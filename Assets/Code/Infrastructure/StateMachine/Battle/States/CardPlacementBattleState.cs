@@ -52,7 +52,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         {
             _dragCardInputService.Enable();
             _gridInputService.Enable();
-            _gridInputService.DroppedInvocationInCellEvent += OnDragCardDroppedOnCell;
+            _gridInputService.DroppedInvocationInCellEvent += OnDroppedInvocationInCell;
             
             _cameraDirector.FocusSelectedShotAsync();
             
@@ -63,7 +63,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         {
             _dragCardInputService.Disable();
             _gridInputService.Disable();
-            _gridInputService.DroppedInvocationInCellEvent -= OnDragCardDroppedOnCell;
+            _gridInputService.DroppedInvocationInCellEvent -= OnDroppedInvocationInCell;
         }
 
         public void Update()
@@ -71,7 +71,7 @@ namespace Code.Infrastructure.StateMachine.Battle.States
             
         }
 
-        private void OnDragCardDroppedOnCell(InvocationDTO dto, Cell targetCell)
+        private void OnDroppedInvocationInCell(InvocationDTO dto, Cell targetCell)
         {
             Invocation invocation = _invocationFactory.CreateInvocationByType(dto, targetCell, HeadRotation.PlayerRotation);
             targetCell.InvocationController.AddInvocation(invocation, dto.InvocationType, dto.Id, dto.UniqueId);

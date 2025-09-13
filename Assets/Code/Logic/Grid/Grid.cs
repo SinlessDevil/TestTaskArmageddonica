@@ -4,12 +4,19 @@ namespace Code.Logic.Grid
 {
     public abstract class Grid : MonoBehaviour
     {
+        [SerializeField] private GridAnimator _gridAnimator;
+        
         private Cell[,] _cells;
         
         public void Initialize(Cell[,] cells)
         {
             _cells = cells;
+            _gridAnimator.Initialize(_cells);
         }
+        
+        public GridAnimator GridAnimator => _gridAnimator;
+        
+        public Cell[,] Cells => _cells;
         
         public Cell GetCell(int x, int y)
         {
@@ -18,7 +25,5 @@ namespace Code.Logic.Grid
             
             return _cells[x, y];
         }
-        
-        public Cell[,] Cells => _cells;
     }   
 }

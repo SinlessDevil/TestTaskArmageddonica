@@ -7,6 +7,9 @@ namespace Code.UI.Animation
     {
         [SerializeField] private Transform _root;
         [SerializeField] private ParticleSystem _spawnPartical;
+        [SerializeField] private ParticleSystem _attackBufPartical;
+        [SerializeField] private ParticleSystem _healthBufParticleSystem;
+        [SerializeField] private ParticleSystem _speedBufPartricleSystem;
         [Header("Animator Serring")]
         [SerializeField] private float _duration = 0.5f;
         
@@ -29,6 +32,21 @@ namespace Code.UI.Animation
 
             _root.DOScale(_saveScale, _duration)
                 .SetEase(Ease.OutBounce);
+        }
+
+        public void PlayAttackBuf()
+        {
+            _attackBufPartical.Play();
+        }
+        
+        public void PlayHealthBuf()
+        {
+            _healthBufParticleSystem.Play();
+        }
+        
+        public void PlaySpeedBuf()
+        {
+            _speedBufPartricleSystem.Play();
         }
     }
 }

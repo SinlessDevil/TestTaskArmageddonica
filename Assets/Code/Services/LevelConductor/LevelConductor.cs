@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Code.Services.Context;
 using Code.Services.Finish;
 using Code.Services.Levels;
 using Code.Services.LocalProgress;
@@ -16,17 +17,20 @@ namespace Code.Services.LevelConductor
         private readonly IInvocationPowerCalculationService _invocationPowerCalculationService;
         private readonly IFinishService _finishService;
         private readonly ILevelLocalProgressService _levelLocalProgressService;
-        
+        private readonly IGameContext _gameContext;
+
         public LevelConductor(
             ILevelService levelService, 
             IInvocationPowerCalculationService invocationPowerCalculationService,
             IFinishService finishService,
-            ILevelLocalProgressService levelLocalProgressService)
+            ILevelLocalProgressService levelLocalProgressService,
+            IGameContext gameContext)
         {
             _levelService = levelService;
             _invocationPowerCalculationService = invocationPowerCalculationService;
             _finishService = finishService;
             _levelLocalProgressService = levelLocalProgressService;
+            _gameContext = gameContext;
         }
 
         public event Action RunnedBattleEvent;
@@ -93,7 +97,8 @@ namespace Code.Services.LevelConductor
                     AddWave();
                     if (GetCurrentWave > GetMaxWaves)
                     {
-                        await Task.Delay(1000);
+                        _gameContext.EnemyGird.GridAnimator.PlayBattleAnimation();
+                        await Task.Delay(3000);
                         _finishService.Win();
                     }
                     else
@@ -102,7 +107,8 @@ namespace Code.Services.LevelConductor
                     }
                     break;
                 case BattlResult.Enemy:
-                    await Task.Delay(1000);
+                    _gameContext.PlayerGrid.GridAnimator.PlayBattleAnimation();
+                    await Task.Delay(3000);
                     _finishService.Lose();
                     break;
             }
