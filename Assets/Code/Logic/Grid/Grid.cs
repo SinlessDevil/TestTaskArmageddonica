@@ -6,9 +6,9 @@ namespace Code.Logic.Grid
     {
         [SerializeField] private GridAnimator _gridAnimator;
         
-        private Cell[,] _cells;
+        private Cell.Cell[,] _cells;
         
-        public void Initialize(Cell[,] cells)
+        public void Initialize(Cell.Cell[,] cells)
         {
             _cells = cells;
             _gridAnimator.Initialize(_cells);
@@ -16,9 +16,9 @@ namespace Code.Logic.Grid
         
         public GridAnimator GridAnimator => _gridAnimator;
         
-        public Cell[,] Cells => _cells;
+        public Cell.Cell[,] Cells => _cells;
         
-        public Cell GetCell(int x, int y)
+        public Cell.Cell GetCell(int x, int y)
         {
             if (x < 0 || y < 0 || x >= _cells.GetLength(0) || y >= _cells.GetLength(1))
                 return null;

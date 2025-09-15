@@ -9,18 +9,18 @@ namespace Code.Infrastructure.StateMachine.Battle.States
 {
     public class CardSelectionBattleState : IState, IBattleState
     {
-        private readonly ICardSelectionService _cardSelectionWindowService;
+        private readonly ICardSelectionWinndowService _cardSelectionWinndowWindowService;
         private readonly IStateMachine<IBattleState> _stateMachine;
         private readonly ISelectionCardInputService _selectionCardInputService;
         private readonly IUIFactory _uiFactory;
 
         public CardSelectionBattleState(
-            ICardSelectionService cardSelectionWindowService,
+            ICardSelectionWinndowService cardSelectionWinndowWindowService,
             IStateMachine<IBattleState> stateMachine,
             ISelectionCardInputService selectionCardInputService,
             IUIFactory uiFactory)
         {
-            _cardSelectionWindowService = cardSelectionWindowService;
+            _cardSelectionWinndowWindowService = cardSelectionWinndowWindowService;
             _stateMachine = stateMachine;
             _selectionCardInputService = selectionCardInputService;
             _uiFactory = uiFactory;
@@ -30,8 +30,8 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         {
             _selectionCardInputService.Enable();
             
-            _cardSelectionWindowService.Open();
-            _cardSelectionWindowService.ClosedWindowEvent += OnClosedWindow;
+            _cardSelectionWinndowWindowService.Open();
+            _cardSelectionWinndowWindowService.ClosedWindowEvent += OnClosedWinndowWindow;
             
             CardHolder.Hide();
         }
@@ -40,11 +40,11 @@ namespace Code.Infrastructure.StateMachine.Battle.States
         {
             _selectionCardInputService.Disable();
             
-            _cardSelectionWindowService.ClosedWindowEvent -= OnClosedWindow;
-            _cardSelectionWindowService.Close();
+            _cardSelectionWinndowWindowService.ClosedWindowEvent -= OnClosedWinndowWindow;
+            _cardSelectionWinndowWindowService.Close();
         }
 
-        private void OnClosedWindow()
+        private void OnClosedWinndowWindow()
         {
             _stateMachine.Enter<CardPlacementBattleState>();
         }

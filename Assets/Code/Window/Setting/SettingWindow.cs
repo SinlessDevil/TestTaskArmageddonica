@@ -6,9 +6,9 @@ using Code.Services.PersistenceProgress;
 using Code.Services.PersistenceProgress.Player;
 using Code.Services.StaticData;
 using Code.Services.Timer;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 using Zenject;
 
 namespace Code.Window.Setting

@@ -15,16 +15,16 @@ using Code.Services.Factories.UIFactory;
 using Code.Services.Finish;
 using Code.Services.Finish.Lose;
 using Code.Services.Finish.Win;
-using Code.Services.IInvocation.Creator;
-using Code.Services.IInvocation.Factories;
 using Code.Services.Skills;
 using Code.Services.Input;
 using Code.Services.Input.Card;
 using Code.Services.Input.Grid;
-using Code.Services.IInvocation.Randomizer;
-using Code.Services.IInvocation.StaticData;
 using Code.Services.Input.Card.Drag;
 using Code.Services.Input.Card.Select;
+using Code.Services.Invocations.CreatorDTO;
+using Code.Services.Invocations.Factories;
+using Code.Services.Invocations.RandomizerDTO;
+using Code.Services.Invocations.StaticData;
 using Code.Services.LevelConductor;
 using Code.Services.Levels;
 using Code.Services.LocalProgress;
@@ -34,7 +34,6 @@ using Code.Services.Providers;
 using Code.Services.Providers.CardComposites;
 using Code.Services.Providers.Cards;
 using Code.Services.Providers.Widgets;
-using Code.Services.Random;
 using Code.Services.SaveLoad;
 using Code.Services.StaticData;
 using Code.Services.Storage;
@@ -85,7 +84,6 @@ namespace Code.Infrastructure.Installers
             BindInputServices();
             BindWindowServices();
             
-            Container.BindInterfacesTo<RandomService>().AsSingle();
             Container.BindInterfacesTo<UniqueIdService>().AsSingle();
             Container.BindInterfacesTo<UnifiedSaveLoadFacade>().AsSingle();
             Container.BindInterfacesTo<StorageService>().AsSingle();
@@ -118,8 +116,8 @@ namespace Code.Infrastructure.Installers
 
         private void BindInvocationServices()
         {
-            Container.BindInterfacesTo<InvocationCreatorDtoService>().AsSingle();
-            Container.BindInterfacesTo<InvocationDataRandomizerService>().AsSingle();
+            Container.BindInterfacesTo<InvocationCreatorDTOService>().AsSingle();
+            Container.BindInterfacesTo<InvocationDTORandomizerService>().AsSingle();
             Container.BindInterfacesTo<InvocationInvocationPowerCalculationService>().AsSingle();
         }
 
@@ -158,7 +156,7 @@ namespace Code.Infrastructure.Installers
         private void BindWindowServices()
         {
             Container.BindInterfacesTo<WindowService>().AsSingle();
-            Container.BindInterfacesTo<CardSelectionWindowService>().AsSingle();
+            Container.BindInterfacesTo<CardSelectionWinndowWindowService>().AsSingle();
         }
         
         private void BindLevelServices()

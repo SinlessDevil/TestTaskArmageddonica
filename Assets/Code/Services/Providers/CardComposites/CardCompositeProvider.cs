@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Code.Services.IInvocation.Randomizer;
+using Code.Services.Invocations.RandomizerDTO;
 using Code.Services.StaticData;
 using Code.StaticData.Invocation.DTO;
 using Code.UI.Game.Cards.PM;
@@ -11,16 +11,16 @@ namespace Code.Services.Providers.CardComposites
     public class CardCompositeProvider : ICardCompositeProvider
     {
         private readonly IPoolProvider<CardView> _cardViewProvider;
-        private readonly IRandomizerService _randomizerService;
+        private readonly IInvocationDTORandomizerService _invocationDtoRandomizerService;
         private readonly IStaticDataService _staticDataService;
         
         public CardCompositeProvider(
             IPoolProvider<CardView> cardViewProvider,
-            IRandomizerService randomizerService,
+            IInvocationDTORandomizerService invocationDtoRandomizerService,
             IStaticDataService staticDataService)
         {
             _cardViewProvider = cardViewProvider;
-            _randomizerService = randomizerService;
+            _invocationDtoRandomizerService = invocationDtoRandomizerService;
             _staticDataService = staticDataService;
         }
         
@@ -30,7 +30,7 @@ namespace Code.Services.Providers.CardComposites
             
             for (int i = 0; i < count; i++)
             {
-                UnitDTO unitDTO = _randomizerService.GenerateRandomUnitDTO();
+                UnitDTO unitDTO = _invocationDtoRandomizerService.GenerateRandomUnitDTO();
                 if (unitDTO == null)
                 {
                     Debug.LogError($"[CardCompositeProvider] Failed to generate random unit DTO for card {i}");
@@ -51,7 +51,7 @@ namespace Code.Services.Providers.CardComposites
         {
             List<CardComposite> cardComposites = new List<CardComposite>();
             
-            UnitDTO unitDTO = _randomizerService.GenerateRandomUnitDTO();
+            UnitDTO unitDTO = _invocationDtoRandomizerService.GenerateRandomUnitDTO();
             if (unitDTO != null)
             {
                 CardPM unitCardPM = new CardPM(unitDTO, _staticDataService);
@@ -65,7 +65,7 @@ namespace Code.Services.Providers.CardComposites
                 Debug.LogError("[CardCompositeProvider] Failed to generate random unit DTO");
             }
             
-            BuildDTO buildDto = _randomizerService.GenerateRandomBuildingDTO();
+            BuildDTO buildDto = _invocationDtoRandomizerService.GenerateRandomBuildingDTO();
             if (buildDto != null)
             {
                 CardPM buildingCardPM = new CardPM(buildDto, _staticDataService);
@@ -79,7 +79,7 @@ namespace Code.Services.Providers.CardComposites
                 Debug.LogError("[CardCompositeProvider] Failed to generate random building DTO");
             }
             
-            SkillDTO skillDTO = _randomizerService.GenerateRandomSkillDTO();
+            SkillDTO skillDTO = _invocationDtoRandomizerService.GenerateRandomSkillDTO();
             if (skillDTO != null)
             {
                 CardPM skillCardPM = new CardPM(skillDTO, _staticDataService);

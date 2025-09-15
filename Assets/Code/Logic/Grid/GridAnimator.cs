@@ -11,10 +11,10 @@ namespace Code.Logic.Grid
         [SerializeField] private ParticleSystem _battleParticleSystem;
         [SerializeField] private float _animationDuration = 0.5f;
         
-        private Cell[,] _cells;
+        private Cell.Cell[,] _cells;
         private Vector3 _gridCenter;
         
-        public void Initialize(Cell[,] cells)
+        public void Initialize(Cell.Cell[,] cells)
         {
             _cells = cells;
             CalculateGridCenter();
@@ -53,17 +53,17 @@ namespace Code.Logic.Grid
         
         private async UniTask AnimateObjectsInCircle()
         {
-            List<Cell> cellsToAnimate = GetCellsToAnimate();
+            List<Cell.Cell> cellsToAnimate = GetCellsToAnimate();
             
             if (cellsToAnimate.Count == 0)
                 return;
             
-            Dictionary<int, List<Cell>> rings = GroupCellsByRings(cellsToAnimate);
+            Dictionary<int, List<Cell.Cell>> rings = GroupCellsByRings(cellsToAnimate);
             for (int ringIndex = 0; ringIndex < rings.Count; ringIndex++)
             {
-                List<Cell> ringCells = rings[ringIndex];
+                List<Cell.Cell> ringCells = rings[ringIndex];
                 List<UniTask> ringAnimations = new List<UniTask>();
-                foreach (Cell cell in ringCells) 
+                foreach (Cell.Cell cell in ringCells) 
                     ringAnimations.Add(AnimateCellLiftAndDrop(cell));
                 
                 await UniTask.WhenAll(ringAnimations);
@@ -72,14 +72,14 @@ namespace Code.Logic.Grid
             }
         }
         
-        private List<Cell> GetCellsToAnimate()
+        private List<Cell.Cell> GetCellsToAnimate()
         {
-            List<Cell> cells = new List<Cell>();
+            List<Cell.Cell> cells = new List<Cell.Cell>();
             
             for (int x = 0; x < _cells.GetLength(0); x++)
             for (int y = 0; y < _cells.GetLength(1); y++)
             {
-                Cell cell = _cells[x, y];
+                Cell.Cell cell = _cells[x, y];
                 if (cell != null)
                     cells.Add(cell);
             }
@@ -87,23 +87,23 @@ namespace Code.Logic.Grid
             return cells;
         }
         
-        private Dictionary<int, List<Cell>> GroupCellsByRings(List<Cell> cells)
+        private Dictionary<int, List<Cell.Cell>> GroupCellsByRings(List<Cell.Cell> cells)
         {
-            Dictionary<int, List<Cell>> rings = new Dictionary<int, List<Cell>>();
+            Dictionary<int, List<Cell.Cell>> rings = new Dictionary<int, List<Cell.Cell>>();
             
-            foreach (Cell cell in cells)
+            foreach (Cell.Cell cell in cells)
             {
                 float distance = Vector3.Distance(_gridCenter, cell.transform.position);
                 int ringIndex = Mathf.RoundToInt(distance / 2f);
                 if (!rings.ContainsKey(ringIndex))
-                    rings[ringIndex] = new List<Cell>();
+                    rings[ringIndex] = new List<Cell.Cell>();
                 rings[ringIndex].Add(cell);
             }
             
             return rings;
         }
         
-        private async UniTask AnimateCellLiftAndDrop(Cell cell)
+        private async UniTask AnimateCellLiftAndDrop(Cell.Cell cell)
         {
             Vector3 originalPosition = cell.transform.position;
             Vector3 liftedPosition = originalPosition + Vector3.up * 1.5f;

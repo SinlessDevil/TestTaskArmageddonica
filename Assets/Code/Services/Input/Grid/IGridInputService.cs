@@ -1,5 +1,5 @@
 using System;
-using Code.Logic.Grid;
+using Code.Logic.Cell;
 using Code.StaticData.Invocation.DTO;
 
 namespace Code.Services.Input.Grid

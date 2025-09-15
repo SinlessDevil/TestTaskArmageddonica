@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Code.Logic.Cell;
 using Code.Logic.Grid;
-using Code.Logic.Invocation;
-using Code.Logic.Invocation.Units;
+using Code.Logic.Invocations.Units;
 using Code.Services.Context;
-using Code.Services.IInvocation.Factories;
+using Code.Services.Invocations.Factories;
 using Code.Services.LevelConductor;
 using Code.Services.LocalProgress;
 using Code.Services.StaticData;
@@ -13,14 +13,11 @@ using Code.StaticData;
 using Code.StaticData.Invocation;
 using Code.StaticData.Invocation.Data.Skill;
 using Code.StaticData.Invocation.DTO;
-using UnityEngine;
 
 namespace Code.Services.Skills
 {
     public class SkillExecutorService : ISkillExecutorService
     {
-        private const int MaxCountUnitInCell = 9;
-        
         private readonly ILevelLocalProgressService _levelLocalProgressService;
         private readonly IGameContext _gameContext;
         private readonly IInvocationFactory _invocationFactory;
@@ -146,7 +143,7 @@ namespace Code.Services.Skills
                 unitDTO.CardDefinition, unitDTO.InvocationType, 1, unitDTO.Health, unitDTO.Damage, 
                 unitDTO.Speed);
             
-            Invocation invocation = _invocationFactory.CreateInvocationByType(newUnit, targetCell, HeadRotation.PlayerRotation);
+            Logic.Invocations.Invocation invocation = _invocationFactory.CreateInvocationByType(newUnit, targetCell, HeadRotation.PlayerRotation);
             targetCell.InvocationController.AddInvocation(invocation, newUnit.InvocationType, newUnit.Id, newUnit.UniqueId);
             _levelConductor.AddInvocationForPlayer(newUnit);
         }
