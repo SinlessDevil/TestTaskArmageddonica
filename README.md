@@ -1,4 +1,4 @@
-# 🎮 Clone 9 Kings — TestTaskArmageddonica
+# 🎮 Clone 9 Kings — Test Task Armageddonica
 <p align="center"> <a href="https://www.youtube.com/watch?v=8jINENfk4yA" target="_blank"> <img src="https://img.youtube.com/vi/8jINENfk4yA/0.jpg" alt="Watch the demo" /> </a> </p> <p align="center"> <a href="https://www.youtube.com/watch?v=8jINENfk4yA" target="_blank"> <img src="https://img.shields.io/badge/Watch%20on-YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="Watch on YouTube" /> </a> </p>
 
 🏗️ Architecture
